@@ -8,4 +8,89 @@
     android:layout_height="match_parent"
     tools:context=".ui.LoginActivity">
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginStart="1dp"
+      android:layout_marginTop="1dp"
+      android:layout_marginEnd="1dp"
+      android:layout_marginBottom="1dp"
+      android:fillViewport="true"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHeight_min="wrap"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintWidth_min="wrap">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+      <TextView
+          android:id="@+id/lgLoginTitle"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:layout_marginLeft="20sp"
+          android:layout_marginTop="20sp"
+          android:layout_marginRight="20sp"
+          android:layout_marginBottom="20sp"
+          android:foregroundGravity="center"
+          android:gravity="center"
+          android:text="Ulogujte se na nalog"
+          android:textColor="#272794"
+          android:textSize="34sp"
+          android:textStyle="bold|italic" />
+
+      <EditText
+          android:id="@+id/lgInsertCredentials"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="20dp"
+          android:layout_marginBottom="20dp"
+          android:ems="10"
+          android:hint="Email ili Korisnicko ime"
+          android:inputType="textEmailAddress"
+          android:minHeight="48dp" />
+
+      <EditText
+          android:id="@+id/lgInsertPassword"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="20dp"
+          android:ems="10"
+          android:hint="Lozinka"
+          android:inputType="textPassword"
+          android:minHeight="48dp" />
+
+      <Button
+          android:id="@+id/lgLoginButton"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Prijavite se"
+          android:layout_gravity="center_horizontal"
+          android:layout_marginTop="40dp"
+          android:backgroundTint="#272794"
+          android:textSize="20sp"/>
+      <View
+          android:id="@+id/view"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1"/>
+
+      <TextView
+          android:id="@+id/rgLoginLink"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_horizontal"
+          android:layout_marginTop="16dp"
+          android:layout_marginBottom="32dp"
+          android:text="Nemate nalog?  Registrujte se"
+          android:textColor="#2F3B90"
+          android:textSize="16sp" />
+    </LinearLayout>
+  </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
