@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         });
         Button btnRegister = findViewById(R.id.mRegisterLink);
         Button btnLogin = findViewById(R.id.mLoginLink);
+        Button btnKPK = findViewById(R.id.mKPKLink);
 
         btnRegister.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
@@ -33,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
         });
         btnLogin.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
+        btnKPK.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, KPKActivity.class);
             startActivity(intent);
         });
     }

@@ -34,7 +34,7 @@
             android:id="@+id/mRegisterLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="320dp"
+            android:layout_marginBottom="350dp"
             android:backgroundTint="#272794"
             android:text="Registrujte se"
             android:textSize="34sp"
@@ -46,10 +46,22 @@
             android:id="@+id/mLoginLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="220dp"
+            android:layout_marginBottom="250dp"
             android:backgroundTint="#272794"
             android:text="Prijavite se"
             android:textSize="34sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/mKPKLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="150dp"
+            android:backgroundTint="#272794"
+            android:text="Korak po Korak - test"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
