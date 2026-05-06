@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.MojBrojActivity">
+
+    <TextView
+        android:id="@+id/mbTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:text="60s"
+        android:textColor="#272794"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/mbGameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Moj Broj"
+        android:textColor="#272794"
+        android:textSize="34sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/mbWantedNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trazeni_Broj"
+        android:textColor="#272794"
+        android:textSize="40sp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toStartOf="@id/mbGameTitle"
+        app:layout_constraintEnd_toEndOf="@id/mbGameTitle"
+        app:layout_constraintTop_toBottomOf="@id/mbGameTitle"
+        />
+
+    <TextView
+        android:id="@+id/mbPlayer1Answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="P1 ???"
+        android:textColor="#272794"
+        android:textSize="25sp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintTop_toBottomOf="@id/mbWantedNum"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="20dp"
+        />
+    <TextView
+        android:id="@+id/mbPlayer2Answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="P2 ???"
+        android:textColor="#272794"
+        android:textSize="25sp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintTop_toBottomOf="@id/mbWantedNum"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="20dp"
+        />
+
+    <TextView
+        android:id="@+id/mbInsertAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.08"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Unesite rešenje:"
+        android:textSize="25sp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintTop_toBottomOf="@id/mbPlayer1Answer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/mbUsedNum1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/mb_numbers"
+        android:gravity="center"
+        android:text="1"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mbInsertAnswer"
+        app:layout_constraintWidth_percent="0.15" />
+
+    <TextView
+        android:id="@+id/mbUsedNum2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/mb_numbers"
+        android:gravity="center"
+        android:text="1"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mbInsertAnswer"
+        app:layout_constraintWidth_percent="0.15" />
+
+    <TextView
+        android:id="@+id/mbUsedNum3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="120dp"
+        android:background="@drawable/mb_numbers"
+        android:gravity="center"
+        android:text="1"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mbInsertAnswer"
+        app:layout_constraintWidth_percent="0.15" />
+
+    <TextView
+        android:id="@+id/mbUsedNum4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="50dp"
+        android:background="@drawable/mb_numbers"
+        android:gravity="center"
+        android:text="1"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mbInsertAnswer"
+        app:layout_constraintWidth_percent="0.15" />
+
+    <TextView
+        android:id="@+id/mbUsedNum5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/mb_numbers_big"
+        android:gravity="center"
+        android:text="10"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@id/mbUsedNum1"
+        app:layout_constraintTop_toBottomOf="@id/mbUsedNum1"
+        app:layout_constraintWidth_percent="0.30" />
+
+    <TextView
+        android:id="@+id/mbUsedNum6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/mb_numbers_big"
+        android:gravity="center"
+        android:text="10"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@id/mbUsedNum4"
+        app:layout_constraintTop_toBottomOf="@id/mbUsedNum3"
+        app:layout_constraintWidth_percent="0.30" />
+
+    <TextView
+        android:id="@+id/mbLParen"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/mb_numbers"
+        android:gravity="center"
+        android:text="("
+        android:textSize="20sp"
+        android:layout_marginLeft="5dp"
+        app:layout_constraintStart_toStartOf="@id/mbUsedNum5"
+        app:layout_constraintTop_toBottomOf="@id/mbUsedNum5"
+        app:layout_constraintWidth_percent="0.10" />
+
+    <TextView
+        android:id="@+id/mbRParen"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/mb_numbers"
+        android:gravity="center"
+        android:text=")"
+        android:layout_marginLeft="10dp"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/mbLParen"
+        app:layout_constraintTop_toBottomOf="@id/mbUsedNum5"
+        app:layout_constraintWidth_percent="0.10" />
+
+    <TextView
+        android:id="@+id/mbPlus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/mb_numbers"
+        android:gravity="center"
+        android:text="+"
+        android:textSize="20sp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toEndOf="@id/mbRParen"
+        app:layout_constraintTop_toBottomOf="@id/mbUsedNum5"
+        app:layout_constraintWidth_percent="0.10" />
+
+    <TextView
+        android:id="@+id/mbMinus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/mb_numbers"
+        android:gravity="center"
+        android:text="-"
+        android:textSize="20sp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toEndOf="@id/mbPlus"
+        app:layout_constraintTop_toBottomOf="@id/mbUsedNum5"
+        app:layout_constraintWidth_percent="0.10" />
+
+    <TextView
+        android:id="@+id/mbMultiply"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/mb_numbers"
+        android:gravity="center"
+        android:text="*"
+        android:textSize="20sp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toEndOf="@id/mbMinus"
+        app:layout_constraintTop_toBottomOf="@id/mbUsedNum5"
+        app:layout_constraintWidth_percent="0.10" />
+
+    <TextView
+        android:id="@+id/mbDivide"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/mb_numbers"
+        android:gravity="center"
+        android:text="/"
+        android:textSize="20sp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toEndOf="@id/mbMultiply"
+        app:layout_constraintTop_toBottomOf="@id/mbUsedNum5"
+        app:layout_constraintWidth_percent="0.10" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
