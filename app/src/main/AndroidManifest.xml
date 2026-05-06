@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Slagalica">
         <activity
+            android:name=".ui.SkockoActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.MojBrojActivity"
             android:exported="false" />
         <activity

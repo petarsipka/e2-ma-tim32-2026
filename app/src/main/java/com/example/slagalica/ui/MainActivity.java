@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnLogin = findViewById(R.id.mLoginLink);
         Button btnKPK = findViewById(R.id.mKPKLink);
         Button btnMojBroj = findViewById(R.id.mMBLink);
+        Button btnSkocko = findViewById(R.id.mSkockoLink);
 
         btnRegister.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
@@ -43,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
         });
         btnMojBroj.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, MojBrojActivity.class);
+            startActivity(intent);
+        });
+        btnSkocko.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SkockoActivity.class);
             startActivity(intent);
         });
     }
