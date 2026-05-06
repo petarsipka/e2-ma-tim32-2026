@@ -152,7 +152,7 @@
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@id/mbUsedNum1"
         app:layout_constraintTop_toBottomOf="@id/mbUsedNum1"
-        app:layout_constraintWidth_percent="0.30" />
+        app:layout_constraintWidth_percent="0.32" />
 
     <TextView
         android:id="@+id/mbUsedNum6"
@@ -165,14 +165,14 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@id/mbUsedNum4"
         app:layout_constraintTop_toBottomOf="@id/mbUsedNum3"
-        app:layout_constraintWidth_percent="0.30" />
+        app:layout_constraintWidth_percent="0.32" />
 
     <TextView
         android:id="@+id/mbLParen"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@drawable/mb_numbers"
+        android:background="@drawable/mb_operators"
         android:gravity="center"
         android:text="("
         android:textSize="20sp"
@@ -186,7 +186,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@drawable/mb_numbers"
+        android:background="@drawable/mb_operators"
         android:gravity="center"
         android:text=")"
         android:layout_marginLeft="10dp"
@@ -200,7 +200,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@drawable/mb_numbers"
+        android:background="@drawable/mb_operators"
         android:gravity="center"
         android:text="+"
         android:textSize="20sp"
@@ -214,7 +214,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@drawable/mb_numbers"
+        android:background="@drawable/mb_operators"
         android:gravity="center"
         android:text="-"
         android:textSize="20sp"
@@ -228,7 +228,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@drawable/mb_numbers"
+        android:background="@drawable/mb_operators"
         android:gravity="center"
         android:text="*"
         android:textSize="20sp"
@@ -242,7 +242,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@drawable/mb_numbers"
+        android:background="@drawable/mb_operators"
         android:gravity="center"
         android:text="/"
         android:textSize="20sp"
