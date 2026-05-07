@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Slagalica">
         <activity
+            android:name=".ui.asocijacije.AsocijacijeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.spojnice.SpojniceActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.koznazna.KoZnaZnaActivity"
             android:exported="false" />
         <activity

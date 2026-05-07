@@ -12,6 +12,8 @@ import android.widget.Button;
 
 import com.example.slagalica.R;
 import com.example.slagalica.ui.koznazna.KoZnaZnaActivity;
+import com.example.slagalica.ui.asocijacije.AsocijacijeActivity;
+import com.example.slagalica.ui.spojnice.SpojniceActivity;
 import com.example.slagalica.ui.profile.ProfileActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         Button btnSkocko = findViewById(R.id.mSkockoLink);
         Button btnProfile = findViewById(R.id.mProfileLink);
         Button btnKoZnaZna = findViewById(R.id.mKoZnaZnaLink);
+        Button btnAsocijacije = findViewById(R.id.mAsocijacijeLink);
+        Button btnSpojnice = findViewById(R.id.mSpojniceLink);
 
         btnRegister.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
@@ -60,6 +64,14 @@ public class MainActivity extends AppCompatActivity {
         });
         btnKoZnaZna.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, KoZnaZnaActivity.class);
+            startActivity(intent);
+        });
+        btnSpojnice.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SpojniceActivity.class);
+            startActivity(intent);
+        });
+        btnAsocijacije.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AsocijacijeActivity.class);
             startActivity(intent);
         });
     }
