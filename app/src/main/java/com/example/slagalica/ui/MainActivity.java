@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat;
 import android.widget.Button;
 
 import com.example.slagalica.R;
+import com.example.slagalica.ui.koznazna.KoZnaZnaActivity;
 import com.example.slagalica.ui.profile.ProfileActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnMojBroj = findViewById(R.id.mMBLink);
         Button btnSkocko = findViewById(R.id.mSkockoLink);
         Button btnProfile = findViewById(R.id.mProfileLink);
+        Button btnKoZnaZna = findViewById(R.id.mKoZnaZnaLink);
 
         btnRegister.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
@@ -54,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
         });
         btnProfile.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        });
+        btnKoZnaZna.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, KoZnaZnaActivity.class);
             startActivity(intent);
         });
     }
