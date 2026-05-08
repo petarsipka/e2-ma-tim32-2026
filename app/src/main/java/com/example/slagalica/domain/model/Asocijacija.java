@@ -1,4 +1,4 @@
-package com.example.slagalica.data.model;
+package com.example.slagalica.domain.model;
 
 public class Asocijacija {
     private String[][] columnFields;

@@ -1,6 +1,6 @@
 package com.example.slagalica.data;
 
-import com.example.slagalica.data.model.Asocijacija;
+import com.example.slagalica.domain.model.Asocijacija;
 
 public class AsocijacijeRepository {
 
