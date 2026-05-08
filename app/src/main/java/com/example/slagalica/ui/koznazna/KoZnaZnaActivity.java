@@ -6,13 +6,13 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import com.example.slagalica.ui.BaseActivity;
 
 import com.example.slagalica.data.model.Question;
 import com.example.slagalica.databinding.ActivityKoZnaZnaBinding;
 
-public class KoZnaZnaActivity extends AppCompatActivity {
+public class KoZnaZnaActivity extends BaseActivity {
 
     private ActivityKoZnaZnaBinding binding;
     private KoZnaZnaViewModel viewModel;
@@ -25,6 +25,7 @@ public class KoZnaZnaActivity extends AppCompatActivity {
         binding = ActivityKoZnaZnaBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        setupStatsBar();
         viewModel = new ViewModelProvider(this).get(KoZnaZnaViewModel.class);
 
         setupObservers();

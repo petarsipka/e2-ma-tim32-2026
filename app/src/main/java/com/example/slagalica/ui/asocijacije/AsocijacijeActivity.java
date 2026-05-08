@@ -7,13 +7,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import com.example.slagalica.ui.BaseActivity;
 
 import com.example.slagalica.databinding.ActivityAsocijacijeBinding;
 import com.example.slagalica.data.model.Asocijacija;
 
-public class AsocijacijeActivity extends AppCompatActivity {
+public class AsocijacijeActivity extends BaseActivity {
 
     private ActivityAsocijacijeBinding binding;
     private AsocijacijeViewModel viewModel;
@@ -32,6 +32,7 @@ public class AsocijacijeActivity extends AppCompatActivity {
         binding = ActivityAsocijacijeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        setupStatsBar();
         viewModel = new ViewModelProvider(this).get(AsocijacijeViewModel.class);
 
         bindViews();
