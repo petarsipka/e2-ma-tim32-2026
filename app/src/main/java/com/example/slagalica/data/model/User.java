@@ -1,4 +1,4 @@
-package com.example.slagalica.domain.model;
+package com.example.slagalica.data.model;
 
 public class User {
     private String username;

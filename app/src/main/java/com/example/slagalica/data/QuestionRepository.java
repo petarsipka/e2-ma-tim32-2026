@@ -1,6 +1,6 @@
 package com.example.slagalica.data;
 
-import com.example.slagalica.domain.model.Question;
+import com.example.slagalica.data.model.Question;
 
 import java.util.Arrays;
 import java.util.List;

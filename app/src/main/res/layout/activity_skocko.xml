@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.skocko.SkockoActivity">
+    tools:context=".ui.SkockoActivity">
     <TextView
         android:id="@+id/skTimer"
         android:layout_width="wrap_content"

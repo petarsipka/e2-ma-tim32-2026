@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.slagalica.data.UserRepository;
-import com.example.slagalica.domain.model.User;
-import com.example.slagalica.domain.model.UserStats;
+import com.example.slagalica.data.model.User;
+import com.example.slagalica.data.model.UserStats;
 
 public class ProfileViewModel extends ViewModel {
 
