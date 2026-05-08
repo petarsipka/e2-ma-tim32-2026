@@ -1,7 +1,7 @@
 package com.example.slagalica.data;
 
-import com.example.slagalica.domain.model.User;
-import com.example.slagalica.domain.model.UserStats;
+import com.example.slagalica.data.model.User;
+import com.example.slagalica.data.model.UserStats;
 
 public class UserRepository {
 
