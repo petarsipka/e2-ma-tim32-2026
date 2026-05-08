@@ -9,7 +9,7 @@ import android.widget.Button;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.slagalica.ui.BaseActivity;
 
-import com.example.slagalica.data.model.SpojnicePair;
+import com.example.slagalica.domain.model.SpojnicePair;
 import com.example.slagalica.databinding.ActivitySpojniceBinding;
 
 import java.util.List;

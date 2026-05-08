@@ -1,6 +1,6 @@
 package com.example.slagalica.data;
 
-import com.example.slagalica.data.model.SpojnicePair;
+import com.example.slagalica.domain.model.SpojnicePair;
 
 import java.util.Arrays;
 

@@ -9,7 +9,7 @@ import android.widget.Button;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.slagalica.ui.BaseActivity;
 
-import com.example.slagalica.data.model.Question;
+import com.example.slagalica.domain.model.Question;
 import com.example.slagalica.databinding.ActivityKoZnaZnaBinding;
 
 public class KoZnaZnaActivity extends BaseActivity {

@@ -1,4 +1,4 @@
-package com.example.slagalica.data.model;
+package com.example.slagalica.domain.model;
 
 import java.util.List;
 

@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.slagalica.data.QuestionRepository;
-import com.example.slagalica.data.model.Question;
+import com.example.slagalica.domain.model.Question;
 
 import java.util.List;
 
