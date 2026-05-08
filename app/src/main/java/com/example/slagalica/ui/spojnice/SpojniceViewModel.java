@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.slagalica.data.SpojniceRepository;
-import com.example.slagalica.data.model.SpojnicePair;
+import com.example.slagalica.domain.model.SpojnicePair;
 
 public class SpojniceViewModel extends ViewModel {
 

@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.slagalica.ui.BaseActivity;
 
 import com.example.slagalica.databinding.ActivityAsocijacijeBinding;
-import com.example.slagalica.data.model.Asocijacija;
+import com.example.slagalica.domain.model.Asocijacija;
 
 public class AsocijacijeActivity extends BaseActivity {
 
