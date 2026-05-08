@@ -6,15 +6,15 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import com.example.slagalica.ui.BaseActivity;
 
 import com.example.slagalica.data.model.SpojnicePair;
 import com.example.slagalica.databinding.ActivitySpojniceBinding;
 
 import java.util.List;
 
-public class SpojniceActivity extends AppCompatActivity {
+public class SpojniceActivity extends BaseActivity {
 
     private ActivitySpojniceBinding binding;
     private SpojniceViewModel viewModel;
@@ -33,6 +33,7 @@ public class SpojniceActivity extends AppCompatActivity {
         binding = ActivitySpojniceBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        setupStatsBar();
         leftButtons = new Button[]{binding.btnL1, binding.btnL2, binding.btnL3, binding.btnL4, binding.btnL5};
         rightButtons = new Button[]{binding.btnR1, binding.btnR2, binding.btnR3, binding.btnR4, binding.btnR5};
 

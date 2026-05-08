@@ -3,12 +3,12 @@ package com.example.slagalica.ui.profile;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.slagalica.databinding.ActivityProfileBinding;
+import com.example.slagalica.ui.BaseActivity;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends BaseActivity {
 
     private ActivityProfileBinding binding;
     private ProfileViewModel viewModel;
