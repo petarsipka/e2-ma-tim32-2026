@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Slagalica</string>
+    <string-array name="regions">
+        <item>Beograd</item>
+        <item>Vojvodina</item>
+        <item>Sumadija i Zapadna Srbija</item>
+        <item>Juzna i Istocna Srbija</item>
+        <item>Kosovo i Metohija</item>
+    </string-array>
 </resources>
