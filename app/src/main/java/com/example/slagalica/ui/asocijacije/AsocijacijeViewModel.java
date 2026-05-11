@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.slagalica.data.AsocijacijeRepository;
-import com.example.slagalica.domain.model.Asocijacija;
+import com.example.slagalica.data.model.Asocijacija;
 
 public class AsocijacijeViewModel extends ViewModel {
 

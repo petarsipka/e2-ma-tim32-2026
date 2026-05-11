@@ -6,7 +6,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.slagalica.data.UserRepository;
-import com.example.slagalica.domain.model.User;
+import com.example.slagalica.data.model.User;
 import com.example.slagalica.ui.profile.ProfileActivity;
 
 public abstract class BaseActivity extends AppCompatActivity {
