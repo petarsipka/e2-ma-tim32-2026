@@ -1,15 +1,16 @@
 package com.example.slagalica.ui.asocijacije;
 
-import android.graphics.Color;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.slagalica.ui.BaseActivity;
 
+import com.example.slagalica.R;
 import com.example.slagalica.databinding.ActivityAsocijacijeBinding;
 import com.example.slagalica.data.model.Asocijacija;
 
@@ -17,7 +18,6 @@ public class AsocijacijeActivity extends BaseActivity {
 
     private ActivityAsocijacijeBinding binding;
     private AsocijacijeViewModel viewModel;
-    private CountDownTimer countDownTimer;
 
     private Button[][] fieldButtons = new Button[4][4];
     private Button[] solButtons = new Button[4];
@@ -26,12 +26,37 @@ public class AsocijacijeActivity extends BaseActivity {
 
     private static final int TIMER_DURATION = 120000;
 
+    // Sunny pop palette — resolved from res/values/colors.xml (design tokens)
+    private int HIDDEN;     // accent
+    private int REVEALED;   // open white tile (panel)
+    private int SOLVED;     // correct green
+    private int SOL_BASE;   // accent2
+    private int FINAL_BASE; // accent (asoc-final = accent gradient)
+    private int DARK_TEXT;  // text
+    private int WHITE;
+
+    private void resolveColors() {
+        HIDDEN = ContextCompat.getColor(this, R.color.accent);
+        REVEALED = ContextCompat.getColor(this, R.color.panel);
+        SOLVED = ContextCompat.getColor(this, R.color.correct);
+        SOL_BASE = ContextCompat.getColor(this, R.color.accent2);
+        FINAL_BASE = ContextCompat.getColor(this, R.color.accent);
+        DARK_TEXT = ContextCompat.getColor(this, R.color.text);
+        WHITE = ContextCompat.getColor(this, R.color.white);
+    }
+
+    private void style(Button b, int bg, int fg) {
+        b.setBackgroundTintList(ColorStateList.valueOf(bg));
+        b.setTextColor(fg);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAsocijacijeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        resolveColors();
         setupStatsBar();
         viewModel = new ViewModelProvider(this).get(AsocijacijeViewModel.class);
 
@@ -88,7 +113,7 @@ public class AsocijacijeActivity extends BaseActivity {
         viewModel.getGameFinished().observe(this, finished -> {
             if (finished) {
                 cancelTimer();
-                binding.tvTimer.setText("00:00");
+                binding.tvTimer.showZero();
                 Toast.makeText(this,
                         "Igra završena! Ukupno: " + viewModel.getScore().getValue(),
                         Toast.LENGTH_LONG).show();
@@ -102,11 +127,11 @@ public class AsocijacijeActivity extends BaseActivity {
         for (int c = 0; c < 4; c++) {
             for (int r = 0; r < 4; r++) {
                 fieldButtons[c][r].setText("?");
-                fieldButtons[c][r].setBackgroundColor(Color.parseColor("#272794"));
+                style(fieldButtons[c][r], HIDDEN, WHITE);
                 fieldButtons[c][r].setEnabled(true);
             }
             solButtons[c].setText("???");
-            solButtons[c].setBackgroundColor(Color.parseColor("#1A237E"));
+            style(solButtons[c], SOL_BASE, WHITE);
             guessEdits[c].setText("");
             guessEdits[c].setError(null);
             guessEdits[c].setEnabled(true);
@@ -116,7 +141,7 @@ public class AsocijacijeActivity extends BaseActivity {
         binding.etGuessFinal.setError(null);
         binding.etGuessFinal.setEnabled(true);
         binding.btnGuessFinal.setEnabled(true);
-        binding.btnFinalSolution.setBackgroundColor(Color.parseColor("#1A237E"));
+        style(binding.btnFinalSolution, FINAL_BASE, WHITE);
 
         cancelTimer();
         startTimer(TIMER_DURATION);
@@ -142,7 +167,7 @@ public class AsocijacijeActivity extends BaseActivity {
 
         viewModel.revealField(col, row);
         fieldButtons[col][row].setText(data.getColumnFields()[col][row]);
-        fieldButtons[col][row].setBackgroundColor(Color.parseColor("#455A64"));
+        style(fieldButtons[col][row], REVEALED, DARK_TEXT);
         fieldButtons[col][row].setEnabled(false);
     }
 
@@ -155,8 +180,8 @@ public class AsocijacijeActivity extends BaseActivity {
         if (points >= 0) {
             Asocijacija data = viewModel.getCurrentRoundData().getValue();
             solButtons[col].setText(data.getColumnSolutions()[col]);
-            solButtons[col].setBackgroundColor(Color.parseColor("#4CAF50"));
-            revealRemainingFields(col, data, "#81C784");
+            style(solButtons[col], SOLVED, WHITE);
+            revealRemainingFields(col, data);
             guessEdits[col].setEnabled(false);
             guessButtons[col].setEnabled(false);
             guessEdits[col].setError(null);
@@ -165,11 +190,11 @@ public class AsocijacijeActivity extends BaseActivity {
         }
     }
 
-    private void revealRemainingFields(int col, Asocijacija data, String color) {
+    private void revealRemainingFields(int col, Asocijacija data) {
         for (int r = 0; r < 4; r++) {
             if (!viewModel.isFieldRevealed(col, r)) {
                 fieldButtons[col][r].setText(data.getColumnFields()[col][r]);
-                fieldButtons[col][r].setBackgroundColor(Color.parseColor(color));
+                style(fieldButtons[col][r], SOLVED, WHITE);
                 fieldButtons[col][r].setEnabled(false);
             }
         }
@@ -184,7 +209,7 @@ public class AsocijacijeActivity extends BaseActivity {
         if (points >= 0) {
             Asocijacija data = viewModel.getCurrentRoundData().getValue();
             binding.btnFinalSolution.setText(data.getFinalSolution());
-            binding.btnFinalSolution.setBackgroundColor(Color.parseColor("#4CAF50"));
+            style(binding.btnFinalSolution, SOLVED, WHITE);
             binding.etGuessFinal.setEnabled(false);
             binding.btnGuessFinal.setEnabled(false);
             Toast.makeText(this, "Bravo! +" + points + " bodova", Toast.LENGTH_SHORT).show();
@@ -197,26 +222,11 @@ public class AsocijacijeActivity extends BaseActivity {
     }
 
     private void startTimer(long durationMs) {
-        countDownTimer = new CountDownTimer(durationMs, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                long secs = millisUntilFinished / 1000;
-                binding.tvTimer.setText(String.format("%02d:%02d", secs / 60, secs % 60));
-            }
-
-            @Override
-            public void onFinish() {
-                binding.tvTimer.setText("00:00");
-                viewModel.advanceRound();
-            }
-        }.start();
+        binding.tvTimer.start(durationMs, () -> viewModel.advanceRound());
     }
 
     private void cancelTimer() {
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-            countDownTimer = null;
-        }
+        binding.tvTimer.cancel();
     }
 
     private void disableAllInput() {

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Ko zna zna — Sunny pop in-game (design: .gscr). -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F0F0F5">
+    android:background="@drawable/bg_gradient">
 
     <include layout="@layout/layout_stats_bar" />
 
@@ -12,111 +13,116 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="18dp">
 
+        <!-- Title row: game name + rule subtitle, timer ring (.gtitle-row) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="12dp">
+            android:orientation="horizontal"
+            >
 
-            <TextView
-                android:id="@+id/tvQuestionNumber"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Pitanje 1 / 5"
-                android:textSize="15sp"
-                android:textColor="#555555" />
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="⏱ "
-                android:textSize="18sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo2"
+                    android:text="Ko zna zna"
+                    android:textColor="@color/text"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
-            <TextView
+                <TextView
+                    android:id="@+id/tvQuestionNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="Pitanje 1 / 5 · tačno +10, netačno −5"
+                    android:textColor="@color/muted"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <com.example.slagalica.ui.widget.GameTimerView
                 android:id="@+id/tvTimer"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:text="5"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="#D32F2F"
-                android:gravity="center" />
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:text="0:05"
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
+        <!-- Question dots progress (.qdots) -->
+        <LinearLayout
+            android:id="@+id/qDots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="14dp"
+            android:gravity="center"
+            android:orientation="horizontal" />
+
+        <!-- Question card (.q-card) -->
         <TextView
             android:id="@+id/tvQuestion"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#FFFFFF"
+            android:layout_height="100dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp"
+            android:background="@drawable/bg_card"
+            android:fontFamily="@font/baloo2"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.25"
             android:padding="20dp"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:textColor="#1A1A1A"
-            android:layout_marginBottom="16dp" />
+            android:textColor="@color/text"
+            android:textSize="19sp"
+            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvScore"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Bodovi: 0"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#272794"
-            android:gravity="center"
-            android:layout_marginBottom="16dp" />
+        <!-- Answers (.answers) -->
+        <LinearLayout android:id="@+id/ansA" style="@style/AnswerRow">
+            <TextView android:id="@+id/keyA" style="@style/AnswerKey" android:text="A" />
+            <TextView android:id="@+id/txtA" style="@style/AnswerText" />
+            <TextView android:id="@+id/markA" style="@style/AnswerMark" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btnA"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:backgroundTint="#272794"
-            android:textSize="15sp"
-            android:textAlignment="textStart"
-            android:paddingStart="16dp" />
+        <LinearLayout android:id="@+id/ansB" style="@style/AnswerRow">
+            <TextView android:id="@+id/keyB" style="@style/AnswerKey" android:text="B" />
+            <TextView android:id="@+id/txtB" style="@style/AnswerText" />
+            <TextView android:id="@+id/markB" style="@style/AnswerMark" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btnB"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:backgroundTint="#272794"
-            android:textSize="15sp"
-            android:textAlignment="textStart"
-            android:paddingStart="16dp" />
+        <LinearLayout android:id="@+id/ansC" style="@style/AnswerRow">
+            <TextView android:id="@+id/keyC" style="@style/AnswerKey" android:text="C" />
+            <TextView android:id="@+id/txtC" style="@style/AnswerText" />
+            <TextView android:id="@+id/markC" style="@style/AnswerMark" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btnC"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:backgroundTint="#272794"
-            android:textSize="15sp"
-            android:textAlignment="textStart"
-            android:paddingStart="16dp" />
+        <LinearLayout android:id="@+id/ansD" style="@style/AnswerRow">
+            <TextView android:id="@+id/keyD" style="@style/AnswerKey" android:text="D" />
+            <TextView android:id="@+id/txtD" style="@style/AnswerText" />
+            <TextView android:id="@+id/markD" style="@style/AnswerMark" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btnD"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#272794"
-            android:textSize="15sp"
-            android:textAlignment="textStart"
-            android:paddingStart="16dp" />
-
+        <!-- Skip / give up (.gstrip) -->
         <Button
             android:id="@+id/btnSkip"
+            style="@style/Widget.Slagalica.Button.Ghost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="#757575"
+            android:layout_marginTop="4dp"
             android:text="Ne znam / Dalje"
+            android:textColor="@color/muted"
             android:textSize="13sp" />
 
     </LinearLayout>

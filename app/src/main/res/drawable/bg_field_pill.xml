@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Filled pill input (Sunny pop .search / .guess-bar / .chat-input). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/field" />
+    <stroke android:width="1dp" android:color="@color/field_border" />
+    <corners android:radius="@dimen/radius_pill" />
+</shape>

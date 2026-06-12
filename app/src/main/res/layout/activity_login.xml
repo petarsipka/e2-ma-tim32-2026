@@ -1,96 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Prijava — Sunny pop onboarding. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient"
+    android:fillViewport="true"
     tools:context=".ui.LoginActivity">
-
-  <ScrollView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_marginStart="1dp"
-      android:layout_marginTop="1dp"
-      android:layout_marginEnd="1dp"
-      android:layout_marginBottom="1dp"
-      android:fillViewport="true"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHeight_min="wrap"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintWidth_min="wrap">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="32dp"
+        android:paddingBottom="24dp">
 
-      <TextView
-          android:id="@+id/lgLoginTitle"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center"
-          android:layout_marginLeft="20sp"
-          android:layout_marginTop="20sp"
-          android:layout_marginRight="20sp"
-          android:layout_marginBottom="20sp"
-          android:foregroundGravity="center"
-          android:gravity="center"
-          android:text="Ulogujte se na nalog"
-          android:textColor="#272794"
-          android:textSize="34sp"
-          android:textStyle="bold|italic" />
+        <include layout="@layout/view_brand" />
 
-      <EditText
-          android:id="@+id/lgInsertCredentials"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="20dp"
-          android:layout_marginBottom="20dp"
-          android:ems="10"
-          android:hint="Email ili Korisnicko ime"
-          android:inputType="textEmailAddress"
-          android:minHeight="48dp" />
+        <TextView
+            android:id="@+id/lgLoginTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="22dp"
+            android:fontFamily="@font/baloo2"
+            android:text="Dobrodošli nazad"
+            android:textColor="@color/text"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-      <EditText
-          android:id="@+id/lgInsertPassword"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginBottom="20dp"
-          android:ems="10"
-          android:hint="Lozinka"
-          android:inputType="textPassword"
-          android:minHeight="48dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="26dp"
+            android:fontFamily="@font/nunito"
+            android:text="Prijavi se i nastavi takmičenje"
+            android:textColor="@color/muted"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
-      <Button
-          android:id="@+id/lgLoginButton"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="Prijavite se"
-          android:layout_gravity="center_horizontal"
-          android:layout_marginTop="40dp"
-          android:backgroundTint="#272794"
-          android:textSize="20sp"/>
-      <View
-          android:id="@+id/view"
-          android:layout_width="match_parent"
-          android:layout_height="0dp"
-          android:layout_weight="1"/>
+        <TextView style="@style/FieldLabel" android:text="EMAIL ILI KORISNIČKO IME" />
 
-      <TextView
-          android:id="@+id/rgLoginLink"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center_horizontal"
-          android:layout_marginTop="16dp"
-          android:layout_marginBottom="32dp"
-          android:text="Nemate nalog?  Registrujte se"
-          android:textColor="#2F3B90"
-          android:textSize="16sp" />
+        <EditText
+            android:id="@+id/lgInsertCredentials"
+            style="@style/FieldInput"
+            android:layout_marginBottom="16dp"
+            android:hint="npr. milos@primer.rs"
+            android:inputType="textEmailAddress" />
+
+        <TextView style="@style/FieldLabel" android:text="LOZINKA" />
+
+        <EditText
+            android:id="@+id/lgInsertPassword"
+            style="@style/FieldInput"
+            android:hint="••••••••"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/lgLoginButton"
+            style="@style/Widget.Slagalica.Button"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="28dp"
+            android:text="Prijavi se"
+            android:textSize="16sp"
+            app:cornerRadius="@dimen/radius"
+            xmlns:app="http://schemas.android.com/apk/res-auto" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:minHeight="24dp" />
+
+        <TextView
+            android:id="@+id/rgLoginLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/nunito"
+            android:text="Nemaš nalog?  Registruj se"
+            android:textColor="@color/accent"
+            android:textSize="14sp"
+            android:textStyle="bold" />
     </LinearLayout>
-  </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,7 +1,10 @@
 package com.example.slagalica.ui.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import com.example.slagalica.ui.LoginActivity;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -54,7 +57,10 @@ public class ProfileActivity extends BaseActivity {
         binding.btnChangeAvatar.setOnClickListener(v ->
             Toast.makeText(this, "Izmena avatara nije još implementirana", Toast.LENGTH_SHORT).show()
         );
-        binding.btnLogout.setOnClickListener(v -> finish());
+        binding.btnLogout.setOnClickListener(v -> {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        });
     }
 
     @Override

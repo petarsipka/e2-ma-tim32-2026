@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Home / lobby — Sunny pop (direction C). -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
@@ -7,73 +8,31 @@
     android:orientation="vertical"
     android:background="@drawable/bg_gradient">
 
-    <!-- Top header bar -->
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="20dp"
-        android:paddingEnd="10dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Slagalica"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:letterSpacing="0.02" />
-
-        <Button
-            android:id="@+id/mLoginLink"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_marginEnd="6dp"
-            android:backgroundTint="#FFFFFF"
-            android:text="Prijava"
-            android:textColor="#1565C0"
-            android:textSize="12sp" />
-
-        <Button
-            android:id="@+id/mRegisterLink"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:backgroundTint="#FFFFFF"
-            android:text="Registracija"
-            android:textColor="#1565C0"
-            android:textSize="12sp" />
-    </LinearLayout>
-
-    <!-- Player stats card -->
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        app:cardCornerRadius="14dp"
-        app:cardElevation="6dp">
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingStart="24dp"
+            android:paddingEnd="18dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="20dp">
 
-            <!-- Name row with profile link -->
+            <!-- Header: avatar + greeting + profile/stats -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="40dp">
 
                 <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="54dp"
+                    android:layout_height="54dp"
                     android:background="@drawable/avatar_frame"
                     android:padding="4dp"
                     android:scaleType="centerCrop"
@@ -89,157 +48,261 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Petar Petrović"
-                        android:textColor="#1565C0"
-                        android:textSize="18sp"
+                        android:fontFamily="@font/nunito"
+                        android:text="Zdravo,"
+                        android:textColor="@color/muted"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Srbija"
-                        android:textColor="#888888"
-                        android:textSize="13sp" />
+                        android:fontFamily="@font/baloo2"
+                        android:text="Slagalica"
+                        android:textColor="@color/text"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/btnGoToProfile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
+                    android:background="@drawable/bg_chip"
                     android:clickable="true"
                     android:focusable="true"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="4dp"
-                    android:paddingTop="6dp"
-                    android:paddingBottom="6dp"
-                    android:text="Statistika ›"
-                    android:textColor="#1565C0"
+                    android:fontFamily="@font/baloo2"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="9dp"
+                    android:paddingBottom="9dp"
+                    android:text="Profil ›"
+                    android:textColor="@color/accent"
                     android:textSize="13sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
-                android:background="#EEEEEE" />
-
-            <!-- Stats row -->
+            <!-- Currency pills: tokeni / zvezde / liga -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/bg_card"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="150"
-                        android:textColor="#1565C0"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tokeni"
-                        android:textColor="#888888"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="#EEEEEE" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="45"
-                        android:textColor="#F9A825"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Zvezde"
-                        android:textColor="#888888"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="#EEEEEE" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Zlatna"
-                        android:textColor="#1565C0"
+                        android:fontFamily="@font/baloo2"
+                        android:text="🪙 150"
+                        android:textColor="@color/token"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Liga"
-                        android:textColor="#888888"
-                        android:textSize="12sp" />
+                        android:fontFamily="@font/nunito"
+                        android:letterSpacing="0.04"
+                        android:text="TOKENI"
+                        android:textColor="@color/muted"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/bg_card"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/baloo2"
+                        android:text="⭐ 45"
+                        android:textColor="@color/star"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito"
+                        android:letterSpacing="0.04"
+                        android:text="ZVEZDE"
+                        android:textColor="@color/muted"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/bg_card"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/baloo2"
+                        android:text="🏆 Zlatna"
+                        android:textColor="@color/league_text"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito"
+                        android:letterSpacing="0.04"
+                        android:text="LIGA"
+                        android:textColor="@color/muted"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
 
-    <!-- Games section title -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingTop="6dp"
-        android:paddingBottom="8dp"
-        android:text="Igre"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+            <!-- Hero: find opponent -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_hero"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-    <!-- Games grid -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:overScrollMode="never">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito"
+                    android:letterSpacing="0.2"
+                    android:text="DNEVNI DUEL"
+                    android:textColor="@color/on_accent_muted"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/baloo2"
+                    android:text="Pronađi protivnika"
+                    android:textColor="@color/on_accent"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="1-na-1 · 6 mini-igara"
+                    android:textColor="@color/on_accent_muted"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/mLoginLink"
+                    style="@style/Widget.Slagalica.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="@color/panel"
+                    android:text="Skeniraj QR kod protivnika"
+                    android:textColor="@color/accent"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <!-- Daily mission -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/bg_card"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="13dp"
+                android:paddingEnd="13dp"
+                android:paddingTop="11dp"
+                android:paddingBottom="11dp">
+
+                <TextView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_tile_g1"
+                    android:gravity="center"
+                    android:text="🎯"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/baloo2"
+                        android:text="Dnevne misije"
+                        android:textColor="@color/text"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito"
+                        android:text="2 / 3 završeno"
+                        android:textColor="@color/muted"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo2"
+                    android:text="+5 ⭐"
+                    android:textColor="@color/star"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Games section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/baloo2"
+                android:text="Igre u partiji"
+                android:textColor="@color/text"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <!-- Row 1 -->
             <LinearLayout
@@ -249,61 +312,31 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/mKoZnaZnaLink"
+                    style="@style/GameTileCard"
                     android:layout_width="0dp"
-                    android:layout_height="90dp"
                     android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:cardBackgroundColor="#1E88E5"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp">
+                    android:layout_marginEnd="5dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Ko Zna Zna"
-                            android:textColor="#FFFFFF"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
-                            android:gravity="center" />
+                    <LinearLayout style="@style/GameTileInner">
+                        <TextView style="@style/GameTileIcon"
+                            android:background="@drawable/bg_tile_g0"
+                            android:text="?" />
+                        <TextView style="@style/GameTileName" android:text="Ko zna zna" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/mSpojniceLink"
+                    style="@style/GameTileCard"
                     android:layout_width="0dp"
-                    android:layout_height="90dp"
                     android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:cardBackgroundColor="#388E3C"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp">
+                    android:layout_marginStart="5dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Spojnice"
-                            android:textColor="#FFFFFF"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
-                            android:gravity="center" />
+                    <LinearLayout style="@style/GameTileInner">
+                        <TextView style="@style/GameTileIcon"
+                            android:background="@drawable/bg_tile_g1"
+                            android:text="⇄" />
+                        <TextView style="@style/GameTileName" android:text="Spojnice" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
@@ -312,65 +345,36 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/mAsocijacijeLink"
+                    style="@style/GameTileCard"
                     android:layout_width="0dp"
-                    android:layout_height="90dp"
                     android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:cardBackgroundColor="#7B1FA2"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp">
+                    android:layout_marginEnd="5dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Asocijacije"
-                            android:textColor="#FFFFFF"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
-                            android:gravity="center" />
+                    <LinearLayout style="@style/GameTileInner">
+                        <TextView style="@style/GameTileIcon"
+                            android:background="@drawable/bg_tile_g2"
+                            android:text="▦" />
+                        <TextView style="@style/GameTileName" android:text="Asocijacije" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/mKPKLink"
+                    style="@style/GameTileCard"
                     android:layout_width="0dp"
-                    android:layout_height="90dp"
                     android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:cardBackgroundColor="#E65100"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp">
+                    android:layout_marginStart="5dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Korak po Korak"
-                            android:textColor="#FFFFFF"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
-                            android:gravity="center" />
+                    <LinearLayout style="@style/GameTileInner">
+                        <TextView style="@style/GameTileIcon"
+                            android:background="@drawable/bg_tile_g0"
+                            android:text="▁▄█" />
+                        <TextView style="@style/GameTileName" android:text="Korak po korak" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
@@ -379,71 +383,40 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/mMBLink"
+                    style="@style/GameTileCard"
                     android:layout_width="0dp"
-                    android:layout_height="90dp"
                     android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:cardBackgroundColor="#00838F"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp">
+                    android:layout_marginEnd="5dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Moj Broj"
-                            android:textColor="#FFFFFF"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
-                            android:gravity="center" />
+                    <LinearLayout style="@style/GameTileInner">
+                        <TextView style="@style/GameTileIcon"
+                            android:background="@drawable/bg_tile_g1"
+                            android:text="123" />
+                        <TextView style="@style/GameTileName" android:text="Moj broj" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/mSkockoLink"
+                    style="@style/GameTileCard"
                     android:layout_width="0dp"
-                    android:layout_height="90dp"
                     android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:cardBackgroundColor="#C62828"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp">
+                    android:layout_marginStart="5dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Skočko"
-                            android:textColor="#FFFFFF"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
-                            android:gravity="center" />
+                    <LinearLayout style="@style/GameTileInner">
+                        <TextView style="@style/GameTileIcon"
+                            android:background="@drawable/bg_tile_g3"
+                            android:text="✦" />
+                        <TextView style="@style/GameTileName" android:text="Skočko" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
-
-
 </LinearLayout>

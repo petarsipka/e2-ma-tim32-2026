@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Circular avatar with league ring (Sunny pop .av). -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
     <stroke
-        android:width="4dp"
-        android:color="#272794" />
-    <solid android:color="#EEEEEE" />
+        android:width="3dp"
+        android:color="@color/ring" />
+    <gradient
+        android:type="linear"
+        android:angle="315"
+        android:startColor="@color/av_start"
+        android:endColor="@color/av_end" />
 </shape>

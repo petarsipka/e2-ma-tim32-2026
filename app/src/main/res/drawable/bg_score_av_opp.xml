@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Scoreboard avatar, opponent (Sunny pop .sc-av.o): blue gradient + blue ring. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <gradient
+        android:startColor="@color/opp_av_start"
+        android:endColor="@color/opp_av_end"
+        android:angle="315" />
+    <stroke android:width="2dp" android:color="@color/opp_av_start" />
+</shape>
