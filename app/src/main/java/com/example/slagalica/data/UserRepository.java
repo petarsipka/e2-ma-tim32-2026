@@ -1,39 +1,61 @@
 package com.example.slagalica.data;
 
-import com.example.slagalica.data.model.GameStat;
 import com.example.slagalica.data.model.User;
-import com.example.slagalica.data.model.UserStats;
-
-import java.util.Arrays;
-import java.util.List;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
- * Stand-in for the backend: every value here (profile fields, per-game averages)
- * is a parameter that will later come from the database. The UI binds to these
- * objects and never hard-codes profile content.
+ * Firestore-backed access to the {@code users} collection: create a user document
+ * and look users up by username (used by registration / login). Demo profile data
+ * for the UI lives separately in {@link UserTemporaryDB} until this is fully wired.
  */
 public class UserRepository {
+    private final FirebaseFirestore db;
 
-    public User getCurrentUser() {
-        return new User(
-            "Marko_NS",
-            "marko.ns@email.com",
-            5,
-            1240,
-            "III liga · Srebrna",
-            "Vojvodina"
-        );
+    public UserRepository() {
+        db = FirebaseFirestore.getInstance();
     }
 
-    public UserStats getUserStats() {
-        List<GameStat> games = Arrays.asList(
-            new GameStat("Ko zna zna", "30–42", 78, 0),
-            new GameStat("Spojnice", "12–18", 64, 1),
-            new GameStat("Asocijacije", "18–30", 71, 3),
-            new GameStat("Skočko", "20–35", 82, 2),
-            new GameStat("Korak po korak", "10–22", 55, 0),
-            new GameStat("Moj broj", "0–10", 40, 1)
-        );
-        return new UserStats(96, 46, games);
+    public void saveUser(String uid, User user, UserCallback callback) {
+        db.collection("users").document(uid).set(user)
+                .addOnSuccessListener(unused -> callback.onSuccess())
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+    public void getEmailByUsername(String username, UsernameCallback callback) {
+        db.collection("users")
+                .whereEqualTo("username", username)
+                .limit(1)
+                .get()
+                .addOnSuccessListener(query -> {
+                    if (!query.isEmpty() && query.getDocuments().get(0).getString("email") != null) {
+                        callback.onFound(query.getDocuments().get(0).getString("email"));
+                    } else {
+                        callback.onNotFound();
+                    }
+                })
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+    public void checkUsernameExists(String username, UserCallback callback) {
+        db.collection("users")
+                .whereEqualTo("username", username)
+                .limit(1)
+                .get()
+                .addOnSuccessListener(query -> {
+                    if (query.isEmpty()) callback.onSuccess();
+                    else callback.onError("Username already taken.");
+                })
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+    public interface UserCallback {
+        void onSuccess();
+        void onError(String error);
+    }
+
+    public interface UsernameCallback {
+        void onFound(String email);
+        void onNotFound();
+        void onError(String error);
     }
 }
