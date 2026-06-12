@@ -1,6 +1,7 @@
 package com.example.slagalica.ui;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +34,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (meName != null) {
             meName.setText("Vi");
             setText(R.id.scoreMeAv, "VI");
+            ImageView meAv = findViewById(R.id.ivScoreMeAv);
+            if (meAv != null) AvatarBinder.bindCurrentUser(meAv, findViewById(R.id.scoreMeAv));
         }
     }
 
@@ -41,6 +44,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (findViewById(R.id.scoreOppName) == null) return;
         setText(R.id.scoreOppName, name);
         setText(R.id.scoreOppAv, initials(name));
+    }
+
+    /** Show the opponent's profile photo on the scoreboard, by their uid. */
+    protected void setOpponentAvatar(String uid) {
+        ImageView oppAv = findViewById(R.id.ivScoreOppAv);
+        if (oppAv != null) AvatarBinder.bindUser(uid, oppAv, findViewById(R.id.scoreOppAv));
     }
 
     /** Update both players' points on the scoreboard. */

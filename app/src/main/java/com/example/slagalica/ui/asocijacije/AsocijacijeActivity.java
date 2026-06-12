@@ -120,6 +120,7 @@ public class AsocijacijeActivity extends BaseActivity {
         viewModel.getOpponentTotal().observe(this, oppTotal ->
                 updateScore(safe(viewModel.getMyTotal().getValue()), oppTotal));
         viewModel.getOpponentName().observe(this, this::setOpponent);
+        viewModel.getOpponentUid().observe(this, this::setOpponentAvatar);
 
         viewModel.getGameFinished().observe(this, finished -> {
             if (Boolean.TRUE.equals(finished)) showGameFinished();

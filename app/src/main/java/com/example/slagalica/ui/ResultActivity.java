@@ -86,6 +86,9 @@ public class ResultActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.tvOppName)).setText(oppName);
         ((TextView) findViewById(R.id.tvMeAv)).setText(initial(myName));
         ((TextView) findViewById(R.id.tvOppAv)).setText(initial(oppName));
+        // Show each player's profile photo over the initials when they have one.
+        AvatarBinder.bindUser(myUid, findViewById(R.id.ivMeAv), findViewById(R.id.tvMeAv));
+        AvatarBinder.bindUser(oppUid, findViewById(R.id.ivOppAv), findViewById(R.id.tvOppAv));
         ((TextView) findViewById(R.id.tvMeTotal)).setText(String.valueOf(myTotal));
         ((TextView) findViewById(R.id.tvOppTotal)).setText(String.valueOf(oppTotal));
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.slagalica.R;
 import com.example.slagalica.ui.asocijacije.AsocijacijeActivity;
@@ -35,5 +36,14 @@ public class MainActivity extends BaseActivity {
         cardKPK.setOnClickListener(v -> startActivity(new Intent(this, KPKActivity.class)));
         cardMB.setOnClickListener(v -> startActivity(new Intent(this, MojBrojActivity.class)));
         cardSkocko.setOnClickListener(v -> startActivity(new Intent(this, SkockoActivity.class)));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Reload here (not just onCreate) so a photo set on the profile screen shows
+        // immediately when returning to the home header.
+        ImageView avatar = findViewById(R.id.ivHomeAvatar);
+        if (avatar != null) AvatarBinder.bindCurrentUserOrPlaceholder(avatar);
     }
 }

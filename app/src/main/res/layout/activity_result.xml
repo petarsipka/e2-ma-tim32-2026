@@ -67,17 +67,30 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/tvMeAv"
+                        <FrameLayout
                             android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:background="@drawable/bg_result_av"
-                            android:fontFamily="@font/baloo2"
-                            android:gravity="center"
-                            android:text="D"
-                            android:textColor="@color/on_accent"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:layout_height="64dp">
+
+                            <TextView
+                                android:id="@+id/tvMeAv"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:background="@drawable/bg_result_av"
+                                android:fontFamily="@font/baloo2"
+                                android:gravity="center"
+                                android:text="D"
+                                android:textColor="@color/on_accent"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:id="@+id/ivMeAv"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:contentDescription="@string/avatar_desc"
+                                android:scaleType="centerCrop"
+                                android:visibility="gone" />
+                        </FrameLayout>
 
                         <TextView
                             android:id="@+id/tvMeName"
@@ -109,17 +122,30 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/tvOppAv"
+                        <FrameLayout
                             android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:background="@drawable/bg_result_av"
-                            android:fontFamily="@font/baloo2"
-                            android:gravity="center"
-                            android:text="G"
-                            android:textColor="@color/on_accent"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:layout_height="64dp">
+
+                            <TextView
+                                android:id="@+id/tvOppAv"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:background="@drawable/bg_result_av"
+                                android:fontFamily="@font/baloo2"
+                                android:gravity="center"
+                                android:text="G"
+                                android:textColor="@color/on_accent"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:id="@+id/ivOppAv"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:contentDescription="@string/avatar_desc"
+                                android:scaleType="centerCrop"
+                                android:visibility="gone" />
+                        </FrameLayout>
 
                         <TextView
                             android:id="@+id/tvOppName"

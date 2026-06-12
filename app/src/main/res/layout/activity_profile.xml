@@ -88,6 +88,17 @@
                     android:textSize="26sp"
                     android:textStyle="bold" />
 
+                <!-- Shown instead of the initials once a photo avatar is set; inset
+                     so the gold ring on tvAvatar stays visible around it. -->
+                <ImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/avatar_desc"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+
                 <TextView
                     android:id="@+id/btnChangeAvatar"
                     android:layout_width="28dp"

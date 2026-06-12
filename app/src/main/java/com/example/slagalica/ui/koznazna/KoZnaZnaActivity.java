@@ -78,6 +78,7 @@ public class KoZnaZnaActivity extends BaseActivity {
         );
 
         viewModel.getOpponentName().observe(this, this::setOpponent);
+        viewModel.getOpponentUid().observe(this, this::setOpponentAvatar);
 
         viewModel.getQuestionIndex().observe(this, index -> {
             binding.tvQuestionNumber.setText(

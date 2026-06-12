@@ -3,6 +3,7 @@ package com.example.slagalica.ui.profile;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,19 +12,27 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.slagalica.R;
+import com.example.slagalica.data.AvatarRepository;
 import com.example.slagalica.data.model.GameStat;
 import com.example.slagalica.databinding.ActivityProfileBinding;
+import com.example.slagalica.ui.AvatarBinder;
 import com.example.slagalica.ui.BaseActivity;
+import com.example.slagalica.util.ImageUtils;
 import com.example.slagalica.util.QrGenerator;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ProfileActivity extends BaseActivity {
 
@@ -32,6 +41,10 @@ public class ProfileActivity extends BaseActivity {
 
     private int[] gameColors;
     private Bitmap qrBitmap;
+
+    private final AvatarRepository avatarRepository = new AvatarRepository();
+    private final ExecutorService ioExecutor = Executors.newSingleThreadExecutor();
+    private ActivityResultLauncher<PickVisualMediaRequest> avatarPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +80,41 @@ public class ProfileActivity extends BaseActivity {
         });
 
         viewModel.loadUser();
+        setupAvatar();
         setupListeners();
     }
+
+    /** Register the system photo picker and load the saved avatar (circular). */
+    private void setupAvatar() {
+        avatarPicker = registerForActivityResult(
+                new ActivityResultContracts.PickVisualMedia(),
+                uri -> { if (uri != null) onAvatarPicked(uri); });
+
+        AvatarBinder.bindCurrentUser(binding.ivAvatar, binding.tvAvatar);
+    }
+
+    /** Encode the picked image off the main thread, then persist and display it. */
+    private void onAvatarPicked(Uri uri) {
+        Toast.makeText(this, "Učitavanje slike…", Toast.LENGTH_SHORT).show();
+        ioExecutor.execute(() -> {
+            String base64 = ImageUtils.uriToBase64(getContentResolver(), uri);
+            runOnUiThread(() -> {
+                if (binding == null) return;
+                if (base64 == null) {
+                    Toast.makeText(this, "Slika nije učitana", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                AvatarBinder.show(binding.ivAvatar, binding.tvAvatar, ImageUtils.base64ToBitmap(base64));
+                avatarRepository.saveAvatar(base64, success -> {
+                    if (binding == null) return;
+                    Toast.makeText(this,
+                            success ? "Profilna slika sačuvana" : "Čuvanje nije uspelo",
+                            Toast.LENGTH_SHORT).show();
+                });
+            });
+        });
+    }
+
 
     /** Inflate one bar row per game (Sunny pop .stat-row). */
     private void buildStatRows(List<GameStat> games) {
@@ -109,7 +155,9 @@ public class ProfileActivity extends BaseActivity {
         binding.ivQrCode.setOnClickListener(v -> showQrDialog());
 
         binding.btnChangeAvatar.setOnClickListener(v ->
-                Toast.makeText(this, "Izmena avatara nije još implementirana", Toast.LENGTH_SHORT).show());
+                avatarPicker.launch(new PickVisualMediaRequest.Builder()
+                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                        .build()));
 
         binding.btnLogout.setOnClickListener(v -> {
             startActivity(new Intent(this, com.example.slagalica.ui.LoginActivity.class));
@@ -141,6 +189,7 @@ public class ProfileActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ioExecutor.shutdownNow();
         binding = null;
     }
 }

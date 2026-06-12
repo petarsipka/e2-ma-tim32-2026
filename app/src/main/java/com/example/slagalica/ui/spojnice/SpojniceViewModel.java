@@ -56,6 +56,7 @@ public class SpojniceViewModel extends ViewModel {
     private final MutableLiveData<Integer> myTotal = new MutableLiveData<>(0);
     private final MutableLiveData<Integer> opponentTotal = new MutableLiveData<>(0);
     private final MutableLiveData<String> opponentName = new MutableLiveData<>("Protivnik");
+    private final MutableLiveData<String> opponentUidLive = new MutableLiveData<>();
     private final MutableLiveData<Boolean> gameFinished = new MutableLiveData<>(false);
     private final MutableLiveData<PhaseState> phaseState = new MutableLiveData<>();
 
@@ -99,6 +100,7 @@ public class SpojniceViewModel extends ViewModel {
                 if (m == null) return;
                 hostUid = m.host;
                 opponentUid = m.opponentOf(myUid);
+                opponentUidLive.postValue(opponentUid);
                 opponentScore.postValue(m.gameScore(opponentUid, Match.GAME_SPOJNICE));
                 myTotal.postValue(m.totalScore(myUid));
                 opponentTotal.postValue(m.totalScore(opponentUid));
@@ -261,6 +263,7 @@ public class SpojniceViewModel extends ViewModel {
     public MutableLiveData<Integer> getMyTotal() { return myTotal; }
     public MutableLiveData<Integer> getOpponentTotal() { return opponentTotal; }
     public MutableLiveData<String> getOpponentName() { return opponentName; }
+    public MutableLiveData<String> getOpponentUid() { return opponentUidLive; }
     public MutableLiveData<Boolean> getGameFinished() { return gameFinished; }
     public MutableLiveData<PhaseState> getPhaseState() { return phaseState; }
     public String getMyUid() { return myUid; }

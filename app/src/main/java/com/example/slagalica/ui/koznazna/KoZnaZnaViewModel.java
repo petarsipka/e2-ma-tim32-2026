@@ -19,6 +19,7 @@ public class KoZnaZnaViewModel extends ViewModel {
     private final MutableLiveData<Integer> myTotal = new MutableLiveData<>(0);
     private final MutableLiveData<Integer> opponentTotal = new MutableLiveData<>(0);
     private final MutableLiveData<String> opponentName = new MutableLiveData<>();
+    private final MutableLiveData<String> opponentUid = new MutableLiveData<>();
     private final MutableLiveData<Integer> questionIndex = new MutableLiveData<>(0);
     private final MutableLiveData<Boolean> gameFinished = new MutableLiveData<>(false);
 
@@ -54,6 +55,7 @@ public class KoZnaZnaViewModel extends ViewModel {
 
     private void onMatchUpdate(Match match) {
         String oppUid = match.opponentOf(myUid);
+        opponentUid.postValue(oppUid);
         opponentScore.postValue(match.gameScore(oppUid, Match.GAME_KOZNAZNA));
         myTotal.postValue(match.totalScore(myUid));
         opponentTotal.postValue(match.totalScore(oppUid));
@@ -94,6 +96,7 @@ public class KoZnaZnaViewModel extends ViewModel {
     public MutableLiveData<Integer> getMyTotal() { return myTotal; }
     public MutableLiveData<Integer> getOpponentTotal() { return opponentTotal; }
     public MutableLiveData<String> getOpponentName() { return opponentName; }
+    public MutableLiveData<String> getOpponentUid() { return opponentUid; }
     public MutableLiveData<Integer> getQuestionIndex() { return questionIndex; }
     public MutableLiveData<Boolean> getGameFinished() { return gameFinished; }
 
