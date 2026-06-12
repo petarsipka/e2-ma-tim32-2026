@@ -28,12 +28,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         View quitBtn = findViewById(R.id.btnNavQuit);
         if (quitBtn != null) quitBtn.setOnClickListener(v -> finish());
 
-        // "Me" side of the match scoreboard.
+        // "Me" side of the match scoreboard always shows "Vi" for the local player.
         TextView meName = findViewById(R.id.scoreMeName);
         if (meName != null) {
-            String me = user.getUsername();
-            meName.setText(me);
-            setText(R.id.scoreMeAv, initials(me));
+            meName.setText("Vi");
+            setText(R.id.scoreMeAv, "VI");
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.slagalica.ui.koznazna;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -8,6 +9,8 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.slagalica.ui.BaseActivity;
+import com.example.slagalica.ui.lobby.LobbyActivity;
+import com.example.slagalica.ui.spojnice.SpojniceActivity;
 
 import com.example.slagalica.R;
 import com.example.slagalica.data.model.Question;
@@ -15,9 +18,14 @@ import com.example.slagalica.databinding.ActivityKoZnaZnaBinding;
 
 public class KoZnaZnaActivity extends BaseActivity {
 
+    /** Intent extra: the match code shared by both devices (null = single-device). */
+    public static final String EXTRA_MATCH_CODE = "match_code";
+
     private ActivityKoZnaZnaBinding binding;
     private KoZnaZnaViewModel viewModel;
     private boolean answered;
+    private String matchCode;
+    private boolean isHost;
 
     private LinearLayout[] rows;
     private TextView[] keys;
@@ -39,9 +47,13 @@ public class KoZnaZnaActivity extends BaseActivity {
         texts = new TextView[]{binding.txtA, binding.txtB, binding.txtC, binding.txtD};
         marks = new TextView[]{binding.markA, binding.markB, binding.markC, binding.markD};
 
+        matchCode = getIntent().getStringExtra(EXTRA_MATCH_CODE);
+        isHost = getIntent().getBooleanExtra(LobbyActivity.EXTRA_IS_HOST, false);
+
         setupObservers();
         setupAnswerButtons();
         viewModel.loadQuestions();
+        viewModel.init(matchCode);
     }
 
     private void setupObservers() {
@@ -57,13 +69,15 @@ public class KoZnaZnaActivity extends BaseActivity {
             startQuestionTimer();
         });
 
-        viewModel.getScore().observe(this, score ->
-            updateScore(score, safe(viewModel.getOpponentScore().getValue()))
+        // Live scoreboard shows cumulative match totals, not just this game.
+        viewModel.getMyTotal().observe(this, total ->
+            updateScore(total, safe(viewModel.getOpponentTotal().getValue()))
+        );
+        viewModel.getOpponentTotal().observe(this, oppTotal ->
+            updateScore(safe(viewModel.getMyTotal().getValue()), oppTotal)
         );
 
-        viewModel.getOpponentScore().observe(this, oppScore ->
-            updateScore(safe(viewModel.getScore().getValue()), oppScore)
-        );
+        viewModel.getOpponentName().observe(this, this::setOpponent);
 
         viewModel.getQuestionIndex().observe(this, index -> {
             binding.tvQuestionNumber.setText(
@@ -125,12 +139,23 @@ public class KoZnaZnaActivity extends BaseActivity {
 
     private void showGameFinished() {
         binding.tvTimer.cancel();
-        binding.tvQuestion.setText("Igra završena!\nUkupno bodova: " + viewModel.getScore().getValue());
+        binding.tvQuestion.setText("Ko zna zna završeno!\nBodovi: " + viewModel.getScore().getValue());
         binding.tvQuestionNumber.setVisibility(View.GONE);
         binding.tvTimer.setVisibility(View.GONE);
         binding.qDots.setVisibility(View.GONE);
         for (LinearLayout row : rows) row.setVisibility(View.GONE);
         binding.btnSkip.setVisibility(View.GONE);
+
+        // Chain to next game (Spojnice).
+        if (matchCode != null) {
+            binding.getRoot().postDelayed(() -> {
+                Intent intent = new Intent(this, SpojniceActivity.class);
+                intent.putExtra(SpojniceActivity.EXTRA_MATCH_CODE, matchCode);
+                intent.putExtra(LobbyActivity.EXTRA_IS_HOST, isHost);
+                startActivity(intent);
+                finish();
+            }, 2000);
+        }
     }
 
     /** Reset all answer rows to the neutral (.ans) look. */

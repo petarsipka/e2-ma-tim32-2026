@@ -20,7 +20,7 @@ public class MainActivity extends BaseActivity {
         android.view.View btnGoToProfile = findViewById(R.id.btnGoToProfile);
         btnGoToProfile.setOnClickListener(v -> startActivity(new Intent(this, com.example.slagalica.ui.profile.ProfileActivity.class)));
 
-        Button btnLogin = findViewById(R.id.mLoginLink);
+        Button btnDuel = findViewById(R.id.mLoginLink);
         View cardKZZ = findViewById(R.id.mKoZnaZnaLink);
         View cardSpojnice = findViewById(R.id.mSpojniceLink);
         View cardAsocijacije = findViewById(R.id.mAsocijacijeLink);
@@ -28,7 +28,7 @@ public class MainActivity extends BaseActivity {
         View cardMB = findViewById(R.id.mMBLink);
         View cardSkocko = findViewById(R.id.mSkockoLink);
 
-        btnLogin.setOnClickListener(v -> startActivity(new Intent(this, LoginActivity.class)));
+        btnDuel.setOnClickListener(v -> startActivity(new Intent(this, com.example.slagalica.ui.lobby.LobbyActivity.class)));
         cardKZZ.setOnClickListener(v -> startActivity(new Intent(this, KoZnaZnaActivity.class)));
         cardSpojnice.setOnClickListener(v -> startActivity(new Intent(this, SpojniceActivity.class)));
         cardAsocijacije.setOnClickListener(v -> startActivity(new Intent(this, AsocijacijeActivity.class)));

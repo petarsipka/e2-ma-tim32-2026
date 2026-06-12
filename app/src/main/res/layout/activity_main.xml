@@ -198,7 +198,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito"
                     android:letterSpacing="0.2"
-                    android:text="DNEVNI DUEL"
+                    android:text="DUEL"
                     android:textColor="@color/on_accent_muted"
                     android:textSize="11sp"
                     android:textStyle="bold" />
@@ -230,7 +230,7 @@
                     android:layout_height="52dp"
                     android:layout_marginTop="16dp"
                     android:backgroundTint="@color/panel"
-                    android:text="Skeniraj QR kod protivnika"
+                    android:text="Započni partiju"
                     android:textColor="@color/accent"
                     android:textSize="17sp" />
             </LinearLayout>
