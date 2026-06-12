@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- League tag pill (Sunny pop .tag-league). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/league_bg" />
+    <corners android:radius="999dp" />
+</shape>
