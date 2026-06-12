@@ -11,6 +11,8 @@
     <color name="accent">#FF6A3D</color>
     <color name="accent_end">#FF4D7D</color>
     <color name="accent2">#13B6A6</color>
+    <!-- Accent at ~12% (CSS color-mix accent 12% panel) — Spojnice selected tile fill -->
+    <color name="accent_soft">#1FFF6A3D</color>
     <color name="on_accent">#FFFFFFFF</color>
     <!-- White at ~90% on the accent gradient (CSS hero-sub / hero-kick opacity .9) -->
     <color name="on_accent_muted">#E6FFFFFF</color>

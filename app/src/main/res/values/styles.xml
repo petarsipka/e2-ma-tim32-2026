@@ -217,20 +217,11 @@
         <item name="cornerRadius">@dimen/radius_pill</item>
     </style>
 
-    <!-- Spojnice column item. Tinted per pair at runtime. -->
-    <style name="SpojButton" parent="Widget.Material3.Button">
+    <!-- Spojnice column tile (Sunny pop .spoj-item). State handled by SpojItemView. -->
+    <style name="SpojItem" parent="">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">56dp</item>
-        <item name="android:layout_marginBottom">10dp</item>
-        <item name="backgroundTint">@color/accent</item>
-        <item name="android:textColor">@color/on_accent</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:fontFamily">@font/nunito</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">13sp</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
-        <item name="cornerRadius">@dimen/radius_sm</item>
+        <item name="android:layout_height">54dp</item>
+        <item name="android:layout_marginBottom">11dp</item>
     </style>
 
     <!-- Quiz answer option row (Sunny pop .ans): key + text + mark. -->
