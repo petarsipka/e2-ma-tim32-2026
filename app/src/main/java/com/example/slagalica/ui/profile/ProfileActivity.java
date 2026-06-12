@@ -29,7 +29,7 @@ public class ProfileActivity extends BaseActivity {
             binding.tvEmail.setText(user.getEmail());
             binding.tvTokens.setText(String.valueOf(user.getTokens()));
             binding.tvStars.setText(user.getStars() + " ★");
-            binding.tvLeague.setText(user.getLeague());
+            binding.tvLeague.setText(user.getLeague().toString());
             binding.tvRegion.setText(user.getRegion());
         });
 
