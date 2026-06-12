@@ -52,4 +52,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
+
+    // QR code generation for the profile invite code (pure-Java, Android-safe).
+    implementation 'com.google.zxing:core:3.5.3'
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Profile pill icon chip — stars (Sunny pop .pic-star): translucent pink. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#29FF5A8C" />
+    <corners android:radius="9dp" />
+</shape>
