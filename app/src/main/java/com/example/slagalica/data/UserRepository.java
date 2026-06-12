@@ -1,32 +1,56 @@
 package com.example.slagalica.data;
 
 import com.example.slagalica.data.model.User;
-import com.example.slagalica.data.model.UserStats;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class UserRepository {
+    private final FirebaseFirestore db;
 
-    public User getCurrentUser() {
-        return new User(
-            "Petar Petrović",
-            "petar.petrovic@gmail.com",
-            150,
-            45,
-            "Zlatna\nliga",
-            "Srbija"
-        );
+    public UserRepository() {
+        db = FirebaseFirestore.getInstance();
     }
 
-    public UserStats getUserStats() {
-        return new UserStats(
-            "3/5 tačnih odgovora  ·  60% uspešnosti\nProsek: 20 bodova po partiji",
-            "70% tačnih pogodaka\nProsek: 8 bodova po partiji",
-            "1. korak: 80%\n2. korak: 60%\n3. korak: 35%\nProsek: 11 bodova po partiji",
-            "4/5 rešenih asocijacija  ·  80% uspešnosti\nProsek: 23 bodova po partiji",
-            "65% kombinacija pogođeno\nProsek: 7 bodova po partiji",
-            "85% pojmova uspešno povezano\nProsek: 9 bodova po partiji",
-            42,
-            25,
-            17
-        );
+    public void saveUser(String uid, User user, UserCallback callback) {
+        db.collection("users").document(uid).set(user)
+                .addOnSuccessListener(unused -> callback.onSuccess())
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+    public void getEmailByUsername(String username, UsernameCallback callback) {
+        db.collection("users")
+                .whereEqualTo("username", username)
+                .limit(1)
+                .get()
+                .addOnSuccessListener(query -> {
+                    if (!query.isEmpty() && query.getDocuments().get(0).getString("email") != null) {
+                        callback.onFound(query.getDocuments().get(0).getString("email"));
+                    } else {
+                        callback.onNotFound();
+                    }
+                })
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+    public void checkUsernameExists(String username, UserCallback callback) {
+        db.collection("users")
+                .whereEqualTo("username", username)
+                .limit(1)
+                .get()
+                .addOnSuccessListener(query -> {
+                    if (query.isEmpty()) callback.onSuccess();
+                    else callback.onError("Username already taken.");
+                })
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+    public interface UserCallback {
+        void onSuccess();
+        void onError(String error);
+    }
+
+    public interface UsernameCallback {
+        void onFound(String email);
+        void onNotFound();
+        void onError(String error);
     }
 }
