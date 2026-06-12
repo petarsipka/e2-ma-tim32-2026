@@ -1,210 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Korak po korak — Sunny pop in-game. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F0F0F5">
+    android:background="@drawable/bg_gradient">
+
     <include layout="@layout/layout_stats_bar" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="14dp">
+
+        <!-- Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="6dp">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="2dp">
 
-            <!-- Header -->
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/kpkGameTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Korak po Korak"
-                    android:textColor="#272794"
-                    android:textSize="28sp"
-                    android:textStyle="bold|italic" />
-
-                <TextView
-                    android:id="@+id/kbkTimer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center_vertical"
-                    android:text="70s"
-                    android:textColor="#D32F2F"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </FrameLayout>
-
-            <!-- Round -->
             <TextView
-                android:id="@+id/kbkRoundNum"
-                android:layout_width="wrap_content"
+                android:id="@+id/kpkGameTitle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="8dp"
-                android:text="Runda -/-"
-                android:textColor="#272794"
+                android:layout_weight="1"
+                android:fontFamily="@font/baloo2"
+                android:text="Korak po korak"
+                android:textColor="@color/text"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <com.example.slagalica.ui.widget.GameTimerView
+                android:id="@+id/kbkTimer"
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:text="1:10"
                 android:textSize="18sp"
-                android:textStyle="bold|italic" />
+                android:textStyle="bold" />
+        </LinearLayout>
 
-            <!-- 7 Hint cards -->
-            <TextView
-                android:id="@+id/kbkHint1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="8dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="16dp"
-                android:text="Hint 1"
-                android:textColor="#272794"
-                android:textSize="22sp"
-                android:elevation="2dp"/>
+        <TextView
+            android:id="@+id/kbkRoundNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:fontFamily="@font/nunito"
+            android:text="Runda -/-"
+            android:textColor="@color/muted"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/kbkHint2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="8dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="16dp"
-                android:text="Hint 2"
-                android:textColor="#272794"
-                android:textSize="22sp"
-                android:elevation="2dp"/>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:overScrollMode="never">
 
-            <TextView
-                android:id="@+id/kbkHint3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="8dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="16dp"
-                android:text="Hint 3"
-                android:textColor="#272794"
-                android:textSize="22sp"
-                android:elevation="2dp"/>
-
-            <TextView
-                android:id="@+id/kbkHint4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="8dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="16dp"
-                android:text="Hint 4"
-                android:textColor="#272794"
-                android:textSize="22sp"
-                android:elevation="2dp"/>
-
-            <TextView
-                android:id="@+id/kbkHint5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="8dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="16dp"
-                android:text="Hint 5"
-                android:textColor="#272794"
-                android:textSize="22sp"
-                android:elevation="2dp"/>
-
-            <TextView
-                android:id="@+id/kbkHint6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="8dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="16dp"
-                android:text="Hint 6"
-                android:textColor="#272794"
-                android:textSize="22sp"
-                android:elevation="2dp"/>
-
-            <TextView
-                android:id="@+id/kbkHint7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="8dp"
-                android:background="#FFFFFF"
-                android:gravity="center"
-                android:padding="16dp"
-                android:text="Hint 7"
-                android:textColor="#272794"
-                android:textSize="22sp"
-                android:elevation="2dp"/>
-
-            <!-- Spacer -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-
-            <!-- Bottom row: Points | Input | Button -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/kbkPointsCounter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:text="0"
-                    android:textColor="#272794"
-                    android:textSize="32sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/kbkInputAnswer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="Rešenje:"
-                    android:inputType="text"
-                    android:minHeight="48dp"
-                    android:padding="12dp"
-                    android:textSize="16sp" />
-
-                <Button
-                    android:id="@+id/kbkSendButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:backgroundTint="#272794"
-                    android:text="Pošalji"
-                    android:textColor="#FFFFFF" />
+                <TextView android:id="@+id/kbkHint1" style="@style/StepCard" android:text="Hint 1" />
+                <TextView android:id="@+id/kbkHint2" style="@style/StepCard" android:text="Hint 2" />
+                <TextView android:id="@+id/kbkHint3" style="@style/StepCard" android:text="Hint 3" />
+                <TextView android:id="@+id/kbkHint4" style="@style/StepCard" android:text="Hint 4" />
+                <TextView android:id="@+id/kbkHint5" style="@style/StepCard" android:text="Hint 5" />
+                <TextView android:id="@+id/kbkHint6" style="@style/StepCard" android:text="Hint 6" />
+                <TextView android:id="@+id/kbkHint7" style="@style/StepCard" android:text="Hint 7" android:layout_marginBottom="0dp" />
             </LinearLayout>
+        </ScrollView>
 
-            <!-- Opponent status -->
+        <!-- Bottom row: points + input + send -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+
             <TextView
-                android:id="@+id/kbkOpponentCheck"
+                android:id="@+id/kbkPointsCounter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
-                android:text="Vaš je potez."
-                android:textColor="#666666"
-                android:textSize="14sp" />
+                android:layout_marginEnd="12dp"
+                android:fontFamily="@font/baloo2"
+                android:text="0"
+                android:textColor="@color/star"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
+            <EditText
+                android:id="@+id/kbkInputAnswer"
+                style="@style/FieldInput"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/bg_field_pill"
+                android:hint="Rešenje…"
+                android:inputType="text"
+                android:minHeight="46dp" />
+
+            <Button
+                android:id="@+id/kbkSendButton"
+                style="@style/Widget.Slagalica.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="46dp"
+                android:text="Pošalji"
+                android:textSize="13sp"
+                app:cornerRadius="@dimen/radius_pill"
+                xmlns:app="http://schemas.android.com/apk/res-auto" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/kbkOpponentCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/nunito"
+            android:text="Vaš je potez."
+            android:textColor="@color/muted"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 </LinearLayout>

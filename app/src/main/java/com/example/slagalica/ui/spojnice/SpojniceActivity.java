@@ -1,14 +1,15 @@
 package com.example.slagalica.ui.spojnice;
 
-import android.graphics.Color;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.slagalica.ui.BaseActivity;
 
+import com.example.slagalica.R;
 import com.example.slagalica.data.model.SpojnicePair;
 import com.example.slagalica.databinding.ActivitySpojniceBinding;
 
@@ -18,11 +19,29 @@ public class SpojniceActivity extends BaseActivity {
 
     private ActivitySpojniceBinding binding;
     private SpojniceViewModel viewModel;
-    private CountDownTimer roundTimer;
 
     private int selectedLeftIndex = -1;
     private boolean[] leftConnected;
     private boolean[] rightConnected;
+
+    // Sunny pop palette: each matched pair gets its own colour (no lines).
+    // Resolved from design tokens in res/values/colors.xml.
+    private int BASE;     // accent
+    private int SELECT;   // accent2
+    private int[] pairColors;  // g0, g1, g2, g3, accent-end
+    private int matchCount;
+
+    private void resolveColors() {
+        BASE = ContextCompat.getColor(this, R.color.accent);
+        SELECT = ContextCompat.getColor(this, R.color.accent2);
+        pairColors = new int[]{
+                ContextCompat.getColor(this, R.color.g0),
+                ContextCompat.getColor(this, R.color.g1),
+                ContextCompat.getColor(this, R.color.g2),
+                ContextCompat.getColor(this, R.color.g3),
+                ContextCompat.getColor(this, R.color.accent_end)
+        };
+    }
 
     private Button[] leftButtons;
     private Button[] rightButtons;
@@ -33,6 +52,7 @@ public class SpojniceActivity extends BaseActivity {
         binding = ActivitySpojniceBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        resolveColors();
         setupStatsBar();
         leftButtons = new Button[]{binding.btnL1, binding.btnL2, binding.btnL3, binding.btnL4, binding.btnL5};
         rightButtons = new Button[]{binding.btnR1, binding.btnR2, binding.btnR3, binding.btnR4, binding.btnR5};
@@ -86,11 +106,11 @@ public class SpojniceActivity extends BaseActivity {
         if (leftConnected[index]) return;
 
         if (selectedLeftIndex != -1 && !leftConnected[selectedLeftIndex]) {
-            leftButtons[selectedLeftIndex].setBackgroundColor(Color.parseColor("#272794"));
+            tint(leftButtons[selectedLeftIndex], BASE);
         }
 
         selectedLeftIndex = index;
-        leftButtons[index].setBackgroundColor(Color.parseColor("#FF9800"));
+        tint(leftButtons[index], SELECT);
     }
 
     private void onRightClicked(int index) {
@@ -99,17 +119,19 @@ public class SpojniceActivity extends BaseActivity {
         boolean correct = viewModel.checkConnection(selectedLeftIndex, index);
 
         if (correct) {
-            leftButtons[selectedLeftIndex].setBackgroundColor(Color.parseColor("#4CAF50"));
-            rightButtons[index].setBackgroundColor(Color.parseColor("#4CAF50"));
+            int pairColor = pairColors[matchCount % pairColors.length];
+            matchCount++;
+            tint(leftButtons[selectedLeftIndex], pairColor);
+            tint(rightButtons[index], pairColor);
             leftConnected[selectedLeftIndex] = true;
             rightConnected[index] = true;
 
             if (allConnected()) {
-                if (roundTimer != null) roundTimer.cancel();
+                binding.tvTimer.cancel();
                 binding.tvTimer.postDelayed(() -> viewModel.finishRound(), 800);
             }
         } else {
-            leftButtons[selectedLeftIndex].setBackgroundColor(Color.parseColor("#272794"));
+            tint(leftButtons[selectedLeftIndex], BASE);
         }
 
         selectedLeftIndex = -1;
@@ -121,32 +143,24 @@ public class SpojniceActivity extends BaseActivity {
     }
 
     private void startRoundTimer() {
-        if (roundTimer != null) roundTimer.cancel();
-        roundTimer = new CountDownTimer(30000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                binding.tvTimer.setText(String.valueOf(millisUntilFinished / 1000));
-            }
-
-            @Override
-            public void onFinish() {
-                binding.tvTimer.setText("0");
-                viewModel.finishRound();
-            }
-        }.start();
+        binding.tvTimer.start(30000, () -> viewModel.finishRound());
     }
 
     private void resetRoundState() {
         selectedLeftIndex = -1;
+        matchCount = 0;
         leftConnected = new boolean[5];
         rightConnected = new boolean[5];
-        int blue = Color.parseColor("#272794");
-        for (Button b : leftButtons) { b.setBackgroundColor(blue); b.setVisibility(View.VISIBLE); }
-        for (Button b : rightButtons) { b.setBackgroundColor(blue); b.setVisibility(View.VISIBLE); }
+        for (Button b : leftButtons) { tint(b, BASE); b.setVisibility(View.VISIBLE); }
+        for (Button b : rightButtons) { tint(b, BASE); b.setVisibility(View.VISIBLE); }
+    }
+
+    private void tint(Button b, int color) {
+        b.setBackgroundTintList(ColorStateList.valueOf(color));
     }
 
     private void showGameFinished() {
-        if (roundTimer != null) roundTimer.cancel();
+        binding.tvTimer.cancel();
         binding.tvCriterion.setText("Igra završena!\nUkupno bodova: " + viewModel.getScore().getValue());
         binding.tvRound.setVisibility(View.GONE);
         binding.tvTimer.setVisibility(View.GONE);
@@ -157,7 +171,7 @@ public class SpojniceActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (roundTimer != null) roundTimer.cancel();
+        binding.tvTimer.cancel();
         binding = null;
     }
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Scoreboard avatar, me (Sunny pop .sc-av): warm gradient + gold ring. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <gradient
+        android:startColor="@color/av_start"
+        android:endColor="@color/av_end"
+        android:angle="315" />
+    <stroke android:width="2dp" android:color="@color/ring" />
+</shape>

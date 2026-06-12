@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Reusable match scoreboard (Sunny pop .score): me vs opponent.
+     Include in any in-game screen; drive via BaseActivity.setOpponent()/updateScore(). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_card"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="14dp"
+    android:paddingEnd="14dp"
+    android:paddingTop="11dp"
+    android:paddingBottom="11dp">
+
+    <!-- Me (.sc-pl.me) -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/scoreMeAv"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:background="@drawable/bg_score_av_me"
+            android:fontFamily="@font/baloo2"
+            android:gravity="center"
+            android:text="MN"
+            android:textColor="@color/on_accent"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/scoreMeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/baloo2"
+                android:text="Ja"
+                android:textColor="@color/text"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/scoreMePts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/baloo2"
+                android:text="0"
+                android:textColor="@color/accent"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- VS (.sc-vs) -->
+    <TextView
+        android:id="@+id/scoreVs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/baloo2"
+        android:text="VS"
+        android:textColor="@color/faint"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+
+    <!-- Opponent (.sc-pl.opp — reversed, right-aligned) -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical|end"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="9dp"
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/scoreOppName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/baloo2"
+                android:text="Protivnik"
+                android:textColor="@color/text"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/scoreOppPts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/baloo2"
+                android:text="0"
+                android:textColor="@color/accent2"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/scoreOppAv"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:background="@drawable/bg_score_av_opp"
+            android:fontFamily="@font/baloo2"
+            android:gravity="center"
+            android:text="JK"
+            android:textColor="@color/on_accent"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

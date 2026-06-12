@@ -1,90 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Moj broj — Sunny pop in-game. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F0F0F5">
+    android:background="@drawable/bg_gradient">
+
     <include layout="@layout/layout_stats_bar" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:gravity="center_horizontal">
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="18dp">
 
-            <!-- Header: Title + Timer -->
+            <!-- Header -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="16dp">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+                android:orientation="horizontal"
+                android:layout_marginBottom="14dp">
 
                 <TextView
                     android:id="@+id/mbGameTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Moj Broj"
-                    android:textColor="#272794"
-                    android:textSize="28sp"
-                    android:textStyle="bold|italic" />
-
-                <View
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/mbTimer"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="60s"
-                    android:textColor="#D32F2F"
-                    android:textSize="20sp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/baloo2"
+                    android:text="Moj broj"
+                    android:textColor="@color/text"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <com.example.slagalica.ui.widget.GameTimerView
+                    android:id="@+id/mbTimer"
+                    android:layout_width="58dp"
+                    android:layout_height="58dp"
+                    android:text="1:00"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <!-- Target Number Card -->
+            <!-- Target number (accent hero) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:background="@drawable/bg_hero"
                 android:gravity="center"
-                android:background="@drawable/mb_numbers_big"
-                android:padding="20dp"
+                android:orientation="vertical"
+                android:padding="16dp"
                 android:layout_marginBottom="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito"
+                    android:letterSpacing="0.2"
                     android:text="TRAŽENI BROJ"
-                    android:textSize="14sp"
-                    android:textColor="#666666"
-                    android:layout_marginBottom="4dp" />
+                    android:textColor="@color/on_accent_muted"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/mbWantedNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo2"
                     android:text="---"
-                    android:textColor="#272794"
-                    android:textSize="44sp"
+                    android:textColor="@color/on_accent"
+                    android:textSize="42sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <!-- Player Answers -->
+            <!-- Player answers -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -96,137 +96,52 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/baloo2"
                     android:text="P1: ???"
-                    android:textColor="#272794"
-                    android:textSize="16sp" />
+                    android:textColor="@color/accent"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/mbPlayer2Answer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/baloo2"
+                    android:gravity="end"
                     android:text="P2: ???"
-                    android:textColor="#272794"
-                    android:textSize="16sp"
-                    android:gravity="end" />
+                    android:textColor="@color/accent2"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
-            <!-- 4 Small Numbers -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="DOSTUPNI BROJEVI"
-                android:textSize="12sp"
-                android:textColor="#666666"
-                android:layout_marginBottom="8dp" />
+            <TextView style="@style/MbSectionLabel" android:text="DOSTUPNI BROJEVI" />
 
+            <!-- 4 small numbers -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginBottom="8dp">
 
-                <TextView
-                    android:id="@+id/mbUsedNum1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/mb_numbers"
-                    android:gravity="center"
-                    android:padding="14dp"
-                    android:text="1"
-                    android:textColor="#272794"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/mbUsedNum2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/mb_numbers"
-                    android:gravity="center"
-                    android:padding="14dp"
-                    android:text="2"
-                    android:textColor="#272794"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/mbUsedNum3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/mb_numbers"
-                    android:gravity="center"
-                    android:padding="14dp"
-                    android:text="3"
-                    android:textColor="#272794"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/mbUsedNum4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/mb_numbers"
-                    android:gravity="center"
-                    android:padding="14dp"
-                    android:text="4"
-                    android:textColor="#272794"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                <TextView android:id="@+id/mbUsedNum1" style="@style/MbTile" android:text="1" />
+                <TextView android:id="@+id/mbUsedNum2" style="@style/MbTile" android:text="2" />
+                <TextView android:id="@+id/mbUsedNum3" style="@style/MbTile" android:text="3" />
+                <TextView android:id="@+id/mbUsedNum4" style="@style/MbTile" android:text="4" />
             </LinearLayout>
 
-            <!-- 2 Big Numbers -->
+            <!-- 2 big numbers -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginBottom="20dp">
 
-                <TextView
-                    android:id="@+id/mbUsedNum5"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/mb_numbers_big"
-                    android:gravity="center"
-                    android:padding="16dp"
-                    android:text="10"
-                    android:textColor="#D84315"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/mbUsedNum6"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/mb_numbers_big"
-                    android:gravity="center"
-                    android:padding="16dp"
-                    android:text="25"
-                    android:textColor="#D84315"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+                <TextView android:id="@+id/mbUsedNum5" style="@style/MbTileBig" android:text="10" />
+                <TextView android:id="@+id/mbUsedNum6" style="@style/MbTileBig" android:text="25" />
             </LinearLayout>
 
-            <!-- Operators -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="OPERATORI"
-                android:textSize="12sp"
-                android:textColor="#666666"
-                android:layout_marginBottom="8dp" />
+            <TextView style="@style/MbSectionLabel" android:text="OPERATORI" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -234,119 +149,39 @@
                 android:orientation="horizontal"
                 android:layout_marginBottom="20dp">
 
-                <TextView
-                    android:id="@+id/mbLParen"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/mb_operators"
-                    android:gravity="center"
-                    android:padding="12dp"
-                    android:text="("
-                    android:textColor="#272794"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/mbRParen"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/mb_operators"
-                    android:gravity="center"
-                    android:padding="12dp"
-                    android:text=")"
-                    android:textColor="#272794"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/mbPlus"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/mb_operators"
-                    android:gravity="center"
-                    android:padding="12dp"
-                    android:text="+"
-                    android:textColor="#272794"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/mbMinus"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/mb_operators"
-                    android:gravity="center"
-                    android:padding="12dp"
-                    android:text="-"
-                    android:textColor="#272794"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/mbMultiply"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/mb_operators"
-                    android:gravity="center"
-                    android:padding="12dp"
-                    android:text="×"
-                    android:textColor="#272794"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/mbDivide"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/mb_operators"
-                    android:gravity="center"
-                    android:padding="12dp"
-                    android:text="÷"
-                    android:textColor="#272794"
-                    android:textSize="20sp" />
+                <TextView android:id="@+id/mbLParen" style="@style/MbOp" android:text="(" />
+                <TextView android:id="@+id/mbRParen" style="@style/MbOp" android:text=")" />
+                <TextView android:id="@+id/mbPlus" style="@style/MbOp" android:text="+" />
+                <TextView android:id="@+id/mbMinus" style="@style/MbOp" android:text="−" />
+                <TextView android:id="@+id/mbMultiply" style="@style/MbOp" android:text="×" />
+                <TextView android:id="@+id/mbDivide" style="@style/MbOp" android:text="÷" />
             </LinearLayout>
 
-            <!-- Separator -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#CCCCCC"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Expression Input -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="VAŠ IZRAZ"
-                android:textSize="12sp"
-                android:textColor="#666666"
-                android:layout_marginBottom="8dp" />
+            <TextView style="@style/MbSectionLabel" android:text="VAŠ IZRAZ" />
 
             <TextView
                 android:id="@+id/mbInsertAnswer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Unesite rešenje..."
-                android:minHeight="48dp"
-                android:padding="12dp"
+                android:background="@drawable/bg_card"
+                android:fontFamily="@font/baloo2"
+                android:hint="Unesite rešenje…"
+                android:minHeight="50dp"
+                android:padding="14dp"
+                android:textColor="@color/text"
+                android:textColorHint="@color/muted"
                 android:textSize="18sp"
-                android:layout_marginBottom="12dp" />
+                android:textStyle="bold"
+                android:layout_marginBottom="14dp" />
 
             <Button
                 android:id="@+id/mbSendButton"
+                style="@style/Widget.Slagalica.Button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#272794"
-                android:text="POŠALJI"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp" />
+                android:layout_height="52dp"
+                android:text="Pošalji"
+                android:textSize="16sp"
+                app:cornerRadius="@dimen/radius" />
 
         </LinearLayout>
     </ScrollView>

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Moj broj big (10/25) number tile — white card, accent number (Sunny pop .mb-tile.big). -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#1A272794" />
-            <corners android:radius="12dp" />
+            <solid android:color="#14FF6A3D" />
+            <corners android:radius="14dp" />
         </shape>
     </item>
     <item android:bottom="3dp" android:right="3dp">
         <shape android:shape="rectangle">
-            <solid android:color="#FFE8E0" />
-            <stroke android:width="2dp" android:color="#D84315" />
-            <corners android:radius="12dp" />
+            <solid android:color="@color/panel" />
+            <stroke android:width="1.5dp" android:color="@color/accent" />
+            <corners android:radius="14dp" />
             <padding android:left="20dp" android:top="20dp"
                 android:right="20dp" android:bottom="20dp" />
         </shape>
