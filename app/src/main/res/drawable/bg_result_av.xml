@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Translucent white circle for the result-hero avatars (sits on the accent gradient). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="#33FFFFFF" />
+    <stroke android:width="2dp" android:color="#80FFFFFF" />
+</shape>

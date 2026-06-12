@@ -1,9 +1,84 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Slagalica" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <!-- ============================================================
+         SLAGALICA — Sunny pop theme (light only).
+         ============================================================ -->
+    <style name="Base.Theme.Slagalica" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Brand palette -->
+        <item name="colorPrimary">@color/accent</item>
+        <item name="colorOnPrimary">@color/on_accent</item>
+        <item name="colorPrimaryContainer">@color/accent</item>
+        <item name="colorOnPrimaryContainer">@color/on_accent</item>
+        <item name="colorSecondary">@color/accent2</item>
+        <item name="colorOnSecondary">@color/on_accent</item>
+        <item name="colorError">@color/wrong</item>
+
+        <!-- Surfaces -->
+        <item name="android:colorBackground">@color/bg_solid</item>
+        <item name="colorSurface">@color/panel</item>
+        <item name="colorOnSurface">@color/text</item>
+        <item name="colorSurfaceVariant">@color/field</item>
+        <item name="colorControlActivated">@color/accent</item>
+        <item name="colorControlHighlight">#22FF6A3D</item>
+
+        <!-- Text -->
+        <item name="android:textColorPrimary">@color/text</item>
+        <item name="android:textColorSecondary">@color/muted</item>
+        <item name="android:textColorHint">@color/muted</item>
+
+        <!-- Typography: body font app-wide -->
+        <item name="android:fontFamily">@font/nunito</item>
+        <item name="fontFamily">@font/nunito</item>
+
+        <!-- Default widget styles -->
+        <item name="materialButtonStyle">@style/Widget.Slagalica.Button</item>
+
+        <!-- System bars: dark icons on the cream background -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:forceDarkAllowed">false</item>
     </style>
 
     <style name="Theme.Slagalica" parent="Base.Theme.Slagalica" />
+
+    <!-- ============ Widget styles ============ -->
+
+    <!-- Primary button: accent fill, rounded, display font -->
+    <style name="Widget.Slagalica.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/accent</item>
+        <item name="android:textColor">@color/on_accent</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/baloo2</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="cornerRadius">@dimen/radius_sm</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+
+    <!-- Ghost / secondary button: white panel, accent text -->
+    <style name="Widget.Slagalica.Button.Ghost" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/panel</item>
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/baloo2</item>
+        <item name="android:textStyle">bold</item>
+        <item name="cornerRadius">@dimen/radius_sm</item>
+        <item name="strokeColor">@color/pill_border</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <!-- ============ Text styles ============ -->
+
+    <!-- Display heading (Baloo 2, bold) -->
+    <style name="Text.Display" parent="">
+        <item name="android:fontFamily">@font/baloo2</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text</item>
+    </style>
+
+    <!-- Section heading -->
+    <style name="Text.Section" parent="Text.Display">
+        <item name="android:textSize">@dimen/text_h2</item>
+    </style>
 </resources>

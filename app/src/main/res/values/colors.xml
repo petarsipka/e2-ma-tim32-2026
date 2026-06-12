@@ -1,5 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- ============================================================
+         SLAGALICA — Sunny pop (direction C), light theme.
+         Values mirror slagalica.css :root light variables.
+         ============================================================ -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Brand / accent -->
+    <color name="accent">#FF6A3D</color>
+    <color name="accent_end">#FF4D7D</color>
+    <color name="accent2">#13B6A6</color>
+    <!-- Accent at ~12% (CSS color-mix accent 12% panel) — Spojnice selected tile fill -->
+    <color name="accent_soft">#1FFF6A3D</color>
+    <color name="on_accent">#FFFFFFFF</color>
+    <!-- White at ~90% on the accent gradient (CSS hero-sub / hero-kick opacity .9) -->
+    <color name="on_accent_muted">#E6FFFFFF</color>
+
+    <!-- Surfaces -->
+    <color name="bg_solid">#FFF6EC</color>
+    <color name="bg_grad_start">#FFF3E4</color>
+    <color name="bg_grad_mid">#FFF8F0</color>
+    <color name="bg_grad_end">#FDF2E8</color>
+    <color name="panel">#FFFFFFFF</color>
+    <color name="panel_solid">#FFFFFFFF</color>
+    <color name="pill_border">#F1E4D6</color>
+    <color name="field">#FBF2E9</color>
+    <color name="field_border">#EFE0D2</color>
+    <color name="track">#F0E3D6</color>
+    <color name="nav_bg">#FFFFFFFF</color>
+    <color name="nav_border">#F1E4D6</color>
+
+    <!-- Text -->
+    <color name="text">#34272F</color>
+    <color name="muted">#A8968F</color>
+    <color name="faint">#CDBCB0</color>
+
+    <!-- Accents / semantic -->
+    <color name="ring">#FFB020</color>
+    <color name="on_ring">#5A3B00</color>
+    <color name="star">#FF7A3D</color>
+    <color name="token">#E9920A</color>
+    <color name="token_bg">#29FFB800</color>
+    <color name="star_bg">#29FF5A8C</color>
+    <color name="league_text">#C98604</color>
+    <color name="league_bg">#29FFB020</color>
+
+    <color name="correct">#1FAE6A</color>
+    <color name="correct_bg">#E6F7EE</color>
+    <color name="wrong">#EC4D52</color>
+    <color name="wrong_bg">#FDEAEA</color>
+
+    <!-- Game color coding -->
+    <color name="g0">#FF5A5F</color>
+    <color name="g1">#13B6A6</color>
+    <color name="g2">#FFB020</color>
+    <color name="g3">#7A6BFF</color>
+
+    <!-- Opponent avatar gradient -->
+    <color name="opp_av_start">#8FB0FF</color>
+    <color name="opp_av_end">#5A6EE0</color>
+
+    <!-- Avatar gradient -->
+    <color name="av_start">#FFD27A</color>
+    <color name="av_end">#FF9A6C</color>
+
+    <!-- Soft tints for icon chips (m-ic-bg etc.) -->
+    <color name="teal_soft">#2413B6A6</color>
+    <color name="divider">#F1E4D6</color>
 </resources>

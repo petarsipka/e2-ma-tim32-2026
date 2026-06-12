@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Game icon chip, color g0 (Sunny pop .gt0 .gsym). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/g0" />
+    <corners android:radius="12dp" />
+</shape>

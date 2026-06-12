@@ -1,36 +1,33 @@
 package com.example.slagalica.data.model;
 
-public class UserStats {
-    private String statKZZ;
-    private String statMB;
-    private String statKPK;
-    private String statAsoc;
-    private String statSkocko;
-    private String statSpojnice;
-    private int totalGames;
-    private int wins;
-    private int losses;
+import java.util.List;
 
-    public UserStats(String statKZZ, String statMB, String statKPK, String statAsoc,
-                     String statSkocko, String statSpojnice, int totalGames, int wins, int losses) {
-        this.statKZZ = statKZZ;
-        this.statMB = statMB;
-        this.statKPK = statKPK;
-        this.statAsoc = statAsoc;
-        this.statSkocko = statSkocko;
-        this.statSpojnice = statSpojnice;
-        this.totalGames = totalGames;
+/**
+ * Player statistics shown on the profile. All values are DB-backed parameters:
+ * total wins/losses plus the per-game average rows. Total games played and the
+ * win percentage are derived so callers never recompute them inconsistently.
+ */
+public class UserStats {
+
+    private final int wins;
+    private final int losses;
+    private final List<GameStat> games;
+
+    public UserStats(int wins, int losses, List<GameStat> games) {
         this.wins = wins;
         this.losses = losses;
+        this.games = games;
     }
 
-    public String getStatKZZ() { return statKZZ; }
-    public String getStatMB() { return statMB; }
-    public String getStatKPK() { return statKPK; }
-    public String getStatAsoc() { return statAsoc; }
-    public String getStatSkocko() { return statSkocko; }
-    public String getStatSpojnice() { return statSpojnice; }
-    public int getTotalGames() { return totalGames; }
     public int getWins() { return wins; }
     public int getLosses() { return losses; }
+    public List<GameStat> getGames() { return games; }
+
+    public int getTotalGames() { return wins + losses; }
+
+    /** Win rate as a whole percentage (0–100); 0 when no games have been played. */
+    public int getWinPercent() {
+        int total = getTotalGames();
+        return total == 0 ? 0 : Math.round(wins * 100f / total);
+    }
 }

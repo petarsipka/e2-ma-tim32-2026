@@ -1,326 +1,315 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Profil + statistika — Sunny pop (design: ProfileScreen). Bottom nav added later. -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F0F5">
+    android:background="@drawable/bg_gradient"
+    android:overScrollMode="never">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="24dp">
 
+        <!-- Header (.scr-head) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginTop="40dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/ivAvatar"
-                android:layout_width="110dp"
-                android:layout_height="110dp"
-                android:background="@drawable/avatar_frame"
-                android:src="@mipmap/ic_launcher_round"
-                android:scaleType="centerCrop"
-                android:padding="6dp" />
+            <TextView
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_icon_btn"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/baloo2"
+                android:gravity="center"
+                android:text="‹"
+                android:textColor="@color/text"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/btnChangeAvatar"
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="#1565C0"
-                android:text="Izmeni avatar"
-                android:textSize="12sp" />
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/baloo2"
+                android:text="Profil"
+                android:textColor="@color/text"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btnSettings"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_icon_btn"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="⚙"
+                android:textColor="@color/text"
+                android:textSize="18sp" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvUsername"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="#1565C0" />
-
-        <TextView
-            android:id="@+id/tvEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="16dp"
-            android:textSize="14sp"
-            android:textColor="#666666" />
-
+        <!-- Profile card (.prof-card) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_card_lg"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:background="#FFFFFF"
-            android:padding="12dp"
-            android:layout_marginBottom="8dp">
+            android:padding="18dp">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
+            <FrameLayout
+                android:layout_width="78dp"
+                android:layout_height="78dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tokeni"
-                    android:textSize="12sp"
-                    android:textColor="#888888" />
-
-                <TextView
-                    android:id="@+id/tvTokens"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/tvAvatar"
+                    android:layout_width="78dp"
+                    android:layout_height="78dp"
+                    android:background="@drawable/avatar_frame"
+                    android:fontFamily="@font/baloo2"
+                    android:gravity="center"
+                    android:text="MN"
+                    android:textColor="@color/white"
                     android:textSize="26sp"
-                    android:textStyle="bold"
-                    android:textColor="#1565C0" />
-            </LinearLayout>
+                    android:textStyle="bold" />
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="#EEEEEE" />
+                <!-- Shown instead of the initials once a photo avatar is set; inset
+                     so the gold ring on tvAvatar stays visible around it. -->
+                <ImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/avatar_desc"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/btnChangeAvatar"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="bottom|end"
+                    android:background="@drawable/bg_avatar_cam"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="📷"
+                    android:textSize="11sp" />
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tvUsername"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Zvezde"
+                    android:fontFamily="@font/baloo2"
+                    android:text="Igrač"
+                    android:textColor="@color/text"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="email@primer.rs"
+                    android:textColor="@color/muted"
                     android:textSize="12sp"
-                    android:textColor="#888888" />
+                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tvStars"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="26sp"
-                    android:textStyle="bold"
-                    android:textColor="#F9A825" />
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvLeague"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:background="@drawable/bg_tag_league"
+                        android:fontFamily="@font/nunito"
+                        android:paddingStart="9dp"
+                        android:paddingEnd="9dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:text="🏆 Liga"
+                        android:textColor="@color/league_text"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvRegion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_tag_region"
+                    android:fontFamily="@font/nunito"
+                    android:paddingStart="9dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="9dp"
+                    android:paddingBottom="4dp"
+                    android:text="📍 Region"
+                    android:textColor="@color/accent2"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
             </LinearLayout>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="#EEEEEE" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Liga"
-                    android:textSize="12sp"
-                    android:textColor="#888888" />
-
-                <TextView
-                    android:id="@+id/tvLeague"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#1565C0"
-                    android:gravity="center" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#FFFFFF"
-            android:padding="14dp"
-            android:layout_marginBottom="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Region: "
-                android:textSize="15sp"
-                android:textColor="#888888" />
-
-            <TextView
-                android:id="@+id/tvRegion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textColor="#1565C0" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#FFFFFF"
-            android:padding="12dp"
-            android:gravity="center"
-            android:layout_marginBottom="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="QR kod za poziv prijatelja"
-                android:textSize="13sp"
-                android:textColor="#888888"
-                android:layout_marginBottom="8dp" />
 
             <ImageView
                 android:id="@+id/ivQrCode"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:background="#DDDDDD"
-                android:scaleType="centerInside" />
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/bg_qr_btn"
+                android:clickable="true"
+                android:contentDescription="QR kod"
+                android:focusable="true"
+                android:padding="7dp"
+                android:scaleType="fitCenter" />
+        </LinearLayout>
 
+        <!-- Currency pills (.curr) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:orientation="horizontal">
+
+            <LinearLayout style="@style/ProfilePill" android:layout_marginEnd="9dp">
+                <TextView style="@style/ProfilePillIcon" android:background="@drawable/bg_pic_tok" android:text="🪙" />
+                <LinearLayout style="@style/ProfilePillCol">
+                    <TextView android:id="@+id/tvTokens" style="@style/ProfilePillNum" android:text="0" />
+                    <TextView style="@style/ProfilePillLab" android:text="TOKENI" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/ProfilePill" android:layout_marginStart="4.5dp" android:layout_marginEnd="4.5dp">
+                <TextView style="@style/ProfilePillIcon" android:background="@drawable/bg_pic_star" android:text="⭐" />
+                <LinearLayout style="@style/ProfilePillCol">
+                    <TextView android:id="@+id/tvStars" style="@style/ProfilePillNum" android:text="0" />
+                    <TextView style="@style/ProfilePillLab" android:text="ZVEZDE" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/ProfilePill" android:layout_marginStart="9dp">
+                <TextView style="@style/ProfilePillIcon" android:background="@drawable/bg_pic_partije" android:text="🏆" />
+                <LinearLayout style="@style/ProfilePillCol">
+                    <TextView android:id="@+id/tvPartije" style="@style/ProfilePillNum" android:text="0" />
+                    <TextView style="@style/ProfilePillLab" android:text="PARTIJE" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Stats card (.stats-card) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:background="@drawable/bg_card_lg"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Win-rate top (.stat-top) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.example.slagalica.ui.widget.StatRingView
+                    android:id="@+id/ringWin"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/baloo2"
+                        android:text="Pobede"
+                        android:textColor="@color/text"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvWinLoss"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/nunito"
+                        android:text="0 pobeda · 0 poraza"
+                        android:textColor="@color/muted"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Section header (.stat-sec-h) -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="(QR kod)"
-                android:textSize="11sp"
-                android:textColor="#AAAAAA"
-                android:layout_marginTop="4dp" />
-        </LinearLayout>
+                android:layout_marginTop="14dp"
+                android:fontFamily="@font/nunito"
+                android:letterSpacing="0.1"
+                android:text="PROSEČNO BODOVA PO IGRI"
+                android:textColor="@color/muted"
+                android:textSize="10sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Statistika"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#1565C0"
-            android:layout_marginBottom="8dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#FFFFFF"
-            android:layout_marginBottom="8dp">
-
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingStart="14dp" android:paddingEnd="14dp" android:paddingTop="12dp" android:paddingBottom="12dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ko zna zna" android:textSize="14sp" android:textStyle="bold" android:textColor="#1565C0" />
-                <TextView android:id="@+id/tvStatKZZ" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:textSize="13sp" android:textColor="#555555" />
-            </LinearLayout>
-
-            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEEEEE" />
-
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingStart="14dp" android:paddingEnd="14dp" android:paddingTop="12dp" android:paddingBottom="12dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Moj broj" android:textSize="14sp" android:textStyle="bold" android:textColor="#1565C0" />
-                <TextView android:id="@+id/tvStatMB" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:textSize="13sp" android:textColor="#555555" />
-            </LinearLayout>
-
-            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEEEEE" />
-
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingStart="14dp" android:paddingEnd="14dp" android:paddingTop="12dp" android:paddingBottom="12dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Korak po korak" android:textSize="14sp" android:textStyle="bold" android:textColor="#1565C0" />
-                <TextView android:id="@+id/tvStatKPK" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:textSize="13sp" android:textColor="#555555" />
-            </LinearLayout>
-
-            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEEEEE" />
-
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingStart="14dp" android:paddingEnd="14dp" android:paddingTop="12dp" android:paddingBottom="12dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Asocijacije" android:textSize="14sp" android:textStyle="bold" android:textColor="#1565C0" />
-                <TextView android:id="@+id/tvStatAsoc" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:textSize="13sp" android:textColor="#555555" />
-            </LinearLayout>
-
-            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEEEEE" />
-
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingStart="14dp" android:paddingEnd="14dp" android:paddingTop="12dp" android:paddingBottom="12dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Skočko" android:textSize="14sp" android:textStyle="bold" android:textColor="#1565C0" />
-                <TextView android:id="@+id/tvStatSkocko" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:textSize="13sp" android:textColor="#555555" />
-            </LinearLayout>
-
-            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEEEEE" />
-
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingStart="14dp" android:paddingEnd="14dp" android:paddingTop="12dp" android:paddingBottom="12dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Spojnice" android:textSize="14sp" android:textStyle="bold" android:textColor="#1565C0" />
-                <TextView android:id="@+id/tvStatSpojnice" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:textSize="13sp" android:textColor="#555555" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#FFFFFF"
-            android:padding="14dp"
-            android:layout_marginBottom="24dp">
-
+            <!-- Per-game rows added at runtime (.stat-row) -->
             <LinearLayout
-                android:layout_width="0dp"
+                android:id="@+id/statRows"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Odigrane partije"
-                    android:textSize="13sp"
-                    android:textColor="#888888" />
-
-                <TextView
-                    android:id="@+id/tvStatPartije"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="32sp"
-                    android:textStyle="bold"
-                    android:textColor="#1565C0" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="#EEEEEE" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/tvStatWinLoss"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="#555555"
-                    android:gravity="center" />
-            </LinearLayout>
+                android:layout_marginTop="6dp"
+                android:orientation="vertical" />
         </LinearLayout>
 
+        <!-- Logout (.logout) -->
         <Button
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:backgroundTint="#D32F2F"
-            android:text="Odjavi se"
-            android:textSize="16sp" />
+            android:layout_height="52dp"
+            android:layout_marginTop="18dp"
+            android:backgroundTint="@color/wrong_bg"
+            android:fontFamily="@font/baloo2"
+            android:text="↪  Odjavi se"
+            android:textColor="@color/wrong"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:cornerRadius="@dimen/radius" />
 
     </LinearLayout>
 </ScrollView>

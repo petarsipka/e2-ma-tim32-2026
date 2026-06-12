@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Asocijacije solved solution cell (Sunny pop .asoc-sol.s0..s3):
+     solid fill tinted with the column colour at runtime (backgroundTint). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/white" />
+    <corners android:radius="9dp" />
+</shape>

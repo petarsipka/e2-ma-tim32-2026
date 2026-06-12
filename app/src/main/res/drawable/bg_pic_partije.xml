@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Profile pill icon chip — games played (Sunny pop .m-ic-bg): translucent teal. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#2413B6A6" />
+    <corners android:radius="9dp" />
+</shape>

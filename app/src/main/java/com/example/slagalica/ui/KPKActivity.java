@@ -9,8 +9,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.slagalica.R;
+import com.example.slagalica.ui.widget.GameTimerView;
 
 public class KPKActivity extends AppCompatActivity {
+
+    private GameTimerView timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,5 +25,14 @@ public class KPKActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        timer = findViewById(R.id.kbkTimer);
+        timer.start(70000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (timer != null) timer.cancel();
     }
 }

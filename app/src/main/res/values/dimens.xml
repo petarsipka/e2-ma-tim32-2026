@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Sunny pop shape & spacing scale (from slagalica.css) -->
+    <dimen name="radius_sm">13dp</dimen>
+    <dimen name="radius">20dp</dimen>
+    <dimen name="radius_lg">28dp</dimen>
+    <dimen name="radius_pill">999dp</dimen>
+
+    <dimen name="gap">13dp</dimen>
+    <dimen name="screen_pad">18dp</dimen>
+
+    <!-- Type scale -->
+    <dimen name="text_hero">30sp</dimen>
+    <dimen name="text_title">22sp</dimen>
+    <dimen name="text_h2">21sp</dimen>
+    <dimen name="text_lg">19sp</dimen>
+    <dimen name="text_md">16sp</dimen>
+    <dimen name="text_body">14sp</dimen>
+    <dimen name="text_sm">13sp</dimen>
+    <dimen name="text_xs">12sp</dimen>
+    <dimen name="text_xxs">10sp</dimen>
+</resources>

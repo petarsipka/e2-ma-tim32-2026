@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Spojnice — Sunny pop in-game (design: .gscr). Tap a term then its pair;
+     matched pairs colour themselves (no lines). -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F0F0F5">
+    android:background="@drawable/bg_gradient">
 
     <include layout="@layout/layout_stats_bar" />
 
@@ -12,161 +14,164 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="18dp">
 
+        <!-- Title row: game name + rule subtitle, timer ring (.gtitle-row) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="8dp">
-
-            <TextView
-                android:id="@+id/tvRound"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Runda 1 / 2"
-                android:textSize="15sp"
-                android:textColor="#555555" />
-
-            <TextView
-                android:id="@+id/tvScore"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Bodovi: 0"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textColor="#272794"
-                android:gravity="center" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="⏱ "
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/tvTimer"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:text="30"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="#D32F2F"
-                android:gravity="center" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvCriterion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:padding="12dp"
-            android:gravity="center"
-            android:textSize="15sp"
-            android:textColor="#1A1A1A"
-            android:layout_marginBottom="12dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_marginEnd="6dp">
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/btnL1"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginBottom="6dp"
-                    android:backgroundTint="#272794"
-                    android:textSize="14sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo2"
+                    android:text="Spojnice"
+                    android:textColor="@color/text"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/btnL2"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginBottom="6dp"
-                    android:backgroundTint="#272794"
-                    android:textSize="14sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="Dodirni izvođača pa pesmu — par se oboji"
+                    android:textColor="@color/muted"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-                <Button
-                    android:id="@+id/btnL3"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginBottom="6dp"
-                    android:backgroundTint="#272794"
-                    android:textSize="14sp" />
+            <com.example.slagalica.ui.widget.GameTimerView
+                android:id="@+id/tvTimer"
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:text="0:30"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-                <Button
-                    android:id="@+id/btnL4"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginBottom="6dp"
-                    android:backgroundTint="#272794"
-                    android:textSize="14sp" />
+        <!-- Turn indicator: whose move it is right now -->
+        <TextView
+            android:id="@+id/tvTurnIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_chip"
+            android:fontFamily="@font/baloo2"
+            android:gravity="center"
+            android:paddingTop="9dp"
+            android:paddingBottom="9dp"
+            android:text="Ti si na potezu"
+            android:textColor="@color/text"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/btnL5"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:backgroundTint="#272794"
-                    android:textSize="14sp" />
+        <!-- Two columns of pairable tiles (.spoj) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:orientation="vertical">
+
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnL1" style="@style/SpojItem" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnL2" style="@style/SpojItem" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnL3" style="@style/SpojItem" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnL4" style="@style/SpojItem" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnL5" style="@style/SpojItem" android:layout_marginBottom="0dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_marginStart="6dp">
+                android:layout_marginStart="6dp"
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/btnR1"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginBottom="6dp"
-                    android:backgroundTint="#272794"
-                    android:textSize="14sp" />
-
-                <Button
-                    android:id="@+id/btnR2"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginBottom="6dp"
-                    android:backgroundTint="#272794"
-                    android:textSize="14sp" />
-
-                <Button
-                    android:id="@+id/btnR3"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginBottom="6dp"
-                    android:backgroundTint="#272794"
-                    android:textSize="14sp" />
-
-                <Button
-                    android:id="@+id/btnR4"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginBottom="6dp"
-                    android:backgroundTint="#272794"
-                    android:textSize="14sp" />
-
-                <Button
-                    android:id="@+id/btnR5"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:backgroundTint="#272794"
-                    android:textSize="14sp" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnR1" style="@style/SpojItem" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnR2" style="@style/SpojItem" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnR3" style="@style/SpojItem" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnR4" style="@style/SpojItem" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnR5" style="@style/SpojItem" android:layout_marginBottom="0dp" />
             </LinearLayout>
+        </LinearLayout>
+
+        <!-- Legend (.spoj-legend) -->
+        <TextView
+            android:id="@+id/tvLegend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:fontFamily="@font/nunito"
+            android:gravity="center"
+            android:text="Isti broj i boja = tačan par"
+            android:textColor="@color/muted"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Bottom strip: progress + round points (.gstrip) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvConnected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_chip"
+                android:fontFamily="@font/baloo2"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:text="⚡ Povezano 0 / 5"
+                android:textColor="@color/text"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvRoundPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_chip"
+                android:fontFamily="@font/baloo2"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:text="+0 bodova"
+                android:textColor="@color/star"
+                android:textSize="12sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>
