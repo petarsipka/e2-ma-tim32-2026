@@ -11,6 +11,17 @@ public class UserStats {
     private int wins;
     private int losses;
 
+    public UserStats() {
+        this.statKZZ = "—";
+        this.statMB = "—";
+        this.statKPK = "—";
+        this.statAsoc = "—";
+        this.statSkocko = "—";
+        this.statSpojnice = "—";
+        this.totalGames = 0;
+        this.wins = 0;
+        this.losses = 0;
+    }
     public UserStats(String statKZZ, String statMB, String statKPK, String statAsoc,
                      String statSkocko, String statSpojnice, int totalGames, int wins, int losses) {
         this.statKZZ = statKZZ;

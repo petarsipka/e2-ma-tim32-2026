@@ -43,6 +43,21 @@ public class UserRepository {
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
+    public void getUserByUid(String uid, UserFetchCallback callback) {
+        db.collection("users").document(uid).get()
+                .addOnSuccessListener(doc -> {
+                    if (doc.exists()) {
+                        User user = doc.toObject(User.class);
+                        callback.onSuccess(user);
+                    } else {
+                        callback.onError("User not found");
+                    }
+                })
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+
+
     public interface UserCallback {
         void onSuccess();
         void onError(String error);
@@ -51,6 +66,10 @@ public class UserRepository {
     public interface UsernameCallback {
         void onFound(String email);
         void onNotFound();
+        void onError(String error);
+    }
+    public interface UserFetchCallback {
+        void onSuccess(User user);
         void onError(String error);
     }
 }

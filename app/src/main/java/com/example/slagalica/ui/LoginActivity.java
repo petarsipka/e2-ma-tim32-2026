@@ -6,12 +6,8 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import com.example.slagalica.R;
 
 import com.example.slagalica.data.AuthRepository;
@@ -26,9 +22,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-
+        userRepo = new UserRepository();
+        authRepo = new AuthRepository();
         // Check if already logged in
         if (authRepo.getCurrentUser() != null && authRepo.getCurrentUser().isEmailVerified()) {
             goToMain();

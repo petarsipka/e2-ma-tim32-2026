@@ -55,6 +55,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvGreetingName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/baloo2"
@@ -101,6 +102,7 @@
                     android:paddingBottom="10dp">
 
                     <TextView
+                        android:id="@+id/tvTokens"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/baloo2"
@@ -133,6 +135,7 @@
                     android:paddingBottom="10dp">
 
                     <TextView
+                        android:id="@+id/tvStars"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/baloo2"
@@ -164,6 +167,7 @@
                     android:paddingBottom="10dp">
 
                     <TextView
+                        android:id="@+id/tvLeague"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/baloo2"
