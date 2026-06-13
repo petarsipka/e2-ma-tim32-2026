@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Match result (Sunny pop .res). Hero verdict + per-game breakdown + Početna. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_gradient">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:paddingTop="40dp"
+            android:paddingBottom="18dp">
+
+            <!-- Hero verdict -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_hero"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="24dp"
+                android:paddingBottom="26dp">
+
+                <TextView
+                    android:id="@+id/tvVerdictLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito"
+                    android:letterSpacing="0.3"
+                    android:text="POBEDA"
+                    android:textColor="@color/on_accent_muted"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvVerdictTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/baloo2"
+                    android:text="Bravo!"
+                    android:textColor="@color/on_accent"
+                    android:textSize="34sp"
+                    android:textStyle="bold" />
+
+                <!-- Players row: avatar : avatar -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:layout_width="64dp"
+                            android:layout_height="64dp">
+
+                            <TextView
+                                android:id="@+id/tvMeAv"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:background="@drawable/bg_result_av"
+                                android:fontFamily="@font/baloo2"
+                                android:gravity="center"
+                                android:text="D"
+                                android:textColor="@color/on_accent"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:id="@+id/ivMeAv"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:contentDescription="@string/avatar_desc"
+                                android:scaleType="centerCrop"
+                                android:visibility="gone" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/tvMeName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="@font/nunito"
+                            android:text="Domaćin"
+                            android:textColor="@color/on_accent"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="22dp"
+                        android:fontFamily="@font/baloo2"
+                        android:text=":"
+                        android:textColor="@color/on_accent_muted"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:layout_width="64dp"
+                            android:layout_height="64dp">
+
+                            <TextView
+                                android:id="@+id/tvOppAv"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:background="@drawable/bg_result_av"
+                                android:fontFamily="@font/baloo2"
+                                android:gravity="center"
+                                android:text="G"
+                                android:textColor="@color/on_accent"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:id="@+id/ivOppAv"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:contentDescription="@string/avatar_desc"
+                                android:scaleType="centerCrop"
+                                android:visibility="gone" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/tvOppName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="@font/nunito"
+                            android:text="Gost"
+                            android:textColor="@color/on_accent"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Totals -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvMeTotal"
+                        android:layout_width="64dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/baloo2"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/on_accent"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="40dp"
+                        android:layout_height="1dp" />
+
+                    <TextView
+                        android:id="@+id/tvOppTotal"
+                        android:layout_width="64dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/baloo2"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/on_accent"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Per-game breakdown -->
+            <LinearLayout
+                android:id="@+id/resultRows"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Početna (full width) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="18dp">
+
+        <Button
+            android:id="@+id/btnHome"
+            style="@style/Widget.Slagalica.Button"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:backgroundTint="@color/panel"
+            android:text="🏠  Početna"
+            android:textColor="@color/text"
+            android:textSize="17sp" />
+    </LinearLayout>
+</LinearLayout>
