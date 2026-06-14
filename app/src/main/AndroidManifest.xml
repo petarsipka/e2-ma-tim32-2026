@@ -37,7 +37,7 @@
             android:name=".ui.SkockoActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.MojBrojActivity"
+            android:name=".ui.mojbroj.MojBrojActivity"
             android:exported="false" />
         <activity
             android:name=".ui.LoginActivity"
