@@ -68,4 +68,7 @@
     <!-- Soft tints for icon chips (m-ic-bg etc.) -->
     <color name="teal_soft">#2413B6A6</color>
     <color name="divider">#F1E4D6</color>
+    <color name="feedback_exact">#E53935</color>
+    <color name="feedback_partial">#FDD835</color>
+    <color name="feedback_none">#757575</color>
 </resources>
