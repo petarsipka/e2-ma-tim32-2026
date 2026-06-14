@@ -11,6 +11,7 @@ import com.example.slagalica.ui.asocijacije.AsocijacijeActivity;
 import com.example.slagalica.ui.koznazna.KoZnaZnaActivity;
 import com.example.slagalica.ui.kpk.KPKActivity;
 import com.example.slagalica.ui.mojbroj.MojBrojActivity;
+import com.example.slagalica.ui.skocko.SkockoActivity;
 import com.example.slagalica.ui.spojnice.SpojniceActivity;
 
 public class MainActivity extends BaseActivity {
