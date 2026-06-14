@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.example.slagalica.R;
 import com.example.slagalica.ui.asocijacije.AsocijacijeActivity;
 import com.example.slagalica.ui.koznazna.KoZnaZnaActivity;
+import com.example.slagalica.ui.kpk.KPKActivity;
 import com.example.slagalica.ui.spojnice.SpojniceActivity;
 
 public class MainActivity extends BaseActivity {

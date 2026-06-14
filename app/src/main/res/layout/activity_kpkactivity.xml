@@ -78,7 +78,22 @@
                 <TextView android:id="@+id/kbkHint7" style="@style/StepCard" android:text="Hint 7" android:layout_marginBottom="0dp" />
             </LinearLayout>
         </ScrollView>
-
+        <!-- Answer reveal (overlaps input area) -->
+        <TextView
+            android:id="@+id/kbkAnswerReveal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_answer_reveal"
+            android:fontFamily="@font/baloo2"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text=""
+            android:textColor="@color/on_accent"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
         <!-- Bottom row: points + input + send -->
         <LinearLayout
             android:layout_width="match_parent"

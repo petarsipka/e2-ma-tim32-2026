@@ -46,7 +46,7 @@
             android:name=".ui.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.KPKActivity"
+            android:name=".ui.kpk.KPKActivity"
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"
