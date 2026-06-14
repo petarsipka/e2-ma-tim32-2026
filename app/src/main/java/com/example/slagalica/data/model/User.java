@@ -2,7 +2,7 @@ package com.example.slagalica.data.model;
 
 
 public class User {
-    public enum League {Rookie, Beginner, SemiPro, Pro, SuperStar, HallOfFame}
+    public enum League {Bronzana, Srebrna, Zlatna, Platinasta, Dijamantska, Legendarna}
     private String username;
     private String email;
     private int tokens;
@@ -20,7 +20,7 @@ public class User {
         this.region = region;
         this.stars = 0;
         this.tokens = 5;
-        this.league = League.Beginner;
+        this.league = League.Bronzana;
         this.totalGames = 0;
         this.wins = 0;
         this.avatar = "";

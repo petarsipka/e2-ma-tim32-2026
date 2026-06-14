@@ -3,15 +3,17 @@ package com.example.slagalica.ui.profile;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.slagalica.data.UserRepository;
 import com.example.slagalica.data.UserTemporaryDB;
 import com.example.slagalica.data.model.User;
 import com.example.slagalica.data.model.UserStats;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileViewModel extends ViewModel {
 
     private final MutableLiveData<User> userData = new MutableLiveData<>();
     private final MutableLiveData<UserStats> userStats = new MutableLiveData<>();
-    private final UserTemporaryDB repository = new UserTemporaryDB();
+    private final UserRepository repository = new UserRepository();
 
     public MutableLiveData<User> getUserData() {
         return userData;
@@ -22,7 +24,27 @@ public class ProfileViewModel extends ViewModel {
     }
 
     public void loadUser() {
-        userData.setValue(repository.getCurrentUser());
-        userStats.setValue(repository.getUserStats());
+        String uid = FirebaseAuth.getInstance().getCurrentUser() != null
+                ? FirebaseAuth.getInstance().getCurrentUser().getUid()
+                : null;
+
+        if (uid == null) {
+            userData.postValue(null);
+            return;
+        }
+
+        repository.getUserByUid(uid, new UserRepository.UserFetchCallback() {
+            @Override
+            public void onSuccess(User user) {
+                userData.postValue(user);
+            }
+            @Override
+            public void onError(String error) {
+                userData.postValue(null);
+            }
+        });
+
+        // Stats placeholder for now (demo data until match stats are wired to the DB).
+        userStats.postValue(new UserTemporaryDB().getUserStats());
     }
 }
