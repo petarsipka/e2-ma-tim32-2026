@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Spojnice — Sunny pop in-game (pairs colored, no lines). -->
+<!-- Spojnice — Sunny pop in-game (design: .gscr). Tap a term then its pair;
+     matched pairs colour themselves (no lines). -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,43 +16,41 @@
         android:orientation="vertical"
         android:paddingStart="18dp"
         android:paddingEnd="18dp"
-        android:paddingTop="4dp"
+        android:paddingTop="2dp"
         android:paddingBottom="18dp">
 
-        <!-- Strip -->
+        <!-- Title row: game name + rule subtitle, timer ring (.gtitle-row) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:layout_marginBottom="10dp">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvRound"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_chip"
-                android:fontFamily="@font/baloo2"
-                android:paddingStart="11dp"
-                android:paddingEnd="11dp"
-                android:paddingTop="6dp"
-                android:paddingBottom="6dp"
-                android:text="Runda 1 / 2"
-                android:textColor="@color/text"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvScore"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/baloo2"
-                android:gravity="center"
-                android:text="Bodovi: 0"
-                android:textColor="@color/accent"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo2"
+                    android:text="Spojnice"
+                    android:textColor="@color/text"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:fontFamily="@font/nunito"
+                    android:text="Dodirni izvođača pa pesmu — par se oboji"
+                    android:textColor="@color/muted"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <com.example.slagalica.ui.widget.GameTimerView
                 android:id="@+id/tvTimer"
@@ -62,24 +61,27 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Criterion -->
+        <!-- Turn indicator: whose move it is right now -->
         <TextView
-            android:id="@+id/tvCriterion"
+            android:id="@+id/tvTurnIndicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_card"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_chip"
             android:fontFamily="@font/baloo2"
             android:gravity="center"
-            android:padding="14dp"
+            android:paddingTop="9dp"
+            android:paddingBottom="9dp"
+            android:text="Ti si na potezu"
             android:textColor="@color/text"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="14dp" />
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-        <!-- Two columns -->
+        <!-- Two columns of pairable tiles (.spoj) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -89,11 +91,11 @@
                 android:layout_marginEnd="6dp"
                 android:orientation="vertical">
 
-                <Button android:id="@+id/btnL1" style="@style/SpojButton" />
-                <Button android:id="@+id/btnL2" style="@style/SpojButton" />
-                <Button android:id="@+id/btnL3" style="@style/SpojButton" />
-                <Button android:id="@+id/btnL4" style="@style/SpojButton" />
-                <Button android:id="@+id/btnL5" style="@style/SpojButton" android:layout_marginBottom="0dp" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnL1" style="@style/SpojItem" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnL2" style="@style/SpojItem" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnL3" style="@style/SpojItem" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnL4" style="@style/SpojItem" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnL5" style="@style/SpojItem" android:layout_marginBottom="0dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -103,24 +105,74 @@
                 android:layout_marginStart="6dp"
                 android:orientation="vertical">
 
-                <Button android:id="@+id/btnR1" style="@style/SpojButton" />
-                <Button android:id="@+id/btnR2" style="@style/SpojButton" />
-                <Button android:id="@+id/btnR3" style="@style/SpojButton" />
-                <Button android:id="@+id/btnR4" style="@style/SpojButton" />
-                <Button android:id="@+id/btnR5" style="@style/SpojButton" android:layout_marginBottom="0dp" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnR1" style="@style/SpojItem" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnR2" style="@style/SpojItem" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnR3" style="@style/SpojItem" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnR4" style="@style/SpojItem" />
+                <com.example.slagalica.ui.widget.SpojItemView android:id="@+id/btnR5" style="@style/SpojItem" android:layout_marginBottom="0dp" />
             </LinearLayout>
         </LinearLayout>
 
+        <!-- Legend (.spoj-legend) -->
         <TextView
+            android:id="@+id/tvLegend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="14dp"
             android:fontFamily="@font/nunito"
             android:gravity="center"
-            android:text="Dodirni pojam levo pa njegov par desno"
+            android:text="Isti broj i boja = tačan par"
             android:textColor="@color/muted"
             android:textSize="11sp"
             android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Bottom strip: progress + round points (.gstrip) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvConnected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_chip"
+                android:fontFamily="@font/baloo2"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:text="⚡ Povezano 0 / 5"
+                android:textColor="@color/text"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvRoundPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_chip"
+                android:fontFamily="@font/baloo2"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:text="+0 bodova"
+                android:textColor="@color/star"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>

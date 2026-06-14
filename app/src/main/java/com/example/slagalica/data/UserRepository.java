@@ -3,6 +3,11 @@ package com.example.slagalica.data;
 import com.example.slagalica.data.model.User;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * Firestore-backed access to the {@code users} collection: create a user document
+ * and look users up by username (used by registration / login). Demo profile data
+ * for the UI lives separately in {@link UserTemporaryDB} until this is fully wired.
+ */
 public class UserRepository {
     private final FirebaseFirestore db;
 

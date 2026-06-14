@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Profil + statistika — Sunny pop. -->
+<!-- Profil + statistika — Sunny pop (design: ProfileScreen). Bottom nav added later. -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_gradient"
@@ -15,20 +16,57 @@
         android:paddingTop="16dp"
         android:paddingBottom="24dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="14dp"
-            android:fontFamily="@font/baloo2"
-            android:text="Profil"
-            android:textColor="@color/text"
-            android:textSize="21sp"
-            android:textStyle="bold" />
-
-        <!-- Profile card -->
+        <!-- Header (.scr-head) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_icon_btn"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/baloo2"
+                android:gravity="center"
+                android:text="‹"
+                android:textColor="@color/text"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/baloo2"
+                android:text="Profil"
+                android:textColor="@color/text"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btnSettings"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_icon_btn"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="⚙"
+                android:textColor="@color/text"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <!-- Profile card (.prof-card) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
             android:background="@drawable/bg_card_lg"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -38,32 +76,41 @@
                 android:layout_width="78dp"
                 android:layout_height="78dp">
 
-                <ImageView
-                    android:id="@+id/ivAvatar"
+                <TextView
+                    android:id="@+id/tvAvatar"
                     android:layout_width="78dp"
                     android:layout_height="78dp"
                     android:background="@drawable/avatar_frame"
-                    android:padding="5dp"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/ic_launcher_round" />
+                    android:fontFamily="@font/baloo2"
+                    android:gravity="center"
+                    android:text="MN"
+                    android:textColor="@color/white"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
 
-                <Button
+                <!-- Shown instead of the initials once a photo avatar is set; inset
+                     so the gold ring on tvAvatar stays visible around it. -->
+                <ImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/avatar_desc"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+
+                <TextView
                     android:id="@+id/btnChangeAvatar"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_gravity="bottom|end"
-                    android:insetLeft="0dp"
-                    android:insetTop="0dp"
-                    android:insetRight="0dp"
-                    android:insetBottom="0dp"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:padding="0dp"
-                    android:text="✎"
-                    android:textColor="@color/on_accent"
-                    android:textSize="13sp"
-                    app:cornerRadius="15dp"
-                    xmlns:app="http://schemas.android.com/apk/res-auto" />
+                    android:background="@drawable/bg_avatar_cam"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="📷"
+                    android:textSize="11sp" />
             </FrameLayout>
 
             <LinearLayout
@@ -87,6 +134,7 @@
                     android:id="@+id/tvEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
                     android:fontFamily="@font/nunito"
                     android:text="email@primer.rs"
                     android:textColor="@color/muted"
@@ -110,272 +158,158 @@
                         android:paddingEnd="9dp"
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp"
-                        android:text="🏆 Zlatna"
+                        android:text="🏆 Liga"
                         android:textColor="@color/league_text"
                         android:textSize="11sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tvRegion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_tag_region"
-                        android:fontFamily="@font/nunito"
-                        android:paddingStart="9dp"
-                        android:paddingEnd="9dp"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:text="📍 Beograd"
-                        android:textColor="@color/accent2"
-                        android:textSize="11sp"
-                        android:textStyle="bold" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvRegion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_tag_region"
+                    android:fontFamily="@font/nunito"
+                    android:paddingStart="9dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="9dp"
+                    android:paddingBottom="4dp"
+                    android:text="📍 Region"
+                    android:textColor="@color/accent2"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ivQrCode"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/bg_qr_btn"
+                android:clickable="true"
+                android:contentDescription="QR kod"
+                android:focusable="true"
+                android:padding="7dp"
+                android:scaleType="fitCenter" />
         </LinearLayout>
 
-        <!-- Currency pills -->
+        <!-- Currency pills (.curr) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="6dp"
-                android:background="@drawable/bg_card"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp">
-
-                <TextView
-                    android:id="@+id/tvTokens"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/baloo2"
-                    android:text="150"
-                    android:textColor="@color/token"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito"
-                    android:letterSpacing="0.04"
-                    android:text="TOKENI"
-                    android:textColor="@color/muted"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
+            <LinearLayout style="@style/ProfilePill" android:layout_marginEnd="9dp">
+                <TextView style="@style/ProfilePillIcon" android:background="@drawable/bg_pic_tok" android:text="🪙" />
+                <LinearLayout style="@style/ProfilePillCol">
+                    <TextView android:id="@+id/tvTokens" style="@style/ProfilePillNum" android:text="0" />
+                    <TextView style="@style/ProfilePillLab" android:text="TOKENI" />
+                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="6dp"
-                android:background="@drawable/bg_card"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp">
+            <LinearLayout style="@style/ProfilePill" android:layout_marginStart="4.5dp" android:layout_marginEnd="4.5dp">
+                <TextView style="@style/ProfilePillIcon" android:background="@drawable/bg_pic_star" android:text="⭐" />
+                <LinearLayout style="@style/ProfilePillCol">
+                    <TextView android:id="@+id/tvStars" style="@style/ProfilePillNum" android:text="0" />
+                    <TextView style="@style/ProfilePillLab" android:text="ZVEZDE" />
+                </LinearLayout>
+            </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tvStars"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/baloo2"
-                    android:text="45"
-                    android:textColor="@color/star"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito"
-                    android:letterSpacing="0.04"
-                    android:text="ZVEZDE"
-                    android:textColor="@color/muted"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
+            <LinearLayout style="@style/ProfilePill" android:layout_marginStart="9dp">
+                <TextView style="@style/ProfilePillIcon" android:background="@drawable/bg_pic_partije" android:text="🏆" />
+                <LinearLayout style="@style/ProfilePillCol">
+                    <TextView android:id="@+id/tvPartije" style="@style/ProfilePillNum" android:text="0" />
+                    <TextView style="@style/ProfilePillLab" android:text="PARTIJE" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
-        <!-- QR card -->
+        <!-- Stats card (.stats-card) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
-            android:background="@drawable/bg_card"
-            android:gravity="center"
+            android:background="@drawable/bg_card_lg"
             android:orientation="vertical"
             android:padding="16dp">
 
+            <!-- Win-rate top (.stat-top) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.example.slagalica.ui.widget.StatRingView
+                    android:id="@+id/ringWin"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/baloo2"
+                        android:text="Pobede"
+                        android:textColor="@color/text"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvWinLoss"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/nunito"
+                        android:text="0 pobeda · 0 poraza"
+                        android:textColor="@color/muted"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Section header (.stat-sec-h) -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/baloo2"
-                android:text="QR kod za poziv prijatelja"
-                android:textColor="@color/text"
-                android:textSize="14sp"
+                android:layout_marginTop="14dp"
+                android:fontFamily="@font/nunito"
+                android:letterSpacing="0.1"
+                android:text="PROSEČNO BODOVA PO IGRI"
+                android:textColor="@color/muted"
+                android:textSize="10sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/ivQrCode"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:background="@drawable/bg_field"
-                android:padding="10dp"
-                android:scaleType="centerInside" />
-        </LinearLayout>
-
-        <!-- Statistics -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="@font/baloo2"
-            android:text="Statistika"
-            android:textColor="@color/text"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <!-- Overall games card -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_card_lg"
-            android:orientation="horizontal"
-            android:padding="16dp">
-
+            <!-- Per-game rows added at runtime (.stat-row) -->
             <LinearLayout
-                android:layout_width="0dp"
+                android:id="@+id/statRows"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvStatPartije"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/baloo2"
-                    android:text="0"
-                    android:textColor="@color/accent"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito"
-                    android:text="Odigrane partije"
-                    android:textColor="@color/muted"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:background="@color/divider" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvStatWinLoss"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/baloo2"
-                    android:gravity="center"
-                    android:text="—"
-                    android:textColor="@color/text"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito"
-                    android:text="Pobede / Porazi"
-                    android:textColor="@color/muted"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                android:layout_marginTop="6dp"
+                android:orientation="vertical" />
         </LinearLayout>
 
-        <!-- Per-game stats card -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
-            android:background="@drawable/bg_card_lg"
-            android:orientation="vertical"
-            android:padding="6dp">
-
-            <LinearLayout style="@style/ProfileStatRow">
-                <TextView style="@style/ProfileStatTitle" android:text="Ko zna zna" />
-                <TextView android:id="@+id/tvStatKZZ" style="@style/ProfileStatValue" />
-            </LinearLayout>
-            <View style="@style/ProfileStatDivider" />
-
-            <LinearLayout style="@style/ProfileStatRow">
-                <TextView style="@style/ProfileStatTitle" android:text="Moj broj" />
-                <TextView android:id="@+id/tvStatMB" style="@style/ProfileStatValue" />
-            </LinearLayout>
-            <View style="@style/ProfileStatDivider" />
-
-            <LinearLayout style="@style/ProfileStatRow">
-                <TextView style="@style/ProfileStatTitle" android:text="Korak po korak" />
-                <TextView android:id="@+id/tvStatKPK" style="@style/ProfileStatValue" />
-            </LinearLayout>
-            <View style="@style/ProfileStatDivider" />
-
-            <LinearLayout style="@style/ProfileStatRow">
-                <TextView style="@style/ProfileStatTitle" android:text="Asocijacije" />
-                <TextView android:id="@+id/tvStatAsoc" style="@style/ProfileStatValue" />
-            </LinearLayout>
-            <View style="@style/ProfileStatDivider" />
-
-            <LinearLayout style="@style/ProfileStatRow">
-                <TextView style="@style/ProfileStatTitle" android:text="Skočko" />
-                <TextView android:id="@+id/tvStatSkocko" style="@style/ProfileStatValue" />
-            </LinearLayout>
-            <View style="@style/ProfileStatDivider" />
-
-            <LinearLayout style="@style/ProfileStatRow">
-                <TextView style="@style/ProfileStatTitle" android:text="Spojnice" />
-                <TextView android:id="@+id/tvStatSpojnice" style="@style/ProfileStatValue" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Logout -->
+        <!-- Logout (.logout) -->
         <Button
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="52dp"
             android:layout_marginTop="18dp"
             android:backgroundTint="@color/wrong_bg"
             android:fontFamily="@font/baloo2"
-            android:text="Odjavi se"
+            android:text="↪  Odjavi se"
             android:textColor="@color/wrong"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:cornerRadius="20dp"
-            xmlns:app="http://schemas.android.com/apk/res-auto" />
+            app:cornerRadius="@dimen/radius" />
 
     </LinearLayout>
 </ScrollView>

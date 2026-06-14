@@ -1,7 +1,11 @@
 package com.example.slagalica.data;
 
+import com.example.slagalica.data.model.GameStat;
 import com.example.slagalica.data.model.User;
 import com.example.slagalica.data.model.UserStats;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class UserTemporaryDB {
 
@@ -17,16 +21,14 @@ public class UserTemporaryDB {
     }
 
     public UserStats getUserStats() {
-        return new UserStats(
-            "3/5 tačnih odgovora  ·  60% uspešnosti\nProsek: 20 bodova po partiji",
-            "70% tačnih pogodaka\nProsek: 8 bodova po partiji",
-            "1. korak: 80%\n2. korak: 60%\n3. korak: 35%\nProsek: 11 bodova po partiji",
-            "4/5 rešenih asocijacija  ·  80% uspešnosti\nProsek: 23 bodova po partiji",
-            "65% kombinacija pogođeno\nProsek: 7 bodova po partiji",
-            "85% pojmova uspešno povezano\nProsek: 9 bodova po partiji",
-            42,
-            25,
-            17
+        List<GameStat> games = Arrays.asList(
+            new GameStat("Ko zna zna", "30–42", 78, 0),
+            new GameStat("Spojnice", "12–18", 64, 1),
+            new GameStat("Asocijacije", "18–30", 71, 3),
+            new GameStat("Skočko", "20–35", 82, 2),
+            new GameStat("Korak po korak", "10–22", 55, 0),
+            new GameStat("Moj broj", "0–10", 40, 1)
         );
+        return new UserStats(25, 17, games);
     }
 }

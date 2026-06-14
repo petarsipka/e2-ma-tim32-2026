@@ -31,12 +31,13 @@
                 android:layout_marginTop="40dp">
 
                 <ImageView
+                    android:id="@+id/ivHomeAvatar"
                     android:layout_width="54dp"
                     android:layout_height="54dp"
                     android:background="@drawable/avatar_frame"
-                    android:padding="4dp"
+                    android:contentDescription="@string/avatar_desc"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/ic_launcher_round" />
+                    android:src="@drawable/ic_avatar_placeholder" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -202,7 +203,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito"
                     android:letterSpacing="0.2"
-                    android:text="DNEVNI DUEL"
+                    android:text="DUEL"
                     android:textColor="@color/on_accent_muted"
                     android:textSize="11sp"
                     android:textStyle="bold" />
@@ -234,67 +235,67 @@
                     android:layout_height="52dp"
                     android:layout_marginTop="16dp"
                     android:backgroundTint="@color/panel"
-                    android:text="Skeniraj QR kod protivnika"
+                    android:text="Započni partiju"
                     android:textColor="@color/accent"
                     android:textSize="17sp" />
             </LinearLayout>
 
             <!-- Daily mission -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:background="@drawable/bg_card"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="13dp"
-                android:paddingEnd="13dp"
-                android:paddingTop="11dp"
-                android:paddingBottom="11dp">
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="13dp"-->
+<!--                android:background="@drawable/bg_card"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:paddingStart="13dp"-->
+<!--                android:paddingEnd="13dp"-->
+<!--                android:paddingTop="11dp"-->
+<!--                android:paddingBottom="11dp">-->
 
-                <TextView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:background="@drawable/bg_tile_g1"
-                    android:gravity="center"
-                    android:text="🎯"
-                    android:textSize="16sp" />
+<!--                <TextView-->
+<!--                    android:layout_width="36dp"-->
+<!--                    android:layout_height="36dp"-->
+<!--                    android:background="@drawable/bg_tile_g1"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="🎯"-->
+<!--                    android:textSize="16sp" />-->
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="12dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:orientation="vertical">-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/baloo2"
-                        android:text="Dnevne misije"
-                        android:textColor="@color/text"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:fontFamily="@font/baloo2"-->
+<!--                        android:text="Dnevne misije"-->
+<!--                        android:textColor="@color/text"-->
+<!--                        android:textSize="14sp"-->
+<!--                        android:textStyle="bold" />-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito"
-                        android:text="2 / 3 završeno"
-                        android:textColor="@color/muted"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:fontFamily="@font/nunito"-->
+<!--                        android:text="2 / 3 završeno"-->
+<!--                        android:textColor="@color/muted"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textStyle="bold" />-->
+<!--                </LinearLayout>-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/baloo2"
-                    android:text="+5 ⭐"
-                    android:textColor="@color/star"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:fontFamily="@font/baloo2"-->
+<!--                    android:text="+5 ⭐"-->
+<!--                    android:textColor="@color/star"-->
+<!--                    android:textSize="13sp"-->
+<!--                    android:textStyle="bold" />-->
+<!--            </LinearLayout>-->
 
             <!-- Games section -->
             <TextView

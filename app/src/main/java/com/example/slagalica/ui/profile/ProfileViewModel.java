@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.slagalica.data.UserRepository;
+import com.example.slagalica.data.UserTemporaryDB;
 import com.example.slagalica.data.model.User;
 import com.example.slagalica.data.model.UserStats;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,7 +44,7 @@ public class ProfileViewModel extends ViewModel {
             }
         });
 
-        // Stats placeholder for now
-        userStats.postValue(new UserStats());
+        // Stats placeholder for now (demo data until match stats are wired to the DB).
+        userStats.postValue(new UserTemporaryDB().getUserStats());
     }
 }
