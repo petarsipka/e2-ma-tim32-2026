@@ -1,5 +1,6 @@
 package com.example.slagalica.ui.mojbroj;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,15 +8,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.slagalica.R;
+import com.example.slagalica.ui.BaseActivity;
+import com.example.slagalica.ui.ResultActivity;
+import com.example.slagalica.ui.lobby.LobbyActivity;
 import com.example.slagalica.ui.widget.GameTimerView;
 
-import java.util.List;
+public class MojBrojActivity extends BaseActivity {
 
-public class MojBrojActivity extends AppCompatActivity {
+    public static final String EXTRA_MATCH_CODE = "match_code";
 
     private GameTimerView timer;
     private TextView mbWantedNum, mbPlayer1Answer, mbPlayer2Answer, mbInsertAnswer;
@@ -23,15 +26,24 @@ public class MojBrojActivity extends AppCompatActivity {
     private TextView mbLParen, mbRParen, mbPlus, mbMinus, mbMultiply, mbDivide;
     private Button mbSendButton;
     private LinearLayout mbAnswerRevealBox;
-    private TextView mbRoundNum, mbAnswerRevealTarget, mbAnswerRevealSolution, mbAnswerRevealP1, mbAnswerRevealP2;
+    private TextView mbAnswerRevealTarget, mbAnswerRevealSolution, mbAnswerRevealP1, mbAnswerRevealP2;
     private TextView mbBackspace;
+    private TextView mbRoundNum;
 
     private MojBrojViewModel viewModel;
+    private String matchCode;
+    private boolean isHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moj_broj);
+
+        matchCode = getIntent().getStringExtra(EXTRA_MATCH_CODE);
+        isHost = getIntent().getBooleanExtra(LobbyActivity.EXTRA_IS_HOST, false);
+
+        setupStatsBar();
+        setOpponent("Protivnik");
 
         viewModel = new ViewModelProvider(this).get(MojBrojViewModel.class);
 
@@ -39,19 +51,7 @@ public class MojBrojActivity extends AppCompatActivity {
         setupClickListeners();
         observeViewModel();
 
-        new AlertDialog.Builder(this)
-                .setTitle("Debug: Test mode")
-                .setMessage("Which player are you testing as?")
-                .setCancelable(false)
-                .setPositiveButton("Player 1", (d, w) -> {
-                    viewModel.setLocalPlayerRole(1);
-                    viewModel.startGame();
-                })
-                .setNegativeButton("Player 2", (d, w) -> {
-                    viewModel.setLocalPlayerRole(2);
-                    viewModel.startGame();
-                })
-                .show();
+        viewModel.init(matchCode, isHost);
     }
 
     private void initViews() {
@@ -100,23 +100,25 @@ public class MojBrojActivity extends AppCompatActivity {
         mbMultiply.setOnClickListener(v -> viewModel.appendToExpression("*"));
         mbDivide.setOnClickListener(v -> viewModel.appendToExpression("/"));
 
-        mbInsertAnswer.setOnClickListener(v -> viewModel.clearExpression());
         mbSendButton.setOnClickListener(v -> viewModel.submitExpression());
-        // Long press to clear whole expression
         mbBackspace.setOnClickListener(v -> viewModel.backspace());
         mbBackspace.setOnLongClickListener(v -> {
             viewModel.clearExpression();
             return true;
         });
 
-
-// Expression bar does nothing on normal click (no accidental clear)
+        // Prevent accidental clear when tapping the expression bar
         mbInsertAnswer.setOnClickListener(null);
+        for (int i = 0; i < numberTiles.length; i++) {
+            final int idx = i;
+            numberTiles[idx].setOnClickListener(v -> {
+                viewModel.appendNumber(idx); // Use index instead of text
+            });
+        }
     }
 
     private void observeViewModel() {
         viewModel.getTimer().observe(this, seconds -> timer.setText(seconds + "s"));
-
         viewModel.getTargetNumber().observe(this, target -> mbWantedNum.setText(String.valueOf(target)));
 
         viewModel.getAvailableNumbers().observe(this, numbers -> {
@@ -132,10 +134,8 @@ public class MojBrojActivity extends AppCompatActivity {
 
         viewModel.getPlayer1AnswerDisplay().observe(this, mbPlayer1Answer::setText);
         viewModel.getPlayer2AnswerDisplay().observe(this, mbPlayer2Answer::setText);
-
         viewModel.getRoundInfo().observe(this, round -> mbRoundNum.setText(round));
 
-        // NEW: Pretty answer reveal box
         viewModel.getAnswerReveal().observe(this, reveal -> {
             if (reveal == null || reveal.isEmpty()) {
                 mbAnswerRevealBox.setVisibility(View.GONE);
@@ -146,7 +146,6 @@ public class MojBrojActivity extends AppCompatActivity {
                 mbInsertAnswer.setVisibility(View.GONE);
                 mbBackspace.setVisibility(View.GONE);
 
-                // Parse: "Cilj: 143  |  Rešenje: (10+5)*7+9-1\nP1: 143 ✓ (10b)  |  P2: 140 (5b)"
                 String[] lines = reveal.split("\n");
                 if (lines.length >= 1) {
                     String[] targetSol = lines[0].split("  \\|  ");
@@ -177,16 +176,45 @@ public class MojBrojActivity extends AppCompatActivity {
             mbBackspace.setEnabled(enabled);
         });
 
-        viewModel.getGameOver().observe(this, isOver -> {
-            if (isOver) showGameOverDialog();
+        viewModel.getMyTotal().observe(this, total ->
+                updateScore(total, safe(viewModel.getOpponentTotal().getValue())));
+        viewModel.getOpponentTotal().observe(this, oppTotal ->
+                updateScore(safe(viewModel.getMyTotal().getValue()), oppTotal));
+        viewModel.getOpponentName().observe(this, this::setOpponent);
+        viewModel.getOpponentUid().observe(this, this::setOpponentAvatar);
+
+        viewModel.getGameFinished().observe(this, finished -> {
+            if (Boolean.TRUE.equals(finished)) showGameFinished();
         });
+
+        viewModel.getGameOver().observe(this, isOver -> {
+            if (Boolean.TRUE.equals(isOver)) showGameOverDialog();
+        });
+        viewModel.getUsedIndices().observe(this, used -> {
+            for (int i = 0; i < numberTiles.length; i++) {
+                boolean isUsed = used[i];
+                numberTiles[i].setEnabled(!isUsed);
+                numberTiles[i].setAlpha(isUsed ? 0.4f : 1.0f); // Grays it out
+            }
+        });
+    }
+
+    private void showGameFinished() {
+        if (matchCode != null) {
+            findViewById(android.R.id.content).postDelayed(() -> {
+                Intent i = new Intent(this, ResultActivity.class);
+                i.putExtra(ResultActivity.EXTRA_MATCH_CODE, matchCode);
+                startActivity(i);
+                finish();
+            }, 2000);
+        }
     }
 
     private void showGameOverDialog() {
         new AlertDialog.Builder(this)
-                .setTitle("Partija završena!")
-                .setMessage("Igrač 1: " + viewModel.getScorePlayer1() + "\nIgrač 2: " + viewModel.getScorePlayer2())
-                .setPositiveButton("OK", (d, w) -> finish())
+                .setTitle("Moj broj završen!")
+                .setMessage("Prelazim na rezultate…")
+                .setPositiveButton("OK", (d, w) -> d.dismiss())
                 .setCancelable(false)
                 .show();
     }
@@ -196,5 +224,9 @@ public class MojBrojActivity extends AppCompatActivity {
         super.onDestroy();
         viewModel.cleanup();
         if (timer != null) timer.cancel();
+    }
+
+    private static int safe(Integer value) {
+        return value != null ? value : 0;
     }
 }

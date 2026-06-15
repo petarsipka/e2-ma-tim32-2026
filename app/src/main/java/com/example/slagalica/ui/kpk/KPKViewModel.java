@@ -4,8 +4,15 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.slagalica.data.MatchRepository;
+import com.example.slagalica.data.model.Match;
 import com.example.slagalica.data.model.KPKQuestion;
 import com.example.slagalica.util.TextNormalizer;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -15,311 +22,431 @@ import java.util.List;
 
 public class KPKViewModel extends ViewModel {
 
-    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private List<KPKQuestion> questions = new ArrayList<>();
-    private int currentQuestionIndex = 0;
-    private int currentRound = 1;        // 1 or 2
-    private int currentStep = 0;         // 0-6 (which hint is being revealed)
-    private int scorePlayer1 = 0;
-    private int scorePlayer2 = 0;
-    private int currentPlayer = 1;       // Whose turn to play the 70s round
-    private boolean isStealPhase = false;
-    private boolean isFinished = false;
-
-    // For local testing: if true, we simulate both players on one device
-    private boolean localTestMode = true;
-    private int testPlayerRole = 1;      // Which player "we" are in test mode
-
     private final MutableLiveData<String> currentHint = new MutableLiveData<>();
     private final MutableLiveData<Integer> timer = new MutableLiveData<>(70);
     private final MutableLiveData<Integer> currentScore = new MutableLiveData<>(0);
     private final MutableLiveData<String> roundInfo = new MutableLiveData<>();
     private final MutableLiveData<Boolean> gameOver = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> gameFinished = new MutableLiveData<>(false);
     private final MutableLiveData<String> opponentStatus = new MutableLiveData<>();
-    private final MutableLiveData<List<String>> allHints = new MutableLiveData<>(); // For UI to display all at once
+    private final MutableLiveData<List<String>> allHints = new MutableLiveData<>();
     private final MutableLiveData<Integer> revealedHintCount = new MutableLiveData<>(0);
     private final MutableLiveData<String> answerReveal = new MutableLiveData<>("");
-
-    private android.os.CountDownTimer countDownTimer;
-
-    private boolean isPaused = false;
-    private android.os.CountDownTimer pauseTimer;
     private final MutableLiveData<Boolean> inputEnabled = new MutableLiveData<>(true);
 
-    private int localPlayerRole = 1; // 1 or 2
+    private final MutableLiveData<Integer> myTotal = new MutableLiveData<>(0);
+    private final MutableLiveData<Integer> opponentTotal = new MutableLiveData<>(0);
+    private final MutableLiveData<String> opponentName = new MutableLiveData<>();
+    private final MutableLiveData<String> opponentUid = new MutableLiveData<>();
 
-    public void startGame() {
-        isFinished = false;
-        currentRound = 1;
-        currentPlayer = 1;
-        scorePlayer1 = 0;
-        scorePlayer2 = 0;
-        currentScore.setValue(0);
-        gameOver.setValue(false);
-        isStealPhase = false;
+    private MatchRepository matchRepo;
+    private DatabaseReference gameRef;
+    private ValueEventListener gameListener;
+    private String matchCode;
+    private String myUid;
+    private String oppUid;
+    private String hostUid;
+    private boolean isHost;
 
-        // Load questions from Firestore
-        db.collection("korakpokorak")
+    private List<KPKQuestion> questions = new ArrayList<>();
+    private boolean isFinished = false;
+    private android.os.CountDownTimer countDownTimer;
+    private android.os.CountDownTimer pauseTimer;
+    private int lastAppliedRound = -1;
+    private int lastTimerRound = -1;
+    private String lastTimerPhase = "";
+
+    public static class State {
+        public int round = 1;
+        public String phase = "init";
+        public String activeUid = "";
+        public String roundOwnerUid = "";
+        public String answer1 = "";
+        public String answer2 = "";
+        public List<String> hints1 = new ArrayList<>();
+        public List<String> hints2 = new ArrayList<>();
+        public int currentStep = 0;
+        public boolean ownerSolved = false;
+        public boolean ownerDone = false;
+        public boolean stealDone = false;
+        public boolean stealerSolved = false;
+        public int p1Score = 0;
+        public int p2Score = 0;
+
+
+
+        public State() {}
+    }
+
+    public void init(String code, boolean host) {
+        matchCode = code;
+        isHost = host;
+        if (code == null) return;
+
+        matchRepo = new MatchRepository();
+        myUid = matchRepo.currentUid();
+        matchRepo.listen(code, this::onMatchUpdate);
+
+        FirebaseDatabase db = FirebaseDatabase.getInstance(MatchRepository.DB_URL);
+        gameRef = db.getReference("matches").child(code).child("kpk");
+
+        loadQuestions();
+    }
+
+    private void loadQuestions() {
+        FirebaseFirestore.getInstance().collection("korakpokorak")
                 .get()
                 .addOnSuccessListener(query -> {
                     questions.clear();
                     for (QueryDocumentSnapshot doc : query) {
-                        KPKQuestion q = doc.toObject(KPKQuestion.class);
-                        questions.add(q);
+                        questions.add(doc.toObject(KPKQuestion.class));
                     }
                     Collections.shuffle(questions);
-
-                    if (!questions.isEmpty()) {
-                        startRound();
-                    } else {
-                        opponentStatus.setValue("Nema pitanja u bazi!");
-                    }
+                    if (questions.size() < 2) loadFallback();
+                    if (isHost) initializeState();
+                    attachListener();
                 })
                 .addOnFailureListener(e -> {
-                    loadFallbackQuestions();
-                    startRound();
+                    loadFallback();
+                    if (isHost) initializeState();
+                    attachListener();
                 });
     }
 
-    private void loadFallbackQuestions() {
+    private void loadFallback() {
         questions = new ArrayList<>();
-        List<String> hints1 = new ArrayList<>();
-        hints1.add("Životinja");
-        hints1.add("Najveći kopneni sisar");
-        hints1.add("Ima dugačku surlu");
-        hints1.add("Afrika i Azija");
-        hints1.add("Sivi ili afrički");
-        hints1.add("Dumbo");
-        hints1.add("Pamtiti kao ___");
-        questions.add(new KPKQuestion("Slon", hints1));
+        List<String> h1 = new ArrayList<>();
+        h1.add("Životinja"); h1.add("Najveći kopneni sisar"); h1.add("Ima dugačku surlu");
+        h1.add("Afrika i Azija"); h1.add("Sivi ili afrički"); h1.add("Dumbo"); h1.add("Pamtiti kao ___");
+        questions.add(new KPKQuestion("Slon", h1));
 
-        List<String> hints2 = new ArrayList<>();
-        hints2.add("Reka");
-        hints2.add("Protiče kroz Novi Sad");
-        hints2.add("Druga najduža reka u Evropi");
-        hints2.add("Ušće u Crno more");
-        hints2.add("Bečka opera nosi njeno ime");
-        hints2.add("Protiče kroz 10 zemalja");
-        hints2.add("U Beogradu deli ušće sa Savom");
-        questions.add(new KPKQuestion("Dunav", hints2));
+        List<String> h2 = new ArrayList<>();
+        h2.add("Reka"); h2.add("Protiče kroz Novi Sad"); h2.add("Druga najduža reka u Evropi");
+        h2.add("Ušće u Crno more"); h2.add("Bečka opera nosi njeno ime"); h2.add("Protiče kroz 10 zemalja"); h2.add("U Beogradu deli ušće sa Savom");
+        questions.add(new KPKQuestion("Dunav", h2));
     }
 
-    private void startRound() {
-        if (isFinished) return;
-
-        currentStep = 0;
-        isStealPhase = false;
-
-        // Determine which player starts this round
-        currentPlayer = (currentRound == 1) ? 1 : 2;
-
-        answerReveal.setValue(""); // hide answer box when new round starts
-        roundInfo.setValue("Runda " + currentRound + " / 2  •  Igrač " + currentPlayer);
-        opponentStatus.setValue("Vi ste Igrač " + localPlayerRole + "  •  Na potezu: Igrač " + currentPlayer);
-
-        // Reset revealed hints
-        revealedHintCount.setValue(0);
-        allHints.setValue(new ArrayList<>());
-
-        // Reveal first hint immediately
-        revealNextHint();
-        startTimer(70);
+    private void initializeState() {
+        State s = new State();
+        s.round = 1;
+        s.phase = "playing";
+        s.activeUid = myUid;
+        s.roundOwnerUid = myUid;
+        KPKQuestion q1 = questions.get(0);
+        KPKQuestion q2 = questions.get(1);
+        s.answer1 = q1.getAnswer();
+        s.answer2 = q2.getAnswer();
+        s.hints1 = new ArrayList<>(q1.getHints());
+        s.hints2 = new ArrayList<>(q2.getHints());
+        s.currentStep = 1;
+        gameRef.setValue(s);
     }
-    private void showAnswerThenAdvance(String answer) {
-        if (isFinished) return;
-        isPaused = true;
-        if (countDownTimer != null) countDownTimer.cancel();
 
-        // Show the Serbian answer in the status
-        answerReveal.setValue(answer);
-        opponentStatus.setValue(""); // clear the small status text
-        inputEnabled.setValue(false);
-
-        pauseTimer = new android.os.CountDownTimer(10000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {}
-
-            @Override
-            public void onFinish() {
-                if (isFinished) return;
-
-                isPaused = false;
-                inputEnabled.setValue(true);
-
-                if (currentRound < 2) {
-                    currentRound++;
-                    currentQuestionIndex++;
-                    isStealPhase = false;
-                    startRound();
-                } else {
-                    finishGame();
-                }
+    private void attachListener() {
+        gameListener = new ValueEventListener() {
+            @Override public void onDataChange(DataSnapshot snap) {
+                State st = snap.getValue(State.class);
+                if (st != null) applyState(st);
             }
-        }.start();
+            @Override public void onCancelled(DatabaseError error) {}
+        };
+        gameRef.addValueEventListener(gameListener);
     }
-    private void revealNextHint() {
-        if (currentQuestionIndex >= questions.size() || isFinished) return;
 
-        KPKQuestion q = questions.get(currentQuestionIndex);
-        List<String> hints = q.getHints();
-
-        if (currentStep < hints.size()) {
-            currentHint.setValue(hints.get(currentStep));
-            revealedHintCount.setValue(currentStep + 1);
-
-            // Also update all hints list for UI
-            List<String> currentAll = allHints.getValue();
-            if (currentAll == null) currentAll = new ArrayList<>();
-            // Ensure list has enough entries
-            while (currentAll.size() <= currentStep) currentAll.add("");
-            currentAll.set(currentStep, hints.get(currentStep));
-            allHints.setValue(currentAll);
+    private void onMatchUpdate(Match match) {
+        oppUid = match.opponentOf(myUid);
+        hostUid = match.host;
+        opponentUid.postValue(oppUid);
+        myTotal.postValue(match.totalScore(myUid));
+        opponentTotal.postValue(match.totalScore(oppUid));
+        if (oppUid != null && match.players != null && match.players.get(oppUid) != null) {
+            opponentName.postValue(match.players.get(oppUid).name);
         }
-        currentStep++;
     }
 
-    private void startTimer(int seconds) {
-        if (countDownTimer != null) countDownTimer.cancel();
+    private State copy(State s) {
+        State n = new State();
+        n.round = s.round;
+        n.phase = s.phase;
+        n.activeUid = s.activeUid;
+        n.roundOwnerUid = s.roundOwnerUid;
+        n.answer1 = s.answer1;
+        n.answer2 = s.answer2;
+        if (s.hints1 != null) n.hints1 = new ArrayList<>(s.hints1);
+        if (s.hints2 != null) n.hints2 = new ArrayList<>(s.hints2);
+        n.currentStep = s.currentStep;
+        n.ownerSolved = s.ownerSolved;
+        n.ownerDone = s.ownerDone;
+        n.stealDone = s.stealDone;
+        n.stealerSolved = s.stealerSolved;
+        n.p1Score = s.p1Score;
+        n.p2Score = s.p2Score;
+        return n;
+    }
 
+    private void applyState(State s) {
+        if (isFinished) return;
+        if (s.round != lastAppliedRound) {
+            lastAppliedRound = s.round;
+            answerReveal.setValue("");
+        }
+        boolean myTurn = myUid.equals(s.activeUid);
+
+        List<String> hints = new ArrayList<>();
+        List<String> source = s.round == 1 ? s.hints1 : s.hints2;
+        for (int i = 0; i < s.currentStep && i < source.size(); i++) {
+            hints.add(source.get(i));
+        }
+        allHints.setValue(hints);
+        revealedHintCount.setValue(s.currentStep);
+        if (!hints.isEmpty()) currentHint.setValue(hints.get(hints.size() - 1));
+
+        roundInfo.setValue("Runda " + s.round + " / 2");
+        currentScore.setValue(s.p1Score + s.p2Score);
+
+        if ("finished".equals(s.phase)) {
+            lastTimerRound = -1;
+            lastTimerPhase = "";
+            status("Kraj! P1: " + s.p1Score + " | P2: " + s.p2Score);
+            inputEnabled.setValue(false);
+            gameOver.setValue(true);
+            gameFinished.setValue(true);
+            pushFinalScores(s.p1Score, s.p2Score);
+            return;
+        } else if ("reveal".equals(s.phase)) {
+            lastTimerRound = -1;
+            lastTimerPhase = "";
+            String ans = s.round == 1 ? s.answer1 : s.answer2;
+            answerReveal.setValue(ans);
+            status("Tačno: " + ans);
+            inputEnabled.setValue(false);
+            if (isHost && pauseTimer == null) {
+                pauseTimer = new android.os.CountDownTimer(10000, 1000) {
+                    @Override public void onTick(long ms) {}
+                    @Override public void onFinish() {
+                        pauseTimer = null;
+                        advanceFromReveal(s);
+                    }
+                }.start();
+            }
+            return;
+        } if ("playing".equals(s.phase) || "steal".equals(s.phase)) {
+            int secs = "steal".equals(s.phase) ? 10 : 70;
+            if (s.round != lastTimerRound || !s.phase.equals(lastTimerPhase)) {
+                lastTimerRound = s.round;
+                lastTimerPhase = s.phase;
+                startLocalTimer(secs, s);
+            }
+        } else {
+            lastTimerRound = -1;
+            lastTimerPhase = "";
+            cancelLocalTimer();
+        }
+
+        inputEnabled.setValue(myTurn && ("playing".equals(s.phase) || "steal".equals(s.phase)));
+
+        if (myTurn && ("playing".equals(s.phase) || "steal".equals(s.phase))) {
+            int secs = "steal".equals(s.phase) ? 10 : 70;
+            if (s.round != lastTimerRound || !s.phase.equals(lastTimerPhase)) {
+                lastTimerRound = s.round;
+                lastTimerPhase = s.phase;
+                startLocalTimer(secs, s);
+            }
+        } else {
+            lastTimerRound = -1;
+            lastTimerPhase = "";
+            cancelLocalTimer();
+        }
+    }
+
+    private void status(String msg) {
+        opponentStatus.setValue(msg);
+    }
+
+    private void startLocalTimer(int seconds, State stateSnapshot) {
+        cancelLocalTimer();
         timer.setValue(seconds);
         countDownTimer = new android.os.CountDownTimer(seconds * 1000L, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                if (isFinished) {
-                    cancel();
-                    return;
-                }
-                int remaining = (int) (millisUntilFinished / 1000);
-                timer.setValue(remaining);
+            private int lastElapsedRevealed = -1;
 
-                // Reveal hint every 10 seconds (at 60, 50, 40, 30, 20, 10)
-                int elapsed = seconds - remaining;
-                if (elapsed > 0 && elapsed % 10 == 0 && currentStep < 7) {
-                    revealNextHint();
+            @Override public void onTick(long ms) {
+                if (isFinished) { cancel(); return; }
+                int rem = (int) (ms / 1000);
+                timer.setValue(rem);
+                int elapsed = seconds - rem;
+
+                // Trigger reveal every 10s (at 60s, 50s, 40s, 30s, 20s, 10s left)
+                if ("playing".equals(stateSnapshot.phase) && elapsed > 0 && elapsed % 10 == 0 && elapsed != lastElapsedRevealed) {
+                    lastElapsedRevealed = elapsed;
+                    revealHintInState();
                 }
             }
-
-            @Override
-            public void onFinish() {
+            @Override public void onFinish() {
                 if (isFinished) return;
                 timer.setValue(0);
-                onTimeUp();
+                onLocalTimeUp();
             }
         }.start();
+    }
+
+    private void revealHintInState() {
+        gameRef.get().addOnSuccessListener(snap -> {
+            State s = snap.getValue(State.class);
+            if (s == null || isFinished || !"playing".equals(s.phase)) return;
+            if (!myUid.equals(s.activeUid)) return; // Only active player pushes the update
+
+            if (s.currentStep < 7) {
+                State n = copy(s);
+                n.currentStep++;
+                gameRef.setValue(n);
+            }
+        });
+    }
+
+    private void onLocalTimeUp() {
+        gameRef.get().addOnSuccessListener(snap -> {
+            State s = snap.getValue(State.class);
+            if (s == null || isFinished) return;
+            if (!myUid.equals(s.activeUid)) return;
+
+            State n = copy(s);
+            if ("playing".equals(n.phase)) {
+                n.ownerDone = true;
+                n.phase = "steal";
+                n.activeUid = n.roundOwnerUid.equals(hostUid) ? oppUid : hostUid;
+            } else if ("steal".equals(n.phase)) {
+                n.stealDone = true;
+                n.phase = "reveal";
+                n.activeUid = "";
+                computeRoundScores(n);
+            }
+            gameRef.setValue(n);
+        });
+    }
+
+
+
+    private void cancelLocalTimer() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            countDownTimer = null;
+        }
+    }
+
+
+
+    private void advanceFromReveal(State s) {
+        if (s.round < 2) {
+            State n = new State();
+            n.round = 2;
+            n.phase = "playing";
+            n.roundOwnerUid = oppUid;
+            n.activeUid = oppUid;
+            n.answer1 = s.answer1;
+            n.answer2 = s.answer2;
+            n.hints1 = s.hints1;
+            n.hints2 = s.hints2;
+            n.p1Score = s.p1Score;
+            n.p2Score = s.p2Score;
+            n.currentStep = 1;
+            gameRef.setValue(n);
+        } else {
+            State n = copy(s);
+            n.phase = "finished";
+            n.activeUid = "";
+            gameRef.setValue(n);
+        }
     }
 
     public void submitAnswer(String answer) {
-        if (isFinished || currentQuestionIndex >= questions.size()) return;
-        // Don't cancel timer on wrong answer — only cancel on correct answer or time up
+        if (matchCode == null) return;
+        gameRef.get().addOnSuccessListener(snap -> {
+            State s = snap.getValue(State.class);
+            if (s == null || !myUid.equals(s.activeUid)) return;
 
-        KPKQuestion q = questions.get(currentQuestionIndex);
-        String correctAnswer = q.getAnswer();
+            String correct = s.round == 1 ? s.answer1 : s.answer2;
+            boolean correctAnswer = TextNormalizer.matches(answer, correct);
+            State n = copy(s);
 
-        if (TextNormalizer.matches(answer, correctAnswer)) {
-            // Correct: cancel timer, end round
-            if (countDownTimer != null) countDownTimer.cancel();
-            handleCorrectAnswer(correctAnswer);
-        } else {
-            // Wrong: keep timer running, allow more guesses
-            if (isStealPhase) {
-                // Steal phase: only one chance, fail immediately
-                if (countDownTimer != null) countDownTimer.cancel();
-                opponentStatus.setValue("Krađa neuspešna!");
-                showAnswerThenAdvance(correctAnswer);
-            } else {
-                // Normal phase: wrong guess, keep going
-                opponentStatus.setValue("Pogrešno! Pokušajte ponovo");
-                // Timer keeps running, input stays enabled
+            if ("playing".equals(s.phase)) {
+                if (correctAnswer) {
+                    n.ownerSolved = true;
+                    n.ownerDone = true;
+                    n.phase = "reveal";
+                    n.activeUid = "";
+                    computeRoundScores(n);
+                    cancelLocalTimer();
+                }
+                // FIX: Removed else block — wrong answer does nothing, owner keeps trying
+            } else if ("steal".equals(s.phase)) {
+                if (correctAnswer) n.stealerSolved = true;
+                n.stealDone = true;
+                n.phase = "reveal";
+                n.activeUid = "";
+                computeRoundScores(n);
+                cancelLocalTimer();
             }
-        }
+
+            gameRef.setValue(n);
+        });
     }
 
-    private void handleCorrectAnswer(String correctAnswer) {
-        int points;
+    private void computeRoundScores(State n) {
+        boolean ownerIsP1 = n.roundOwnerUid.equals(hostUid);
+        int ownerPoints = 0;
+        int stealerPoints = 0;
 
-        if (isStealPhase) {
-            // Steal: 5 points
-            points = 5;
-            opponentStatus.setValue("Krađa uspešna! +" + points + " bodova");
+        if (n.ownerSolved) {
+            int stepUsed = Math.min(n.currentStep, 7);
+            ownerPoints = Math.max(20 - (stepUsed - 1) * 2, 8);
+        }
+        if (n.stealerSolved) {
+            stealerPoints = 5;
+        }
+
+        if (ownerIsP1) {
+            n.p1Score += ownerPoints;
+            n.p2Score += stealerPoints;
         } else {
-            // Normal: 20, 18, 16, 14, 12, 10, 8 based on step used
-            int stepUsed = Math.min(currentStep, 7); // currentStep was already incremented after reveal
-            points = Math.max(20 - (stepUsed - 1) * 2, 8);
-            opponentStatus.setValue("Tačno! +" + points + " bodova");
+            n.p1Score += stealerPoints;
+            n.p2Score += ownerPoints;
         }
+        currentScore.setValue(n.p1Score + n.p2Score);
 
-        // Add to appropriate player
-        if (currentPlayer == 1) {
-            scorePlayer1 += points;
-        } else {
-            scorePlayer2 += points;
-        }
-
-        // Update display score (show current player's total or both?)
-        currentScore.setValue(scorePlayer1 + scorePlayer2);
-
-
-        showAnswerThenAdvance(correctAnswer);
     }
 
-    private void handleWrongAnswer(String correctAnswer) {
-        if (isStealPhase) {
-            // Steal failed, move to next round or end
-            opponentStatus.setValue("Krađa neuspešna!");
-            showAnswerThenAdvance(correctAnswer);
-        } else {
-            // Normal round wrong answer: opponent gets steal chance
-            opponentStatus.setValue("Pogrešno! Igrač " + (currentPlayer == 1 ? 2 : 1) + " ima 10s za krađu");
-            isStealPhase = true;
-            currentPlayer = (currentPlayer == 1) ? 2 : 1; // Switch to other player for steal
-            startTimer(10);
-        }
+    private void pushFinalScores(int p1, int p2) {
+        if (matchRepo == null) return;
+        int myScore = isHost ? p1 : p2;
+        matchRepo.setGameScore(matchCode, Match.GAME_KPK, myScore);
     }
 
-    private void onTimeUp() {
-        if (isFinished || isPaused) return;
-
-        if (isStealPhase) {
-            // Steal time expired
-            opponentStatus.setValue("Vreme za krađu isteklo!");
-            KPKQuestion q = questions.get(currentQuestionIndex);
-            showAnswerThenAdvance(q.getAnswer());
-        } else {
-            // Normal time expired: opponent gets steal chance
-            opponentStatus.setValue("Vreme isteklo! Igrač " + (currentPlayer == 1 ? 2 : 1) + " ima 10s za krađu");
-            isStealPhase = true;
-            currentPlayer = (currentPlayer == 1) ? 2 : 1;
-            startTimer(10);
-        }
-    }
-
-    private void finishGame() {
-        isFinished = true;
-        if (countDownTimer != null) countDownTimer.cancel();
-        opponentStatus.setValue("Kraj! Igrač 1: " + scorePlayer1 + " | Igrač 2: " + scorePlayer2);
-        gameOver.setValue(true);
-    }
-
-    public void cleanup() {
-        isFinished = true;
-        if (countDownTimer != null) countDownTimer.cancel();
-        if (pauseTimer != null) pauseTimer.cancel();
-    }
-
-    // Getters
     public LiveData<String> getCurrentHint() { return currentHint; }
     public LiveData<Integer> getTimer() { return timer; }
     public LiveData<Integer> getCurrentScore() { return currentScore; }
     public LiveData<String> getRoundInfo() { return roundInfo; }
     public LiveData<Boolean> getGameOver() { return gameOver; }
+    public LiveData<Boolean> getGameFinished() { return gameFinished; }
     public LiveData<String> getOpponentStatus() { return opponentStatus; }
     public LiveData<List<String>> getAllHints() { return allHints; }
     public LiveData<Integer> getRevealedHintCount() { return revealedHintCount; }
     public LiveData<Boolean> getInputEnabled() { return inputEnabled; }
-    public int getScorePlayer1() { return scorePlayer1; }
-    public int getScorePlayer2() { return scorePlayer2; }
     public LiveData<String> getAnswerReveal() { return answerReveal; }
-    public void setLocalPlayerRole(int role) {
-        this.localPlayerRole = role;
+    public LiveData<Integer> getMyTotal() { return myTotal; }
+    public LiveData<Integer> getOpponentTotal() { return opponentTotal; }
+    public LiveData<String> getOpponentName() { return opponentName; }
+    public LiveData<String> getOpponentUid() { return opponentUid; }
+
+    public void cleanup() {
+        isFinished = true;
+        cancelLocalTimer();
+        if (pauseTimer != null) { pauseTimer.cancel(); pauseTimer = null; }
+        if (matchRepo != null) matchRepo.detach();
+        if (gameRef != null && gameListener != null) gameRef.removeEventListener(gameListener);
+    }
+
+    @Override protected void onCleared() {
+        super.onCleared();
+        cleanup();
     }
 }
