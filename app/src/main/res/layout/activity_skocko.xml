@@ -1,695 +1,920 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_gradient"
-    tools:context=".ui.skocko.SkockoActivity">
-    <include layout="@layout/layout_stats_bar" />
+    android:background="@drawable/bg_gradient">
+
+    <include
+        android:id="@+id/statsBar"
+        layout="@layout/layout_stats_bar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Timer -->
     <com.example.slagalica.ui.widget.GameTimerView
         android:id="@+id/skTimer"
-        android:layout_width="58dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="70dp"
-        android:layout_marginEnd="15dp"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="14dp"
         android:text="0:30"
+        android:textSize="15sp"
         android:textStyle="bold"
-        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/statsBar" />
+
+    <!-- Title -->
     <TextView
         android:id="@+id/skGameTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:text="Skočko"
+        android:layout_marginTop="2dp"
         android:fontFamily="@font/baloo2"
+        android:text="Skočko"
         android:textColor="@color/text"
-        android:textSize="32sp"
+        android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/statsBar" />
+
+    <!-- Round info -->
     <TextView
         android:id="@+id/skRoundNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Runda -/-"
-        android:fontFamily="@font/baloo2"
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/nunito"
+        android:text="Runda 1/2"
         android:textColor="@color/muted"
-        android:textSize="18sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/skGameTitle" />
+
+    <!-- Status -->
+    <TextView
+        android:id="@+id/skStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/nunito"
+        android:text="Vaš je potez."
+        android:textColor="@color/muted"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/skRoundNum" />
+
+    <!-- Guess history rows (left) + feedback (right) -->
+    <!-- Row 1 -->
     <LinearLayout
         android:id="@+id/skSymbolRow1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/skRoundNum"
-        app:layout_constraintWidth_percent="0.45"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="55dp">
-        <View
-            android:background="@drawable/skocko_symbol_slot"
+        app:layout_constraintTop_toBottomOf="@id/skStatus"
+        app:layout_constraintWidth_percent="0.50">
+
+        <ImageView
+            android:id="@+id/skSlot1_1"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skSlot1_2"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skSlot1_3"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skSlot1_4"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
+            android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
     </LinearLayout>
+
     <LinearLayout
-        android:id="@+id/skGuess1"
+        android:id="@+id/skFeedback1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/skSymbolRow1"
         app:layout_constraintStart_toEndOf="@id/skSymbolRow1"
         app:layout_constraintTop_toTopOf="@id/skSymbolRow1"
-        app:layout_constraintBottom_toBottomOf="@id/skSymbolRow1"
-        app:layout_constraintWidth_percent="0.32"
-        android:layout_marginStart="5dp">
+        app:layout_constraintWidth_percent="0.22">
+
         <View
+            android:id="@+id/skFb1_1"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skFb1_2"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skFb1_3"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skFb1_4"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
     </LinearLayout>
+
+    <!-- Row 2 -->
     <LinearLayout
         android:id="@+id/skSymbolRow2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/skSymbolRow1"
-        app:layout_constraintWidth_percent="0.45"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="55dp">
-        <View
-            android:background="@drawable/skocko_symbol_slot"
+        app:layout_constraintTop_toBottomOf="@id/skSymbolRow1"
+        app:layout_constraintWidth_percent="0.50">
+
+        <ImageView
+            android:id="@+id/skSlot2_1"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skSlot2_2"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skSlot2_3"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skSlot2_4"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
+            android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/skFeedback2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/skSymbolRow2"
         app:layout_constraintStart_toEndOf="@id/skSymbolRow2"
         app:layout_constraintTop_toTopOf="@id/skSymbolRow2"
-        app:layout_constraintBottom_toBottomOf="@id/skSymbolRow2"
-        app:layout_constraintWidth_percent="0.32"
-        android:layout_marginStart="5dp">
+        app:layout_constraintWidth_percent="0.22">
+
         <View
+            android:id="@+id/skFb2_1"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skFb2_2"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skFb2_3"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skFb2_4"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
     </LinearLayout>
+
+    <!-- Row 3 -->
     <LinearLayout
         android:id="@+id/skSymbolRow3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/skSymbolRow2"
-        app:layout_constraintWidth_percent="0.45"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="55dp">
-        <View
-            android:background="@drawable/skocko_symbol_slot"
+        app:layout_constraintTop_toBottomOf="@id/skSymbolRow2"
+        app:layout_constraintWidth_percent="0.50">
+
+        <ImageView
+            android:id="@+id/skSlot3_1"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skSlot3_2"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skSlot3_3"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skSlot3_4"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
+            android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/skFeedback3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/skSymbolRow3"
         app:layout_constraintStart_toEndOf="@id/skSymbolRow3"
         app:layout_constraintTop_toTopOf="@id/skSymbolRow3"
-        app:layout_constraintBottom_toBottomOf="@id/skSymbolRow3"
-        app:layout_constraintWidth_percent="0.32"
-        android:layout_marginStart="5dp">
+        app:layout_constraintWidth_percent="0.22">
+
         <View
+            android:id="@+id/skFb3_1"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skFb3_2"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skFb3_3"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skFb3_4"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
     </LinearLayout>
+
+    <!-- Row 4 -->
     <LinearLayout
         android:id="@+id/skSymbolRow4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/skSymbolRow3"
-        app:layout_constraintWidth_percent="0.45"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="55dp">
-        <View
-            android:background="@drawable/skocko_symbol_slot"
+        app:layout_constraintTop_toBottomOf="@id/skSymbolRow3"
+        app:layout_constraintWidth_percent="0.50">
+
+        <ImageView
+            android:id="@+id/skSlot4_1"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skSlot4_2"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skSlot4_3"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skSlot4_4"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
+            android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/skFeedback4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/skSymbolRow4"
         app:layout_constraintStart_toEndOf="@id/skSymbolRow4"
         app:layout_constraintTop_toTopOf="@id/skSymbolRow4"
-        app:layout_constraintBottom_toBottomOf="@id/skSymbolRow4"
-        app:layout_constraintWidth_percent="0.32"
-        android:layout_marginStart="5dp">
+        app:layout_constraintWidth_percent="0.22">
+
         <View
+            android:id="@+id/skFb4_1"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skFb4_2"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skFb4_3"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skFb4_4"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
     </LinearLayout>
+
+    <!-- Row 5 -->
     <LinearLayout
         android:id="@+id/skSymbolRow5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/skSymbolRow4"
-        app:layout_constraintWidth_percent="0.45"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="55dp">
-        <View
-            android:background="@drawable/skocko_symbol_slot"
+        app:layout_constraintTop_toBottomOf="@id/skSymbolRow4"
+        app:layout_constraintWidth_percent="0.50">
+
+        <ImageView
+            android:id="@+id/skSlot5_1"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skSlot5_2"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skSlot5_3"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skSlot5_4"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
+            android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/skFeedback5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/skSymbolRow5"
         app:layout_constraintStart_toEndOf="@id/skSymbolRow5"
         app:layout_constraintTop_toTopOf="@id/skSymbolRow5"
-        app:layout_constraintBottom_toBottomOf="@id/skSymbolRow5"
-        app:layout_constraintWidth_percent="0.32"
-        android:layout_marginStart="5dp">
+        app:layout_constraintWidth_percent="0.22">
+
         <View
+            android:id="@+id/skFb5_1"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skFb5_2"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skFb5_3"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skFb5_4"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
     </LinearLayout>
+
+    <!-- Row 6 -->
     <LinearLayout
         android:id="@+id/skSymbolRow6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/skSymbolRow5"
-        app:layout_constraintWidth_percent="0.45"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="55dp">
-        <View
-            android:background="@drawable/skocko_symbol_slot"
+        app:layout_constraintTop_toBottomOf="@id/skSymbolRow5"
+        app:layout_constraintWidth_percent="0.50">
+
+        <ImageView
+            android:id="@+id/skSlot6_1"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skSlot6_2"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skSlot6_3"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skSlot6_4"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
+            android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/skFeedback6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/skSymbolRow6"
         app:layout_constraintStart_toEndOf="@id/skSymbolRow6"
         app:layout_constraintTop_toTopOf="@id/skSymbolRow6"
-        app:layout_constraintBottom_toBottomOf="@id/skSymbolRow6"
-        app:layout_constraintWidth_percent="0.32"
-        android:layout_marginStart="5dp">
+        app:layout_constraintWidth_percent="0.22">
+
         <View
+            android:id="@+id/skFb6_1"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skFb6_2"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skFb6_3"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skFb6_4"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
     </LinearLayout>
+    <!-- Divider between main rows and steal row -->
+    <View
+        android:id="@+id/skDivider"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="#BDBDBD"
+        app:layout_constraintEnd_toEndOf="@id/skFeedback6"
+        app:layout_constraintStart_toStartOf="@id/skSymbolRow6"
+        app:layout_constraintTop_toBottomOf="@id/skSymbolRow6" />
+
+    <!-- STEAL ROW (separated, shown only when steal happens) -->
     <LinearLayout
-        android:id="@+id/skFinalSymbolRow1"
+        android:id="@+id/skStealRow"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/skSymbolRow6"
-        app:layout_constraintWidth_percent="0.45"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="90dp">
-        <View
-            android:background="@drawable/skocko_symbol_slot"
+        app:layout_constraintTop_toBottomOf="@id/skDivider"
+        app:layout_constraintWidth_percent="0.50">
+
+        <ImageView
+            android:id="@+id/skStealSlot1"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skStealSlot2"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skStealSlot3"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skStealSlot4"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
+            android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/skStealFeedback"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:orientation="horizontal"
-        app:layout_constraintStart_toEndOf="@id/skFinalSymbolRow1"
-        app:layout_constraintTop_toTopOf="@id/skFinalSymbolRow1"
-        app:layout_constraintBottom_toBottomOf="@id/skFinalSymbolRow1"
-        app:layout_constraintWidth_percent="0.32"
-        android:layout_marginStart="5dp">
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/skStealRow"
+        app:layout_constraintStart_toEndOf="@id/skStealRow"
+        app:layout_constraintTop_toTopOf="@id/skStealRow"
+        app:layout_constraintWidth_percent="0.22">
+
         <View
+            android:id="@+id/skStealFb1"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skStealFb2"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skStealFb3"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
+
         <View
+            android:id="@+id/skStealFb4"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="32dp"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
+            android:background="@drawable/skocko_feedback_circle" />
     </LinearLayout>
+
+    <!-- ANSWER REVEAL ROW (always shown at end of round) -->
     <LinearLayout
-        android:id="@+id/skFinalSymbolRow2"
+        android:id="@+id/skAnswerRow"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
         android:orientation="horizontal"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/skFinalSymbolRow1"
-        app:layout_constraintWidth_percent="0.45"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="55dp">
-        <View
-            android:background="@drawable/skocko_symbol_slot"
+        app:layout_constraintTop_toBottomOf="@id/skStealRow"
+        app:layout_constraintWidth_percent="0.50">
+
+        <ImageView
+            android:id="@+id/skAnsSlot1"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skAnsSlot2"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skAnsSlot3"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
-        <View
             android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/skAnsSlot4"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:layout_margin="2dp" />
+            android:background="@drawable/skocko_symbol_slot"
+            android:scaleType="fitCenter" />
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toEndOf="@id/skFinalSymbolRow2"
-        app:layout_constraintTop_toTopOf="@id/skFinalSymbolRow2"
-        app:layout_constraintBottom_toBottomOf="@id/skFinalSymbolRow2"
-        app:layout_constraintWidth_percent="0.32"
-        android:layout_marginStart="5dp">
-        <View
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:layout_margin="1dp"
-            android:background="@drawable/skocko_feedback_circle"/>
-    </LinearLayout>
-    <ImageButton
-        android:id="@+id/skOptionSkocko"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginHorizontal="20dp"
-        android:background="@drawable/skocko_symbol_slot"
-        app:layout_constraintStart_toEndOf="@id/skGuess1"
-        app:layout_constraintTop_toTopOf="@id/skGuess1"
-        app:layout_constraintBottom_toBottomOf="@id/skGuess1"
-        app:backgroundTint="@null"
-        android:src="@drawable/skocko"
-        android:scaleType="fitCenter"
-        />
-    <ImageButton
-        android:id="@+id/skOptionTref"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginHorizontal="20dp"
-        android:background="@drawable/skocko_symbol_slot"
-        app:layout_constraintTop_toBottomOf="@id/skOptionSkocko"
-        app:layout_constraintStart_toEndOf="@id/skGuess1"
-        android:layout_marginTop="15dp"
-        app:backgroundTint="@null"
-        android:src="@drawable/tref"
-        android:scaleType="fitCenter"
-        />
-    <ImageButton
-        android:id="@+id/skOptionPik"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginHorizontal="20dp"
-        android:background="@drawable/skocko_symbol_slot"
-        app:layout_constraintTop_toBottomOf="@id/skOptionTref"
-        app:layout_constraintStart_toEndOf="@id/skGuess1"
-        android:layout_marginTop="15dp"
-        app:backgroundTint="@null"
-        android:src="@drawable/pik"
-        android:scaleType="fitCenter"
-        />
-    <ImageButton
-        android:id="@+id/skOptionSrce"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginHorizontal="20dp"
-        android:background="@drawable/skocko_symbol_slot"
-        app:layout_constraintTop_toBottomOf="@id/skOptionPik"
-        app:layout_constraintStart_toEndOf="@id/skGuess1"
-        android:layout_marginTop="15dp"
-        app:backgroundTint="@null"
-        android:src="@drawable/srce"
-        android:scaleType="fitCenter"
-        />
-    <ImageButton
-        android:id="@+id/skOptionKaro"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginHorizontal="20dp"
-        android:background="@drawable/skocko_symbol_slot"
-        app:layout_constraintTop_toBottomOf="@id/skOptionSrce"
-        app:layout_constraintStart_toEndOf="@id/skGuess1"
-        android:layout_marginTop="15dp"
-        app:backgroundTint="@null"
-        android:src="@drawable/karo"
-        android:scaleType="fitCenter"
-        />
-    <ImageButton
-        android:id="@+id/skOptionZvezda"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginHorizontal="20dp"
-        android:background="@drawable/skocko_symbol_slot"
-        app:layout_constraintTop_toBottomOf="@id/skOptionKaro"
-        app:layout_constraintStart_toEndOf="@id/skGuess1"
-        android:layout_marginTop="15dp"
-        app:backgroundTint="@null"
-        android:src="@drawable/zvezda"
-        android:scaleType="fitCenter"
-        />
+
     <TextView
-        android:id="@+id/kbkOpponentCheck"
+        android:id="@+id/skAnswerLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="12dp"
-        android:text="Vaš je potez."
         android:fontFamily="@font/nunito"
-        android:textStyle="bold"
+        android:text="TAČAN ODGOVOR"
         android:textColor="@color/muted"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/skStealRow"
+        app:layout_constraintBottom_toTopOf="@id/skAnswerRow"
+        app:layout_constraintStart_toStartOf="@id/skAnswerRow" />
 
+    <!-- Symbol picker buttons (right side) -->
+    <ImageButton
+        android:id="@+id/skOptionSkocko"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="14dp"
+        android:background="@drawable/skocko_symbol_slot"
+        android:padding="4dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/skocko"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/skSymbolRow1" />
+
+    <ImageButton
+        android:id="@+id/skOptionTref"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
+        android:background="@drawable/skocko_symbol_slot"
+        android:padding="4dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/tref"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/skOptionSkocko" />
+
+    <ImageButton
+        android:id="@+id/skOptionPik"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
+        android:background="@drawable/skocko_symbol_slot"
+        android:padding="4dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/pik"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/skOptionTref" />
+
+    <ImageButton
+        android:id="@+id/skOptionSrce"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
+        android:background="@drawable/skocko_symbol_slot"
+        android:padding="4dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/srce"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/skOptionPik" />
+
+    <ImageButton
+        android:id="@+id/skOptionKaro"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
+        android:background="@drawable/skocko_symbol_slot"
+        android:padding="4dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/karo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/skOptionSrce" />
+
+    <ImageButton
+        android:id="@+id/skOptionZvezda"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
+        android:background="@drawable/skocko_symbol_slot"
+        android:padding="4dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/zvezda"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/skOptionKaro" />
+
+    <!-- Backspace + Submit row -->
+    <LinearLayout
+        android:id="@+id/skControls"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="12dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/skAnswerRow">
+
+        <TextView
+            android:id="@+id/skBackspace"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_circle_accent"
+            android:fontFamily="@font/baloo2"
+            android:gravity="center"
+            android:text="X"
+            android:textColor="@color/on_accent"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/skSubmit"
+            style="@style/Widget.Slagalica.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:minWidth="100dp"
+            android:text="Pošalji"
+            android:textSize="13sp"
+            android:gravity="center"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

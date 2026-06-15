@@ -342,12 +342,11 @@ public class AsocijacijeActivity extends BaseActivity {
         binding.btnPass.setVisibility(View.GONE);
         disableAllInput();
 
-        // Last implemented game → show the match result.
-        // (Skočko/KPK/Moj broj are not implemented yet; they score 0 on the result.)
         if (matchCode != null) {
             binding.getRoot().postDelayed(() -> {
-                Intent intent = new Intent(this, com.example.slagalica.ui.ResultActivity.class);
-                intent.putExtra(com.example.slagalica.ui.ResultActivity.EXTRA_MATCH_CODE, matchCode);
+                Intent intent = new Intent(this, com.example.slagalica.ui.skocko.SkockoActivity.class);
+                intent.putExtra(com.example.slagalica.ui.skocko.SkockoActivity.EXTRA_MATCH_CODE, matchCode);
+                intent.putExtra(LobbyActivity.EXTRA_IS_HOST, isHost);
                 startActivity(intent);
                 finish();
             }, 1500);

@@ -25,8 +25,10 @@ import com.example.slagalica.data.model.GameStat;
 import com.example.slagalica.databinding.ActivityProfileBinding;
 import com.example.slagalica.ui.AvatarBinder;
 import com.example.slagalica.ui.BaseActivity;
+import com.example.slagalica.ui.LoginActivity;
 import com.example.slagalica.util.ImageUtils;
 import com.example.slagalica.util.QrGenerator;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -38,6 +40,7 @@ public class ProfileActivity extends BaseActivity {
 
     private ActivityProfileBinding binding;
     private ProfileViewModel viewModel;
+    private FirebaseAuth auth;
 
     private int[] gameColors;
     private Bitmap qrBitmap;
@@ -49,6 +52,15 @@ public class ProfileActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Check auth first
+        auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() == null || !auth.getCurrentUser().isEmailVerified()) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -62,6 +74,10 @@ public class ProfileActivity extends BaseActivity {
         viewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
 
         viewModel.getUserData().observe(this, user -> {
+            if (user == null) {
+                Toast.makeText(this, "Greška pri učitavanju profila", Toast.LENGTH_SHORT).show();
+                return;
+            }
             binding.tvAvatar.setText(initials(user.getUsername()));
             binding.tvUsername.setText(user.getUsername());
             binding.tvEmail.setText(user.getEmail());
@@ -160,7 +176,10 @@ public class ProfileActivity extends BaseActivity {
                         .build()));
 
         binding.btnLogout.setOnClickListener(v -> {
-            startActivity(new Intent(this, com.example.slagalica.ui.LoginActivity.class));
+            auth.signOut(); // Actually signs out from Firebase
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
             finish();
         });
         // Settings button is intentionally inert for now (no settings screen yet).

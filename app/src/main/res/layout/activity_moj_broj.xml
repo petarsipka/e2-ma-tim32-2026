@@ -1,188 +1,301 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Moj broj — Sunny pop in-game. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/main"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:background="@drawable/bg_gradient">
+
+<include layout="@layout/layout_stats_bar" />
+
+<!-- Fixed top section: no scrolling needed -->
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/bg_gradient">
+    android:paddingStart="14dp"
+    android:paddingEnd="14dp"
+    android:paddingTop="2dp">
 
-    <include layout="@layout/layout_stats_bar" />
-
-    <ScrollView
+    <!-- Header + timer row -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:overScrollMode="never">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/mbGameTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/baloo2"
+            android:text="Moj broj"
+            android:textColor="@color/text"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <com.example.slagalica.ui.widget.GameTimerView
+            android:id="@+id/mbTimer"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="1:00"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Round info -->
+    <TextView
+        android:id="@+id/mbRoundNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:text="Runda 1/2"
+        android:textColor="@color/muted"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="6dp" />
+
+    <!-- Target number (compact) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_hero"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito"
+            android:letterSpacing="0.2"
+            android:text="TRAŽENI BROJ"
+            android:textColor="@color/on_accent_muted"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/mbWantedNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/baloo2"
+            android:text="---"
+            android:textColor="@color/on_accent"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Player answers -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/mbPlayer1Answer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/baloo2"
+            android:text="P1: ???"
+            android:textColor="@color/accent"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/mbPlayer2Answer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/baloo2"
+            android:gravity="end"
+            android:text="P2: ???"
+            android:textColor="@color/accent2"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>
+
+<!-- Scrollable middle section -->
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:overScrollMode="never">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp">
+
+        <TextView style="@style/MbSectionLabel" android:text="DOSTUPNI BROJEVI" android:textSize="11sp" />
+
+        <!-- 4 small numbers -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="6dp">
+
+            <TextView android:id="@+id/mbUsedNum1" style="@style/MbTile" android:text="1" />
+            <TextView android:id="@+id/mbUsedNum2" style="@style/MbTile" android:text="2" />
+            <TextView android:id="@+id/mbUsedNum3" style="@style/MbTile" android:text="3" />
+            <TextView android:id="@+id/mbUsedNum4" style="@style/MbTile" android:text="4" />
+        </LinearLayout>
+
+        <!-- 2 big numbers -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="14dp">
+
+            <TextView android:id="@+id/mbUsedNum5" style="@style/MbTileBig" android:text="10" />
+            <TextView android:id="@+id/mbUsedNum6" style="@style/MbTileBig" android:text="25" />
+        </LinearLayout>
+
+        <TextView style="@style/MbSectionLabel" android:text="OPERATORI" android:textSize="11sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingStart="18dp"
-            android:paddingEnd="18dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="18dp">
+            android:orientation="horizontal"
+            android:layout_marginBottom="14dp">
 
-            <!-- Header -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_marginBottom="14dp">
+            <TextView android:id="@+id/mbLParen" style="@style/MbOp" android:text="(" />
+            <TextView android:id="@+id/mbRParen" style="@style/MbOp" android:text=")" />
+            <TextView android:id="@+id/mbPlus" style="@style/MbOp" android:text="+" />
+            <TextView android:id="@+id/mbMinus" style="@style/MbOp" android:text="−" />
+            <TextView android:id="@+id/mbMultiply" style="@style/MbOp" android:text="×" />
+            <TextView android:id="@+id/mbDivide" style="@style/MbOp" android:text="÷" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
 
-                <TextView
-                    android:id="@+id/mbGameTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/baloo2"
-                    android:text="Moj broj"
-                    android:textColor="@color/text"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+<!-- Fixed bottom: expression + buttons -->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="14dp"
+    android:paddingEnd="14dp"
+    android:paddingBottom="10dp">
 
-                <com.example.slagalica.ui.widget.GameTimerView
-                    android:id="@+id/mbTimer"
-                    android:layout_width="58dp"
-                    android:layout_height="58dp"
-                    android:text="1:00"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+    <!-- Answer reveal box (shows during pause) -->
+    <LinearLayout
+        android:id="@+id/mbAnswerRevealBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_answer_reveal"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone">
 
-            <!-- Target number (accent hero) -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_hero"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp">
+        <TextView
+            android:id="@+id/mbAnswerRevealTarget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/baloo2"
+            android:text="Cilj: 143"
+            android:textColor="@color/on_accent"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito"
-                    android:letterSpacing="0.2"
-                    android:text="TRAŽENI BROJ"
-                    android:textColor="@color/on_accent_muted"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
+        <TextView
+            android:id="@+id/mbAnswerRevealSolution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/baloo2"
+            android:text="Rešenje: (10+5)*7+9-1"
+            android:textColor="@color/on_accent"
+            android:textSize="13sp"
+            android:textStyle="bold"/>
 
-                <TextView
-                    android:id="@+id/mbWantedNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/baloo2"
-                    android:text="---"
-                    android:textColor="@color/on_accent"
-                    android:textSize="42sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Player answers -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
-
-                <TextView
-                    android:id="@+id/mbPlayer1Answer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/baloo2"
-                    android:text="P1: ???"
-                    android:textColor="@color/accent"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/mbPlayer2Answer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/baloo2"
-                    android:gravity="end"
-                    android:text="P2: ???"
-                    android:textColor="@color/accent2"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <TextView style="@style/MbSectionLabel" android:text="DOSTUPNI BROJEVI" />
-
-            <!-- 4 small numbers -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="8dp">
-
-                <TextView android:id="@+id/mbUsedNum1" style="@style/MbTile" android:text="1" />
-                <TextView android:id="@+id/mbUsedNum2" style="@style/MbTile" android:text="2" />
-                <TextView android:id="@+id/mbUsedNum3" style="@style/MbTile" android:text="3" />
-                <TextView android:id="@+id/mbUsedNum4" style="@style/MbTile" android:text="4" />
-            </LinearLayout>
-
-            <!-- 2 big numbers -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="20dp">
-
-                <TextView android:id="@+id/mbUsedNum5" style="@style/MbTileBig" android:text="10" />
-                <TextView android:id="@+id/mbUsedNum6" style="@style/MbTileBig" android:text="25" />
-            </LinearLayout>
-
-            <TextView style="@style/MbSectionLabel" android:text="OPERATORI" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="20dp">
-
-                <TextView android:id="@+id/mbLParen" style="@style/MbOp" android:text="(" />
-                <TextView android:id="@+id/mbRParen" style="@style/MbOp" android:text=")" />
-                <TextView android:id="@+id/mbPlus" style="@style/MbOp" android:text="+" />
-                <TextView android:id="@+id/mbMinus" style="@style/MbOp" android:text="−" />
-                <TextView android:id="@+id/mbMultiply" style="@style/MbOp" android:text="×" />
-                <TextView android:id="@+id/mbDivide" style="@style/MbOp" android:text="÷" />
-            </LinearLayout>
-
-            <TextView style="@style/MbSectionLabel" android:text="VAŠ IZRAZ" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
 
             <TextView
-                android:id="@+id/mbInsertAnswer"
-                android:layout_width="match_parent"
+                android:id="@+id/mbAnswerRevealP1"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_card"
+                android:layout_weight="1"
                 android:fontFamily="@font/baloo2"
-                android:hint="Unesite rešenje…"
-                android:minHeight="50dp"
-                android:padding="14dp"
-                android:textColor="@color/text"
-                android:textColorHint="@color/muted"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="14dp" />
+                android:text="P1: 143 ✓ (10b)"
+                android:textColor="@color/on_accent_muted"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
 
-            <Button
-                android:id="@+id/mbSendButton"
-                style="@style/Widget.Slagalica.Button"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:text="Pošalji"
-                android:textSize="16sp"
-                app:cornerRadius="@dimen/radius" />
-
+            <TextView
+                android:id="@+id/mbAnswerRevealP2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/baloo2"
+                android:gravity="end"
+                android:text="P2: 140 (5b)"
+                android:textColor="@color/on_accent_muted"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
         </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
+
+    <!-- Expression bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_card"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingEnd="4dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/mbInsertAnswer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/baloo2"
+            android:hint="Unesite rešenje…"
+            android:textColor="@color/text"
+            android:textColorHint="@color/muted"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/mbBackspace"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/bg_circle_accent"
+            android:fontFamily="@font/baloo2"
+            android:text="X"
+            android:textColor="@color/on_accent"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/mbSendButton"
+        style="@style/Widget.Slagalica.Button"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Pošalji"
+        android:textSize="15sp"
+        app:cornerRadius="@dimen/radius" />
+</LinearLayout>
 </LinearLayout>

@@ -15,7 +15,7 @@ public class UserTemporaryDB {
             "petar.petrovic@gmail.com",
             150,
             45,
-                User.League.Pro,
+                User.League.Zlatna,
             "Srbija"
         );
     }
