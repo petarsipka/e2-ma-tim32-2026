@@ -1,6 +1,8 @@
 package com.example.slagalica.ui.skocko;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -8,15 +10,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.slagalica.R;
+import com.example.slagalica.ui.BaseActivity;
+import com.example.slagalica.ui.kpk.KPKActivity;
+import com.example.slagalica.ui.lobby.LobbyActivity;
 import com.example.slagalica.ui.widget.GameTimerView;
 
 import java.util.List;
 
-public class SkockoActivity extends AppCompatActivity {
+public class SkockoActivity extends BaseActivity {
+
+    public static final String EXTRA_MATCH_CODE = "match_code";
 
     private GameTimerView timer;
     private TextView skRoundNum, skStatus;
@@ -27,13 +33,23 @@ public class SkockoActivity extends AppCompatActivity {
     private ImageButton skOptionSkocko, skOptionTref, skOptionPik, skOptionSrce, skOptionKaro, skOptionZvezda;
     private TextView skBackspace;
     private Button skSubmit;
+    private ImageView[] skStealSlots;
+    private View[] skStealFbs;
 
     private SkockoViewModel viewModel;
+    private String matchCode;
+    private boolean isHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_skocko);
+
+        matchCode = getIntent().getStringExtra(EXTRA_MATCH_CODE);
+        isHost = getIntent().getBooleanExtra(LobbyActivity.EXTRA_IS_HOST, false);
+
+        setupStatsBar();
+        setOpponent("Protivnik");
 
         viewModel = new ViewModelProvider(this).get(SkockoViewModel.class);
 
@@ -41,19 +57,7 @@ public class SkockoActivity extends AppCompatActivity {
         setupClickListeners();
         observeViewModel();
 
-        new AlertDialog.Builder(this)
-                .setTitle("Debug: Test mode")
-                .setMessage("Which player are you testing as?")
-                .setCancelable(false)
-                .setPositiveButton("Player 1", (d, w) -> {
-                    viewModel.setLocalPlayerRole(1);
-                    viewModel.startGame();
-                })
-                .setNegativeButton("Player 2", (d, w) -> {
-                    viewModel.setLocalPlayerRole(2);
-                    viewModel.startGame();
-                })
-                .show();
+        viewModel.init(matchCode, isHost);
     }
 
     private void initViews() {
@@ -89,6 +93,18 @@ public class SkockoActivity extends AppCompatActivity {
 
         skBackspace = findViewById(R.id.skBackspace);
         skSubmit = findViewById(R.id.skSubmit);
+        skStealSlots = new ImageView[]{
+                findViewById(R.id.skStealSlot1),
+                findViewById(R.id.skStealSlot2),
+                findViewById(R.id.skStealSlot3),
+                findViewById(R.id.skStealSlot4)
+        };
+        skStealFbs = new View[]{
+                findViewById(R.id.skStealFb1),
+                findViewById(R.id.skStealFb2),
+                findViewById(R.id.skStealFb3),
+                findViewById(R.id.skStealFb4)
+        };
     }
 
     private void setupClickListeners() {
@@ -113,31 +129,9 @@ public class SkockoActivity extends AppCompatActivity {
         viewModel.getRoundInfo().observe(this, skRoundNum::setText);
         viewModel.getStatus().observe(this, skStatus::setText);
 
-        viewModel.getCurrentGuessDisplay().observe(this, guess -> {
-            renderCurrentGuess(guess);
-        });
-
-        viewModel.getGuessHistory().observe(this, history -> {
-            renderGuessHistory(history);
-        });
-
-        viewModel.getAnswerReveal().observe(this, reveal -> {
-            if (reveal == null || reveal.isEmpty()) {
-                skAnswerRow.setVisibility(LinearLayout.INVISIBLE);
-                skAnswerLabel.setVisibility(TextView.INVISIBLE);
-                // Clear answer row
-                for (int i = 0; i < 4; i++) {
-                    ((ImageView) skAnswerRow.getChildAt(i)).setImageDrawable(null);
-                }
-            } else {
-                skAnswerRow.setVisibility(LinearLayout.VISIBLE);
-                skAnswerLabel.setVisibility(TextView.VISIBLE);
-                for (int i = 0; i < 4 && i < reveal.length(); i++) {
-                    ImageView slot = (ImageView) skAnswerRow.getChildAt(i);
-                    slot.setImageResource(symbolToDrawable(String.valueOf(reveal.charAt(i))));
-                }
-            }
-        });
+        viewModel.getCurrentGuessDisplay().observe(this, this::renderCurrentGuess);
+        viewModel.getGuessHistory().observe(this, this::renderGuessHistory);
+        viewModel.getAnswerReveal().observe(this, this::renderAnswerReveal);
 
         viewModel.getInputEnabled().observe(this, enabled -> {
             skOptionSkocko.setEnabled(enabled);
@@ -150,34 +144,48 @@ public class SkockoActivity extends AppCompatActivity {
             skSubmit.setEnabled(enabled);
         });
 
+        viewModel.getMyTotal().observe(this, total ->
+                updateScore(total, safe(viewModel.getOpponentTotal().getValue())));
+        viewModel.getOpponentTotal().observe(this, oppTotal ->
+                updateScore(safe(viewModel.getMyTotal().getValue()), oppTotal));
+        viewModel.getOpponentName().observe(this, this::setOpponent);
+        viewModel.getOpponentUid().observe(this, this::setOpponentAvatar);
+
+        viewModel.getGameFinished().observe(this, finished -> {
+            if (Boolean.TRUE.equals(finished)) showGameFinished();
+        });
+
         viewModel.getGameOver().observe(this, isOver -> {
-            if (isOver) showGameOverDialog();
+            if (Boolean.TRUE.equals(isOver)) showGameOverDialog();
         });
     }
 
     private void renderCurrentGuess(String[] guess) {
-        LinearLayout targetRow;
-
         if (viewModel.isStealPhase()) {
-            targetRow = skStealRow;
+            for (int i = 0; i < 4; i++) {
+                if (guess[i] != null && !guess[i].isEmpty()) {
+                    skStealSlots[i].setImageResource(symbolToDrawable(guess[i]));
+                } else {
+                    skStealSlots[i].setImageDrawable(null);
+                }
+            }
         } else {
             List<SkockoViewModel.GuessResult> history = viewModel.getGuessHistory().getValue();
             int row = (history == null) ? 0 : history.size();
-            targetRow = symbolRows[row];
-        }
-
-        for (int i = 0; i < 4; i++) {
-            ImageView slot = (ImageView) targetRow.getChildAt(i);
-            if (guess[i] != null && !guess[i].isEmpty()) {
-                slot.setImageResource(symbolToDrawable(guess[i]));
-            } else {
-                slot.setImageDrawable(null);
+            LinearLayout targetRow = symbolRows[Math.min(row, 5)];
+            for (int i = 0; i < 4; i++) {
+                ImageView slot = (ImageView) targetRow.getChildAt(i);
+                if (guess[i] != null && !guess[i].isEmpty()) {
+                    slot.setImageResource(symbolToDrawable(guess[i]));
+                } else {
+                    slot.setImageDrawable(null);
+                }
             }
         }
     }
 
     private void renderGuessHistory(List<SkockoViewModel.GuessResult> history) {
-        // Clear all rows first
+        // Clear all main rows
         for (int r = 0; r < 6; r++) {
             for (int c = 0; c < 4; c++) {
                 ((ImageView) symbolRows[r].getChildAt(c)).setImageDrawable(null);
@@ -186,35 +194,62 @@ public class SkockoActivity extends AppCompatActivity {
                 feedbackRows[r].getChildAt(c).setBackgroundResource(R.drawable.feedback_none);
             }
         }
-        for (int c = 0; c < 4; c++) {
-            ((ImageView) skStealRow.getChildAt(c)).setImageDrawable(null);
-        }
-        for (int c = 0; c < 4; c++) {
-            skStealFeedback.getChildAt(c).setBackgroundResource(R.drawable.feedback_none);
+        // Clear steal row via explicit IDs
+        for (int i = 0; i < 4; i++) {
+            skStealSlots[i].setImageDrawable(null);
+            skStealFbs[i].setBackgroundResource(R.drawable.feedback_none);
         }
 
-        // Render history
+        // Show steal row if currently in steal phase OR if history has a steal entry
+        boolean showSteal = viewModel.isStealPhase() || (history != null && hasStealEntry(history));
+        skStealRow.setVisibility(showSteal ? LinearLayout.VISIBLE : LinearLayout.GONE);
+        skStealFeedback.setVisibility(showSteal ? LinearLayout.VISIBLE : LinearLayout.GONE);
+
+        if (history == null) return;
         for (SkockoViewModel.GuessResult result : history) {
-            LinearLayout row;
-            LinearLayout fbRow;
-
             if (result.rowIndex < 6) {
-                row = symbolRows[result.rowIndex];
-                fbRow = feedbackRows[result.rowIndex];
+                LinearLayout row = symbolRows[result.rowIndex];
+                LinearLayout fbRow = feedbackRows[result.rowIndex];
+                for (int i = 0; i < 4; i++) {
+                    ((ImageView) row.getChildAt(i)).setImageResource(symbolToDrawable(result.guess[i]));
+                }
+                int[] feedbackDrawables = buildFeedbackDrawables(result.exact, result.partial);
+                for (int i = 0; i < 4; i++) {
+                    fbRow.getChildAt(i).setBackgroundResource(feedbackDrawables[i]);
+                }
             } else {
-                row = skStealRow;
-                fbRow = skStealFeedback;
-                skStealRow.setVisibility(LinearLayout.VISIBLE);
-                skStealFeedback.setVisibility(LinearLayout.VISIBLE);
+                // Steal entry: use explicit IDs
+                for (int i = 0; i < 4; i++) {
+                    skStealSlots[i].setImageResource(symbolToDrawable(result.guess[i]));
+                }
+                int[] feedbackDrawables = buildFeedbackDrawables(result.exact, result.partial);
+                for (int i = 0; i < 4; i++) {
+                    skStealFbs[i].setBackgroundResource(feedbackDrawables[i]);
+                }
             }
+        }
+    }
 
+    private boolean hasStealEntry(List<SkockoViewModel.GuessResult> history) {
+        for (SkockoViewModel.GuessResult r : history) {
+            if (r.rowIndex >= 6) return true;
+        }
+        return false;
+    }
+
+    private void renderAnswerReveal(String reveal) {
+        if (reveal == null || reveal.isEmpty()) {
+            skAnswerRow.setVisibility(LinearLayout.INVISIBLE);
+            skAnswerLabel.setVisibility(TextView.INVISIBLE);
             for (int i = 0; i < 4; i++) {
-                ((ImageView) row.getChildAt(i)).setImageResource(symbolToDrawable(result.guess[i]));
+                ((ImageView) skAnswerRow.getChildAt(i)).setImageDrawable(null);
             }
-
-            int[] feedbackDrawables = buildFeedbackDrawables(result.exact, result.partial);
-            for (int i = 0; i < 4; i++) {
-                fbRow.getChildAt(i).setBackgroundResource(feedbackDrawables[i]);
+        } else {
+            skAnswerRow.setVisibility(LinearLayout.VISIBLE);
+            skAnswerLabel.setVisibility(TextView.VISIBLE);
+            for (int i = 0; i < 4 && i < reveal.length(); i++) {
+                ImageView slot = (ImageView) skAnswerRow.getChildAt(i);
+                slot.setImageResource(symbolToDrawable(String.valueOf(reveal.charAt(i))));
             }
         }
     }
@@ -240,11 +275,23 @@ public class SkockoActivity extends AppCompatActivity {
         }
     }
 
+    private void showGameFinished() {
+        if (matchCode != null) {
+            findViewById(android.R.id.content).postDelayed(() -> {
+                Intent i = new Intent(this, KPKActivity.class);
+                i.putExtra(KPKActivity.EXTRA_MATCH_CODE, matchCode);
+                i.putExtra(LobbyActivity.EXTRA_IS_HOST, isHost);
+                startActivity(i);
+                finish();
+            }, 2000);
+        }
+    }
+
     private void showGameOverDialog() {
         new AlertDialog.Builder(this)
-                .setTitle("Partija završena!")
-                .setMessage("Igrač 1: " + viewModel.getScorePlayer1() + "\nIgrač 2: " + viewModel.getScorePlayer2())
-                .setPositiveButton("OK", (d, w) -> finish())
+                .setTitle("Skočko završen!")
+                .setMessage("Prelazim na sledeću igru…")
+                .setPositiveButton("OK", (d, w) -> d.dismiss())
                 .setCancelable(false)
                 .show();
     }
@@ -254,5 +301,9 @@ public class SkockoActivity extends AppCompatActivity {
         super.onDestroy();
         viewModel.cleanup();
         if (timer != null) timer.cancel();
+    }
+
+    private static int safe(Integer value) {
+        return value != null ? value : 0;
     }
 }
