@@ -18,6 +18,7 @@ import com.example.slagalica.data.MatchRepository;
 import com.example.slagalica.data.model.Match;
 import com.example.slagalica.ui.koznazna.KoZnaZnaActivity;
 import com.example.slagalica.util.QrGenerator;
+import com.example.slagalica.util.SystemBars;
 import com.google.firebase.auth.FirebaseAuth;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
@@ -55,6 +56,7 @@ public class LobbyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
+        SystemBars.apply(this);
 
         llActions = findViewById(R.id.llActions);
         llHost = findViewById(R.id.llHost);

@@ -17,6 +17,7 @@ import com.example.slagalica.R;
 import com.example.slagalica.data.AuthRepository;
 import com.example.slagalica.data.UserRepository;
 import com.example.slagalica.data.model.User;
+import com.example.slagalica.util.SystemBars;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -33,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        SystemBars.apply(this);
 
         authRepo = new AuthRepository();
         userRepo = new UserRepository();

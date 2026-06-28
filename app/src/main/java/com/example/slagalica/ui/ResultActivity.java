@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.slagalica.R;
 import com.example.slagalica.data.MatchRepository;
 import com.example.slagalica.data.model.Match;
+import com.example.slagalica.util.SystemBars;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,6 +41,7 @@ public class ResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+        SystemBars.apply(this);
 
         matchCode = getIntent().getStringExtra(EXTRA_MATCH_CODE);
 

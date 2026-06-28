@@ -37,6 +37,7 @@ public class KoZnaZnaActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityKoZnaZnaBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        applySystemBarPadding();
 
         setupStatsBar();
         setOpponent("Protivnik");
