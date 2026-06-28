@@ -48,6 +48,7 @@ public class SpojniceActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySpojniceBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        applySystemBarPadding();
 
         matchCode = getIntent().getStringExtra(EXTRA_MATCH_CODE);
         isHost = getIntent().getBooleanExtra(LobbyActivity.EXTRA_IS_HOST, false);

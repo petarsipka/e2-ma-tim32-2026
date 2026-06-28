@@ -34,6 +34,7 @@ public class KPKActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kpkactivity);
+        applySystemBarPadding();
 
         matchCode = getIntent().getStringExtra(EXTRA_MATCH_CODE);
         isHost = getIntent().getBooleanExtra(LobbyActivity.EXTRA_IS_HOST, false);

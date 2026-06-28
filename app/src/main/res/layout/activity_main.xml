@@ -296,7 +296,60 @@
 <!--                    android:textSize="13sp"-->
 <!--                    android:textStyle="bold" />-->
 <!--            </LinearLayout>-->
+            <!-- Chat section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/baloo2"
+                android:text="Komunikacija"
+                android:textColor="@color/text"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/mChatLink"
+                style="@style/GameTileCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    style="@style/GameTileInner"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/GameTileIcon"
+                        android:background="@drawable/bg_tile_g2"
+                        android:text="💬" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/baloo2"
+                            android:text="Regionalni čet"
+                            android:textColor="@color/text"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito"
+                            android:text="Razmenjuj poruke sa igračima iz svog regiona"
+                            android:textColor="@color/muted"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
             <!-- Games section -->
             <TextView
                 android:layout_width="wrap_content"

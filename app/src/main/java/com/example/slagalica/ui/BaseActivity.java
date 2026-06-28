@@ -5,6 +5,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 
 import com.example.slagalica.R;
@@ -79,5 +81,17 @@ public abstract class BaseActivity extends AppCompatActivity {
             if (sb.length() == 2) break;
         }
         return sb.toString();
+    }
+    // Helper function that fixes overlapping with navigation buttons/system bar on some devices
+    protected void applySystemBarPadding() {
+        ViewCompat.setOnApplyWindowInsetsListener(
+                findViewById(android.R.id.content),
+                (v, insets) -> {
+                    int top = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top;
+                    int bottom = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom;
+                    v.setPadding(0, top, 0, bottom);
+                    return WindowInsetsCompat.CONSUMED;
+                }
+        );
     }
 }

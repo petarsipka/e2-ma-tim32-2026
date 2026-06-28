@@ -55,7 +55,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
-
+    implementation 'com.google.firebase:firebase-messaging:23.4.1'
     // QR code generation for the profile invite code (pure-Java, Android-safe).
     implementation 'com.google.zxing:core:3.5.3'
     // QR scanning (camera) for joining a match by scanning the host's code.

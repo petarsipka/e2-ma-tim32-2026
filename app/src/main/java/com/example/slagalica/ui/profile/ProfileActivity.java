@@ -63,6 +63,7 @@ public class ProfileActivity extends BaseActivity {
 
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        applySystemBarPadding();
 
         gameColors = new int[]{
                 ContextCompat.getColor(this, R.color.g0),

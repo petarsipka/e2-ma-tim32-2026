@@ -12,6 +12,7 @@ import com.example.slagalica.R;
 
 import com.example.slagalica.data.AuthRepository;
 import com.example.slagalica.data.UserRepository;
+import com.example.slagalica.util.SystemBars;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText lgInsertCredentials, lgInsertPassword;
@@ -23,6 +24,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        SystemBars.apply(this);
+
         userRepo = new UserRepository();
         authRepo = new AuthRepository();
         // Check if already logged in

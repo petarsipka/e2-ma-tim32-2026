@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.slagalica.R;
 import com.example.slagalica.ui.asocijacije.AsocijacijeActivity;
+import com.example.slagalica.ui.chat.ChatActivity;
 import com.example.slagalica.ui.koznazna.KoZnaZnaActivity;
 import com.example.slagalica.ui.kpk.KPKActivity;
 import com.example.slagalica.ui.mojbroj.MojBrojActivity;
@@ -36,7 +37,7 @@ public class MainActivity extends BaseActivity {
         }
 
         setContentView(R.layout.activity_main);
-
+        applySystemBarPadding();
         db = FirebaseFirestore.getInstance();
 
         tvGreetingName = findViewById(R.id.tvGreetingName);
@@ -54,7 +55,25 @@ public class MainActivity extends BaseActivity {
         View cardKPK = findViewById(R.id.mKPKLink);
         View cardMB = findViewById(R.id.mMBLink);
         View cardSkocko = findViewById(R.id.mSkockoLink);
-
+        View cardChat = findViewById(R.id.mChatLink);
+        if (cardChat != null) {
+            cardChat.setOnClickListener(v -> {
+                String uid = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
+                if (uid != null) {
+                    db.collection("users").document(uid).get()
+                            .addOnSuccessListener(doc -> {
+                                if (doc.exists()) {
+                                    User user = doc.toObject(User.class);
+                                    if (user != null && user.getRegion() != null) {
+                                        Intent i = new Intent(this, com.example.slagalica.ui.chat.ChatActivity.class);
+                                        i.putExtra(ChatActivity.EXTRA_REGION, user.getRegion());
+                                        startActivity(i);
+                                    }
+                                }
+                            });
+                }
+            });
+        }
         btnDuel.setOnClickListener(v -> startActivity(new Intent(this, com.example.slagalica.ui.lobby.LobbyActivity.class)));
         cardKZZ.setOnClickListener(v -> startActivity(new Intent(this, KoZnaZnaActivity.class)));
         cardSpojnice.setOnClickListener(v -> startActivity(new Intent(this, SpojniceActivity.class)));
