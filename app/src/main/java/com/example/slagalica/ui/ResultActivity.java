@@ -66,6 +66,30 @@ public class ResultActivity extends AppCompatActivity {
 
         int myTotal = m.totalScore(myUid);
         int oppTotal = m.totalScore(oppUid);
+        // For leaderboards
+        com.example.slagalica.data.LeaderboardRepository lb = new com.example.slagalica.data.LeaderboardRepository();
+
+        // Winner gets 10 + 1 star per 40 pts. Loser loses 10 but gains 1 per 40 pts.
+        if (myTotal != oppTotal) {
+            String winner = myTotal > oppTotal ? myUid : oppUid;
+            String loser = myTotal > oppTotal ? oppUid : myUid;
+            int winnerTotal = Math.max(myTotal, oppTotal);
+            int loserTotal = Math.min(myTotal, oppTotal);
+
+            int winnerStars = 10 + (winnerTotal / 40);
+            int loserStars = Math.max(0, (loserTotal / 40) - 10);
+
+            lb.recordMatchResult(winner, winnerStars);
+            lb.recordMatchResult(loser, loserStars);
+            lb.updateUserStars(winner, winnerStars);
+            lb.updateUserStars(loser, loserStars);
+        } else {
+            int drawStars = myTotal / 40;
+            lb.recordMatchResult(myUid, drawStars);
+            lb.recordMatchResult(oppUid, drawStars);
+            lb.updateUserStars(myUid, drawStars);
+            lb.updateUserStars(oppUid, drawStars);
+        }
 
         // Verdict
         TextView label = findViewById(R.id.tvVerdictLabel);

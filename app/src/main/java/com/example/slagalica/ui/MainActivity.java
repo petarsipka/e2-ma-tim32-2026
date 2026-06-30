@@ -74,6 +74,11 @@ public class MainActivity extends BaseActivity {
                 }
             });
         }
+        View cardLeaderboard = findViewById(R.id.mLeaderboardLink);
+        if (cardLeaderboard != null) {
+            cardLeaderboard.setOnClickListener(v ->
+                    startActivity(new Intent(this, com.example.slagalica.ui.leaderboard.LeaderboardActivity.class)));
+        }
         btnDuel.setOnClickListener(v -> startActivity(new Intent(this, com.example.slagalica.ui.lobby.LobbyActivity.class)));
         cardKZZ.setOnClickListener(v -> startActivity(new Intent(this, KoZnaZnaActivity.class)));
         cardSpojnice.setOnClickListener(v -> startActivity(new Intent(this, SpojniceActivity.class)));
