@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_solid">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/panel"
+        android:elevation="2dp"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/baloo2"
+            android:text="Rang lista"
+            android:textColor="@color/text"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Tabs -->
+    <LinearLayout
+        android:id="@+id/lbTabContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <Button
+            android:id="@+id/lbBtnWeekly"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:backgroundTint="@color/accent"
+            android:text="Nedeljna"
+            android:textColor="@color/on_accent"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/lbBtnMonthly"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:backgroundTint="@color/panel"
+            android:text="Mesečna"
+            android:textColor="@color/text"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/lbDateRange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:fontFamily="@font/nunito"
+        android:text="01.06. – 07.06."
+        android:textColor="@color/muted"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+    <Button
+        android:id="@+id/lbAdminReset"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:backgroundTint="@color/wrong"
+        android:text="Reset"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        android:visibility="gone" />
+    <!-- Empty state -->
+    <TextView
+        android:id="@+id/lbEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="40dp"
+        android:fontFamily="@font/nunito"
+        android:text="Nema podataka za ovaj period"
+        android:textColor="@color/muted"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <!-- List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lbRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:clipToPadding="false" />
+</LinearLayout>
