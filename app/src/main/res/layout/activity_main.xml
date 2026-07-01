@@ -402,6 +402,52 @@
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+            <!-- Notifications -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/mNotificationsLink"
+                style="@style/GameTileCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    style="@style/GameTileInner"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/GameTileIcon"
+                        android:background="@drawable/bg_tile_g1"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginBottom="0dp"
+                        android:text="🔔" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/baloo2"
+                            android:text="Obaveštenja"
+                            android:textColor="@color/text"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito"
+                            android:text="Pregled svih obaveštenja i istorije"
+                            android:textColor="@color/muted"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
             <!-- Games section -->
             <TextView
                 android:layout_width="wrap_content"

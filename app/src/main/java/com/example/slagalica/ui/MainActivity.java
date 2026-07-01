@@ -44,6 +44,11 @@ public class MainActivity extends BaseActivity {
         tvTokens = findViewById(R.id.tvTokens);
         tvStars = findViewById(R.id.tvStars);
         tvLeague = findViewById(R.id.tvLeague);
+        View cardNotifications = findViewById(R.id.mNotificationsLink);
+        if (cardNotifications != null) {
+            cardNotifications.setOnClickListener(v ->
+                    startActivity(new Intent(this, com.example.slagalica.ui.notifications.NotificationActivity.class)));
+        }
 
         android.view.View btnGoToProfile = findViewById(R.id.btnGoToProfile);
         btnGoToProfile.setOnClickListener(v -> startActivity(new Intent(this, com.example.slagalica.ui.profile.ProfileActivity.class)));

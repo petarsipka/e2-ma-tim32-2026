@@ -214,6 +214,7 @@ public class MojBrojViewModel extends ViewModel {
         player2AnswerDisplay.setValue("P2: " + ("reveal".equals(s.phase) || "finished".equals(s.phase) ? s.p2Expression + " = " + s.p2Result : "???"));
 
         if ("finished".equals(s.phase)) {
+            isFinished=true;
             status.setValue("Kraj! P1: " + s.p1Score + " | P2: " + s.p2Score);
             inputEnabled.setValue(false);
             gameOver.setValue(true);

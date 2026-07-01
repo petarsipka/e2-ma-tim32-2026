@@ -21,79 +21,72 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/baloo2"
-            android:text="Rang lista"
+            android:text="Obaveštenja"
             android:textColor="@color/text"
             android:textSize="20sp"
             android:textStyle="bold" />
-    </LinearLayout>
 
-    <!-- Tabs -->
+        <Button
+            android:id="@+id/notifMarkAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/accent"
+            android:text="Sve pročitane"
+            android:textColor="@color/on_accent"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/notifTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@color/accent2"
+        android:text="Test"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+    <!-- Filter -->
     <LinearLayout
-        android:id="@+id/lbTabContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:padding="12dp">
 
-        <Button
-            android:id="@+id/lbBtnWeekly"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="6dp"
-            android:backgroundTint="@color/accent"
-            android:text="Nedeljna"
-            android:textColor="@color/on_accent"
-            android:textStyle="bold" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito"
+            android:text="Filter:"
+            android:textColor="@color/muted"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="8dp" />
 
-        <Button
-            android:id="@+id/lbBtnMonthly"
+        <Spinner
+            android:id="@+id/notifFilter"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:layout_marginStart="6dp"
-            android:backgroundTint="@color/panel"
-            android:text="Mesečna"
-            android:textColor="@color/text"
-            android:textStyle="bold" />
+            android:background="@drawable/bg_chip" />
     </LinearLayout>
-    <TextView
-        android:id="@+id/lbDateRange"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:fontFamily="@font/nunito"
-        android:text="01.06. – 07.06."
-        android:textColor="@color/muted"
-        android:textSize="12sp"
-        android:textStyle="bold" />
-    <Button
-        android:id="@+id/lbAdminReset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/wrong"
-        android:text="Reset"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        android:visibility="gone" />
+
     <!-- Empty state -->
     <TextView
-        android:id="@+id/lbEmpty"
+        android:id="@+id/notifEmpty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="40dp"
         android:fontFamily="@font/nunito"
-        android:text="Nema podataka za ovaj period"
+        android:text="Nema obaveštenja"
         android:textColor="@color/muted"
         android:textSize="14sp"
         android:visibility="gone" />
 
     <!-- List -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lbRecycler"
+        android:id="@+id/notifRecycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

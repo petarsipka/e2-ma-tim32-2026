@@ -20,6 +20,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
+
 /**
  * End-of-match result: hero verdict (win/loss), per-game breakdown for both
  * players, and a full-width "Početna" button. Reads the match node once.
@@ -36,6 +38,7 @@ public class ResultActivity extends AppCompatActivity {
     private static final String[] GLYPH = {"?", "⇄", "▦", "✦", "▁▄█", "123"};
 
     private String matchCode;
+    private boolean resultsProcessed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,30 +69,53 @@ public class ResultActivity extends AppCompatActivity {
 
         int myTotal = m.totalScore(myUid);
         int oppTotal = m.totalScore(oppUid);
+
         // For leaderboards
-        com.example.slagalica.data.LeaderboardRepository lb = new com.example.slagalica.data.LeaderboardRepository();
+        if (!resultsProcessed) {
+            resultsProcessed = true;
 
-        // Winner gets 10 + 1 star per 40 pts. Loser loses 10 but gains 1 per 40 pts.
-        if (myTotal != oppTotal) {
-            String winner = myTotal > oppTotal ? myUid : oppUid;
-            String loser = myTotal > oppTotal ? oppUid : myUid;
-            int winnerTotal = Math.max(myTotal, oppTotal);
-            int loserTotal = Math.min(myTotal, oppTotal);
+            // Deduplicate: only process each match once per user
+            String prefKey = "match_processed_" + matchCode + "_" + myUid;
+            if (getSharedPreferences("slagalica_results", MODE_PRIVATE).getBoolean(prefKey, false)) {
+                return;
+            }
+            getSharedPreferences("slagalica_results", MODE_PRIVATE)
+                    .edit().putBoolean(prefKey, true).apply();
 
-            int winnerStars = 10 + (winnerTotal / 40);
-            int loserStars = Math.max(0, (loserTotal / 40) - 10);
+            com.example.slagalica.data.LeaderboardRepository lb = new com.example.slagalica.data.LeaderboardRepository();
 
-            lb.recordMatchResult(winner, winnerStars);
-            lb.recordMatchResult(loser, loserStars);
-            lb.updateUserStars(winner, winnerStars);
-            lb.updateUserStars(loser, loserStars);
-        } else {
-            int drawStars = myTotal / 40;
-            lb.recordMatchResult(myUid, drawStars);
-            lb.recordMatchResult(oppUid, drawStars);
-            lb.updateUserStars(myUid, drawStars);
-            lb.updateUserStars(oppUid, drawStars);
+            int myStarsEarned;
+
+            if (myTotal != oppTotal) {
+                boolean iWon = myTotal > oppTotal;
+                int winnerTotal = Math.max(myTotal, oppTotal);
+                int loserTotal = Math.min(myTotal, oppTotal);
+
+                int winnerStars = 10 + (winnerTotal / 40);
+                int loserStars = Math.max(0, (loserTotal / 40) - 10);
+
+                String winner = iWon ? myUid : oppUid;
+                String loser = iWon ? oppUid : myUid;
+
+                lb.recordMatchResult(winner, winnerStars);
+                lb.recordMatchResult(loser, loserStars);
+                lb.updateUserStars(winner, winnerStars);
+                lb.updateUserStars(loser, loserStars);
+
+                myStarsEarned = iWon ? winnerStars : loserStars;
+            } else {
+                int drawStars = myTotal / 40;
+                lb.recordMatchResult(myUid, drawStars);
+                lb.recordMatchResult(oppUid, drawStars);
+                lb.updateUserStars(myUid, drawStars);
+                lb.updateUserStars(oppUid, drawStars);
+                myStarsEarned = drawStars;
+            }
+
+            // Only check league change for yourself
+            checkLeagueChange(myUid, myStarsEarned);
         }
+
 
         // Verdict
         TextView label = findViewById(R.id.tvVerdictLabel);
@@ -134,6 +160,46 @@ public class ResultActivity extends AppCompatActivity {
                     .setText(String.valueOf(m.gameScore(oppUid, Match.GAME_KEYS[i])));
             container.addView(row);
         }
+    }
+    private void checkLeagueChange(String uid, int starsEarned) {
+        String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (!uid.equals(myUid)) return;
+        com.google.firebase.firestore.FirebaseFirestore.getInstance()
+                .collection("users").document(uid).get()
+                .addOnSuccessListener(doc -> {
+                    if (!doc.exists()) return;
+                    com.example.slagalica.data.model.User user = doc.toObject(com.example.slagalica.data.model.User.class);
+                    if (user == null) return;
+
+                    int oldStars = user.getStars();
+                    int newStars = Math.max(0, oldStars + starsEarned);
+
+                    // Calculate old and new league
+                    com.example.slagalica.data.model.User.League oldLeague = user.getLeague();
+                    com.example.slagalica.data.model.User.League newLeague = calculateLeague(newStars);
+
+                    if (oldLeague != newLeague) {
+                        // Update league in Firestore
+                        doc.getReference().update("league", newLeague);
+                        doc.getReference().update("stars", newStars);
+
+                        // Send notification
+                        com.example.slagalica.data.NotificationHelper.notifyLeagueChange(
+                                uid, newLeague.toString(), newLeague.ordinal() > oldLeague.ordinal()
+                        );
+                    } else {
+                        doc.getReference().update("stars", newStars);
+                    }
+                });
+    }
+
+    private com.example.slagalica.data.model.User.League calculateLeague(int stars) {
+        if (stars >= 1600) return com.example.slagalica.data.model.User.League.Legendarna;
+        if (stars >= 800) return com.example.slagalica.data.model.User.League.Dijamantska;
+        if (stars >= 400) return com.example.slagalica.data.model.User.League.Platinasta;
+        if (stars >= 200) return com.example.slagalica.data.model.User.League.Zlatna;
+        if (stars >= 100) return com.example.slagalica.data.model.User.League.Srebrna;
+        return com.example.slagalica.data.model.User.League.Bronzana;
     }
 
     private static String nameOf(Match m, String uid, String fallback) {

@@ -49,3 +49,24 @@ def reset_collection(name):
 
 reset_collection("leaderboard_weekly")
 reset_collection("leaderboard_monthly")
+
+# After giving tokens, send notification:
+def send_notification(target_uid, notif_type, title, message, action_data=""):
+    ref = db.reference(f'notifications/{target_uid}')
+    ref.push({
+        'type': notif_type,
+        'title': title,
+        'message': message,
+        'timestamp': {'.sv': 'timestamp'},
+        'read': False,
+        'actionData': action_data
+    })
+
+# In your reward loop:
+send_notification(
+    uid,
+    'rewards',
+    'Nagrada za rang listu!',
+    f'Osvojili ste {place}. mesto na {period} rang listi! Dobili ste {tokens} tokena.',
+    ''
+)
