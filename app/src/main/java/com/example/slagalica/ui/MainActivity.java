@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.slagalica.R;
+import com.example.slagalica.data.model.AppNotification;
 import com.example.slagalica.ui.asocijacije.AsocijacijeActivity;
 import com.example.slagalica.ui.chat.ChatActivity;
 import com.example.slagalica.ui.koznazna.KoZnaZnaActivity;
@@ -21,11 +22,15 @@ import com.example.slagalica.ui.profile.ProfileActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.List;
+
 public class MainActivity extends BaseActivity {
 
     private TextView tvGreetingName, tvTokens, tvStars, tvLeague;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
+    private View notifBadgeDot;
+    private com.example.slagalica.data.NotificationRepository notifRepo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +85,8 @@ public class MainActivity extends BaseActivity {
             });
         }
         View cardLeaderboard = findViewById(R.id.mLeaderboardLink);
+        notifBadgeDot = findViewById(R.id.notifBadgeDot);
+        setupNotificationBadge();
         if (cardLeaderboard != null) {
             cardLeaderboard.setOnClickListener(v ->
                     startActivity(new Intent(this, com.example.slagalica.ui.leaderboard.LeaderboardActivity.class)));
@@ -132,5 +139,52 @@ public class MainActivity extends BaseActivity {
         // immediately when returning to the home header.
         ImageView avatar = findViewById(R.id.ivHomeAvatar);
         if (avatar != null) AvatarBinder.bindCurrentUserOrPlaceholder(avatar);
+        refreshNotificationBadge();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (notifRepo != null) notifRepo.detach();
+    }
+    private void refreshNotificationBadge() {
+        String uid = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
+        if (uid == null || notifRepo == null) return;
+
+        notifRepo.loadAll();
+    }
+    private void setupNotificationBadge() {
+        String uid = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
+        if (uid == null) return;
+
+        if (notifRepo == null) {
+            notifRepo = new com.example.slagalica.data.NotificationRepository();
+            notifRepo.init();
+        }
+
+        notifRepo.loadAll();
+        notifRepo.startListening();
+
+        notifRepo.addListener(new com.example.slagalica.data.NotificationRepository.NotificationListener() {
+            @Override public void onNotificationsLoaded(List<AppNotification> notifications) {
+                updateBadge(notifications);
+            }
+            @Override public void onNewNotification(com.example.slagalica.data.model.AppNotification notif) {
+                notifRepo.loadAll(); // refresh to get full list
+            }
+            @Override public void onError(String error) {}
+        });
+    }
+
+    private void updateBadge(List<com.example.slagalica.data.model.AppNotification> notifications) {
+        int unreadCount = 0;
+        for (com.example.slagalica.data.model.AppNotification n : notifications) {
+            if (!n.read) unreadCount++;
+        }
+        final int count = unreadCount;
+        runOnUiThread(() -> {
+            if (notifBadgeDot != null) {
+                notifBadgeDot.setVisibility(count > 0 ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 }

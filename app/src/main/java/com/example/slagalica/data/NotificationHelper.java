@@ -24,7 +24,7 @@ public class NotificationHelper {
     // Convenience methods for specific notification types
     public static void notifyChatMessage(String targetUid, String senderName, String region) {
         sendNotification(targetUid, "chat", "Nova poruka u četu",
-                senderName + " vam je poslao/la poruku u regionalnom četu", region);
+                senderName + ": vam je poslao/la poruku u regionalnom četu", region);
     }
 
     public static void notifyRankingReward(String targetUid, int place, boolean weekly) {

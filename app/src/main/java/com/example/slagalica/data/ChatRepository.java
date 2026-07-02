@@ -46,8 +46,33 @@ public class ChatRepository {
         if (uid == null) return;
         ChatMessage msg = new ChatMessage(uid, senderName, text.trim(), System.currentTimeMillis());
         chatRef.push().setValue(msg);
+        String region = chatRef.getKey();
+        notifyOtherPlayers(msg, region);
     }
+    private void notifyOtherPlayers(ChatMessage msg, String region) {
+        String myUid = currentUid();
+        if (myUid == null) return;
+        android.util.Log.d("CHAT_NOTIF", "Sending chat notif. My uid: " + myUid + ", region: " + region);
+        com.google.firebase.firestore.FirebaseFirestore.getInstance()
+                .collection("users")
+                .whereEqualTo("region", region)
+                .get()
+                .addOnSuccessListener(query -> {
+                    android.util.Log.d("CHAT_NOTIF", "Firestore query returned " + query.size() + " users");
+                    for (com.google.firebase.firestore.QueryDocumentSnapshot doc : query) {
+                        String uid = doc.getId();
+                        String userRegion = doc.getString("region");
+                        android.util.Log.d("CHAT_NOTIF", "Found user: " + uid + ", region: " + userRegion);
+                        if (uid.equals(myUid)) continue;
+                        NotificationHelper.notifyChatMessage(uid, msg.senderName, region);
+                        android.util.Log.d("CHAT_NOTIF", "Sent notification to: " + uid);
+                    }
 
+                })
+                .addOnFailureListener(e -> {
+                    android.util.Log.e("CHAT_NOTIF", "Firestore query failed: " + e.getMessage());
+                });
+    }
     public void startListening() {
         if (chatRef == null || childListener != null) return;
         childListener = new ChildEventListener() {
